@@ -1,0 +1,41 @@
+.ulRectStyle {
+  list-style-type: none;
+  /* display: inline-block;
+  height: 100%; */
+  padding:0;
+  width:100%;
+  overflow:auto;
+}
+
+.liRectStyle {
+  width: 100%; 
+}
+
+.halfsize {
+  width: 50%; 
+   /* border: 1px solid; */
+   align: left;
+}
+
+
+.withBorder {
+  border: 1px solid;
+}
+
+.leftfloat {
+  float: left;
+}
+
+.leftallign {
+  align: left;
+}
+
+.rightallign {
+  align: right;
+}
+
+.tablecss {
+  width: 100%; 
+  margin: 50px;
+  table-layout: fixed; 
+}
