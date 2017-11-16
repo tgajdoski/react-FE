@@ -28,7 +28,10 @@ class FirstBlock extends React.Component {
     handleStartClick() {
     this.incrementer = setInterval( () =>
         this.setState({secondsElapsed: this.state.secondsElapsed + 1}), 1000);
-        
+    
+    // start first test
+    this.props.StartTest();
+    this.props.CompleteTest(0);
     }
 
     handleStopClick() {
@@ -57,7 +60,7 @@ class FirstBlock extends React.Component {
           <table className="tablecss">
             <tbody>
               <tr className="liRectStyle">
-                <td className="halfsize">
+                <td className="thirdsize">
                   <table>
                   <tbody>
                     <tr>
@@ -73,7 +76,22 @@ class FirstBlock extends React.Component {
                     </tbody>
                   </table>
                 </td>
-                <td className="halfsize">
+                <td className="thirdsize">
+                  <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        {(this.state.secondsElapsed === 0 ||
+                        this.incrementer === this.state.lastClearedIncrementer
+                        ? <Button className="start-btn" onClick={this.handleStartClick.bind(this)}>START TEST</Button>
+                        :  <div></div>
+                        )}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td className="thirdsize">
                   <table>
                   <tbody>
                       <tr>
@@ -116,14 +134,12 @@ class FirstBlock extends React.Component {
                   <tbody>
                     <tr>
                       <td>
-                      <h2>MODEL - test phase </h2>
+                      <h2> Test phase {this.props.testList[this.props.currentTestIndex] }</h2>
                       </td>
                     </tr>
                     <tr>
                       <td>
                         <p> Short explanation regrding proc test </p><br/>
-                        <p> - SD card test </p>
-                        <p> - SD card test </p>
                         <p> - SD card test </p>
                         <p> - SD card test </p>
                       </td>
@@ -132,12 +148,6 @@ class FirstBlock extends React.Component {
                   </table>
                 </td>
                 <td className="halfsize">
-                  {(this.state.secondsElapsed === 0 ||
-                  this.incrementer === this.state.lastClearedIncrementer
-                  ? <Button className="start-btn" onClick={this.handleStartClick.bind(this)}>START TEST</Button>
-                  :  <div></div>
-                  )}
-                  
                   {/* {(this.state.secondsElapsed !== 0 &&
                       this.incrementer !== this.state.lastClearedIncrementer
                       ? <Button onClick={this.handleLabClick.bind(this)}>lab</Button>

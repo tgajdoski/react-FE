@@ -15,6 +15,14 @@
   font-size: 40px;
 }
 
+
+.tablecss {
+	width: 100%; 
+	margin-top: 20px;
+	table-layout: fixed; 
+  }
+  
+
 .App-title {
   font-size: 1.5em;
 }

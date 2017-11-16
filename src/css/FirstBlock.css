@@ -34,12 +34,6 @@
   align: right;
 }
 
-.tablecss {
-  width: 100%; 
-  margin: 50px;
-  table-layout: fixed; 
-}
-
 
 body {
 	font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight',
