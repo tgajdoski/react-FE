@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import '../css/FirstBlock.css';
 
 
@@ -10,7 +10,7 @@ Math.floor(sec / 60) +
 ('0' + sec % 60).slice(-2)
 
 
-class FirstBlock extends React.Component {
+class FirstBlock extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -31,7 +31,6 @@ class FirstBlock extends React.Component {
     
     // start first test
     this.props.StartTest();
-    this.props.CompleteTest(0);
     }
 
     handleStopClick() {

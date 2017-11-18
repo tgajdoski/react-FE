@@ -1,9 +1,9 @@
 import React, { Component} from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import '../css/ThirdBlock.css';
 
 
-class ThirdBlock extends React.Component {
+class ThirdBlock extends Component {
   constructor(props) {
     super(props);
     this.state = {

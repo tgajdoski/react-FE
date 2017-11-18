@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import logo from '../images/logo.svg';
+//import logo from '../images/logo.svg';
 import '../css/App.css';
 import FirstBlock from './FirstBlock';
 import ThirdBlock from './ThirdBlock';
+import axios from 'axios';
 
 
 class App extends Component {
@@ -13,7 +14,8 @@ class App extends Component {
       testsCompleted: [],
       testList:["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
         "Buzzer/Vibrator Test", "Battery & Charger Test"],
-      currentTestIndex: null
+      currentTestIndex: null,
+      testResponses:[]
     }
 
     
@@ -23,23 +25,55 @@ class App extends Component {
     console.log("VO CALLBACK");
     console.log(this.state.currentTestIndex);
     console.log("testsCompleted : " + this.state.testsCompleted);
+    console.log("testResponses : " + JSON.stringify(this.state.testResponses));
   }
 
-  StartTest = () => {
-    console.log("ME POVIKAA");
-    this.setState({currentTestIndex: 0}, this.cLog);
+
+
+  
+
+  CatchTestResponse = (index, response) => {
+    let a = this.state.testResponses.slice(); //creates the clone of the state
+    let d = new Date();
+
+    let tempRecord = {
+      "response": response.data, 
+      "datetime " : formatDate(d,4)
+    };
+    a[index] = tempRecord;
+
+    this.setState({testResponses: a}, this.cLog);
   }
 
   CompleteTest = (index) => {
-    console.log("ME POVIKAA : " + this.state.testList[index] );
-      debugger;
-
       let a = this.state.testsCompleted.slice(); //creates the clone of the state
       a[index] = this.state.testList[index];
-      this.setState({testsCompleted: a}, this.cLog);
+      this.setState({testsCompleted: a, currentTestIndex: this.state.currentTestIndex + 1 }, this.cLog);
   }
   
-   
+  StartTest = () => {
+    console.log("STARTING TESTS");
+    this.setState({currentTestIndex: 0}, this.cLog);
+    var self=this;
+    axios.get('//192.168.12.22:81/cgi-bin/test.cgi', {
+      params: {
+        ID: 12345
+      }
+    })
+    .then(function (response) {
+      if (response.data.indexOf("Hello") > -1) {
+        // check if test pass and get response 
+        self.CatchTestResponse(self.state.currentTestIndex, response);    
+        self.CompleteTest(self.state.currentTestIndex);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  }
+  
+
   render() {
     return (
       <div className="App">
@@ -49,7 +83,6 @@ class App extends Component {
           </header>
             <FirstBlock 
               StartTest = {this.StartTest}
-              CompleteTest = {this.CompleteTest}
               {...this.state} 
             />
           <ThirdBlock  {...this.state} />
@@ -60,3 +93,40 @@ class App extends Component {
 }
 
 export default App;
+
+
+function formatDate(dateObj,format) {
+   // var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+    var curr_date = dateObj.getDate();
+    var curr_month = dateObj.getMonth();
+    curr_month = curr_month + 1;
+    var curr_year = dateObj.getFullYear();
+    var curr_min = dateObj.getMinutes();
+    var curr_hr= dateObj.getHours();
+    var curr_sc= dateObj.getSeconds();
+    if(curr_month.toString().length === 1)
+    curr_month = '0' + curr_month;      
+    if(curr_date.toString().length === 1)
+    curr_date = '0' + curr_date;
+    if(curr_hr.toString().length === 1)
+    curr_hr = '0' + curr_hr;
+    if(curr_min.toString().length === 1)
+    curr_min = '0' + curr_min;
+
+    if(format===1)//dd-mm-yyyy
+    {
+        return curr_date + "-"+curr_month+ "-"+curr_year;       
+    }
+    else if(format===2)//yyyy-mm-dd
+    {
+        return curr_year + "-"+curr_month+ "-"+curr_date;       
+    }
+    else if(format===3)//dd/mm/yyyy
+    {
+        return curr_date + "/"+curr_month+ "/"+curr_year;       
+    }
+    else if(format===4)// MM/dd/yyyy HH:mm:ss
+    {
+        return curr_month+"/"+curr_date +"/"+curr_year+ " "+curr_hr+":"+curr_min+":"+curr_sc;       
+    }
+}
