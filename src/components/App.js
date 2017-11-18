@@ -107,11 +107,94 @@ class App extends Component {
   StartTest = (index) => {
   //  console.log("STARTING TESTS");
     this.setState({currentTestIndex: index, currentTestStart: true}, this.cLog);
-    let self=this;
-    let url = '//192.168.12.22:81/cgi-bin/test.cgi';
+    let self = this;
+    let url = '';
     switch(index) {
       case 0:
-        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+      // sd card 
+        let url1 = '//192.168.12.22:81/cgi-bin/01_sdcard_info.cgi';
+        let url2 = '//192.168.12.22:81/cgi-bin/01_sdcard_mount.cgi';
+        let url3 = '//192.168.12.22:81/cgi-bin/01_sdcard_write.cgi';
+        let url4 = '//192.168.12.22:81/cgi-bin/01_sdcard_umount.cgi';
+        let url5 = '//192.168.12.22:81/cgi-bin/01_sdcard_mount.cgi';
+        let url6 = '//192.168.12.22:81/cgi-bin/01_sdcard_write_test.cgi';
+        let url7 = '//192.168.12.22:81/cgi-bin/01_sdcard_final.cgi';
+
+        axios.get(url1 , {
+          params: {}
+        }).then(function (response) {
+          // ispisi sto treba i povikaj nov
+            console.log("01_sdcard_info " + JSON.stringify(response.data.sdcard))
+            axios.get(url2 , {
+              params: {}
+            }).then(function (response) {
+              console.log("01_sdcard_mount " + JSON.stringify(response.data.sdcard_mount.mount))
+              axios.get(url3 , {
+                params: {}
+              }).then(function (response) {
+                console.log("01_sdcard_write " + JSON.stringify(response.data.sdcard_write.write))
+                axios.get(url4 , {
+                  params: {}
+                }).then(function (response) {
+                  console.log("01_sdcard_umount " + JSON.stringify(response.data.sdcard_umount.mount))
+                  axios.get(url5 , {
+                    params: {}
+                  }).then(function (response) {
+                    console.log("01_sdcard_mount " + JSON.stringify(response.data.sdcard_mount.mount))
+                    axios.get(url6 , {
+                      params: {}
+                    }).then(function (response) {
+                      console.log("01_sdcard_write_test " + JSON.stringify(response.data.sdcard_write_test.write_test))
+                      axios.get(url7 , {
+                        params: {}
+                      }).then(function (response) {
+                        console.log("01_sdcard_write_test " + JSON.stringify(response.data.sdcard_final.test))
+                           // ovie se za posledniot od sd-card test
+                        self.CatchTestResponse(self.state.currentTestIndex, response, 1);   
+                        self.setState({currentTestPassed: true}); 
+                        self.CompleteTest(self.state.currentTestIndex);
+                      }).catch(function (error) {
+                        self.state.errorOccured = true;
+                        self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
+                        self.setState({currentTestPassed: false});    
+                        self.CompleteTest(self.state.currentTestIndex);
+                      });
+                    }).catch(function (error) {
+                      self.state.errorOccured = true;
+                      self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
+                      self.setState({currentTestPassed: false});    
+                      self.CompleteTest(self.state.currentTestIndex);
+                    });
+                  }).catch(function (error) {
+                    self.state.errorOccured = true;
+                    self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
+                    self.setState({currentTestPassed: false});    
+                    self.CompleteTest(self.state.currentTestIndex);
+                  });
+                }).catch(function (error) {
+                  self.state.errorOccured = true;
+                  self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
+                  self.setState({currentTestPassed: false});    
+                  self.CompleteTest(self.state.currentTestIndex);
+                });
+              }).catch(function (error) {
+                self.state.errorOccured = true;
+                self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
+                self.setState({currentTestPassed: false});    
+                self.CompleteTest(self.state.currentTestIndex);
+              });
+            }).catch(function (error) {
+              self.state.errorOccured = true;
+              self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
+              self.setState({currentTestPassed: false});    
+              self.CompleteTest(self.state.currentTestIndex);
+            }); 
+        }).catch(function (error) {
+          self.state.errorOccured = true;
+          self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
+          self.setState({currentTestPassed: false});    
+          self.CompleteTest(self.state.currentTestIndex);
+        });
         break;
       case 1:
         url = '//192.168.12.22:81/cgi-bin/test.cgi';
