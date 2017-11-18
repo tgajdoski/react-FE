@@ -16,6 +16,9 @@ class App extends Component {
       testList:["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
         "Buzzer/Vibrator Test", "Battery & Charger Test"],
       currentTestIndex: null,
+      currentTestStart: false,
+      currentTestPassed: false,
+      errorOccured: false,
       testResponses: initState.ininData
     }
 
@@ -92,12 +95,17 @@ class App extends Component {
   CompleteTest = (index) => {
       let a = this.state.testsCompleted.slice(); //creates the clone of the state
       a[index] = this.state.testList[index];
-      this.setState({testsCompleted: a, currentTestIndex: this.state.currentTestIndex + 1 }, this.cLog);
+      this.setState({testsCompleted: a}, this.cLog);
   }
   
+  NextTest = () =>{
+    console.log("VO NEXT TEST");
+    this.setState({ currentTestIndex: this.state.currentTestIndex + 1,  currentTestStart: false,  currentTestPassed: false});
+  }
+
   StartTest = (index) => {
-    console.log("STARTING TESTS");
-    this.setState({currentTestIndex: index}, this.cLog);
+  //  console.log("STARTING TESTS");
+    this.setState({currentTestIndex: index, currentTestStart: true}, this.cLog);
     var self=this;
     axios.get('//192.168.12.22:81/cgi-bin/test.cgi', {
       params: {
@@ -107,12 +115,14 @@ class App extends Component {
     .then(function (response) {
       if (response.data.indexOf("Hello") > -1) {
         // check if test pass and get response 
-        self.CatchTestResponse(self.state.currentTestIndex, response, 1);    
+        self.CatchTestResponse(self.state.currentTestIndex, response, 1);   
+        self.setState({currentTestPassed: true}); 
         self.CompleteTest(self.state.currentTestIndex);
       }
     })
     .catch(function (error) {
-      self.CatchTestResponse(self.state.currentTestIndex, error, 2);    
+      self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
+      self.setState({currentTestPassed: false});    
       self.CompleteTest(self.state.currentTestIndex);
     });
 
@@ -132,6 +142,7 @@ class App extends Component {
             />
             <SecondBlock 
              StartTest = {this.StartTest}
+             NextTest = {this.NextTest}
               {...this.state} 
             />
             <ThirdBlock  

@@ -12,6 +12,11 @@ class SdCard extends Component {
     };
   }
  
+  handleNextTest() {
+    this.props.NextTest();
+  }
+
+
   render() {
     return (
       <div id="div2">
@@ -29,7 +34,6 @@ class SdCard extends Component {
                     <tr>
                       <td>
                         <p> Short explanation regrding proc test </p><br />
-                        <p> - SD card test EEE </p>
                         <p> - SD card test </p>
                       </td>
                     </tr>
@@ -37,6 +41,9 @@ class SdCard extends Component {
                 </table>
               </td>
               <td className="halfsize">
+                { this.props.currentTestPassed ?
+                  <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
+                  : null }
               </td>
             </tr>
           </tbody>
@@ -49,3 +56,6 @@ class SdCard extends Component {
 }
 
 export default SdCard;
+
+const ButtonNext = (props) =>
+<button type="button" {...props} className={"btnnext " + props.className } />;

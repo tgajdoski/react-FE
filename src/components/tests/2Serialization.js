@@ -16,6 +16,9 @@ class Serialization extends Component {
     this.props.handleTestClick();
   }
 
+  handleNextTest() {
+    this.props.handleNextTest();
+  }
 
   render() {
     return (
@@ -40,8 +43,13 @@ class Serialization extends Component {
                   </tbody>
                 </table>
               </td>
-              <td className="halfsize">      
-                  <Button onClick={this.handleTest.bind(this)}>START TEST</Button>
+              <td className="halfsize"> 
+                  { !this.props.currentTestStart ?     
+                    <Button onClick={this.handleTest.bind(this)}>START TEST</Button>
+                  : null }
+                  { this.props.currentTestPassed ?
+                    <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
+                    : null }
               </td>
             </tr>
           </tbody>
@@ -57,3 +65,6 @@ export default Serialization;
 
 const Button = (props) =>
 <button type="button" {...props} className={"btnnn " + props.className } />;
+
+const ButtonNext = (props) =>
+<button type="button" {...props} className={"btnnext " + props.className } />;

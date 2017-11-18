@@ -86,8 +86,8 @@ class FirstBlock extends Component {
                         ? <Button className="start-btn" onClick={this.handleStartClick.bind(this)}>START TEST</Button>
                         :  <div></div>
                         )}
-                        {(this.props.currentTestIndex > 7 && (this.state.secondsElapsed === 0 || this.incrementer !== this.state.lastClearedIncrementer)
-                        ? <Button className="stop-btn" onClick={this.handleStopClick.bind(this)}>STOP</Button>
+                        {(this.props.currentTestIndex === 7 || this.props.errorOccured && (this.state.secondsElapsed === 0 || this.incrementer !== this.state.lastClearedIncrementer)
+                        ? <Button className="stop-btn" onClick={this.handleStopClick.bind(this)}>DOWNLOAD</Button>
                         :  <div></div>
                         )}
                       </td>

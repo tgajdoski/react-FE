@@ -21,6 +21,10 @@ class SecondBlock extends Component {
    this.StartTest(this.currentTestIndex);
   }
 
+  
+  handleNextTest() {
+    this.NextTest();
+   }
 
   render() {
     return( 
@@ -28,41 +32,49 @@ class SecondBlock extends Component {
         { this.props.currentTestIndex === 0 ?
           <SdCard  {...this.props} 
             handleTestClick= {this.handleTestClick}
+            handleNextTest= {this.handleNextTest}
           /> : null
         }
         { this.props.currentTestIndex === 1 ?
           <Serialization  {...this.props} 
             handleTestClick= {this.handleTestClick}
+            handleNextTest= {this.handleNextTest}
           /> : null
         }
         { this.props.currentTestIndex === 2 ?
           <Video  {...this.props} 
           handleTestClick= {this.handleTestClick}
+          handleNextTest= {this.handleNextTest}
           /> : null
         }
         { this.props.currentTestIndex === 3 ?
           <Audio  {...this.props} 
           handleTestClick= {this.handleTestClick}
+          handleNextTest= {this.handleNextTest}
           /> : null
         }
         { this.props.currentTestIndex === 4 ?
           <Switch  {...this.props} 
           handleTestClick= {this.handleTestClick}
+          handleNextTest= {this.handleNextTest}
           /> : null
         }
         { this.props.currentTestIndex === 5 ?
           <Led  {...this.props} 
           handleTestClick= {this.handleTestClick}
+          handleNextTest= {this.handleNextTest}
           /> : null
         }
         { this.props.currentTestIndex === 6 ?
           <Vibrator  {...this.props} 
           handleTestClick= {this.handleTestClick}
+          handleNextTest= {this.handleNextTest}
           /> : null
         }
         { this.props.currentTestIndex === 7 ?
           <Batery  {...this.props} 
           handleTestClick= {this.handleTestClick}
+          handleNextTest= {this.handleNextTest}
           /> : null
         }
       </div>
