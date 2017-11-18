@@ -98,22 +98,4 @@ body {
   
   
   .start-btn { color: #4bd761 }
-	.stop-btn  { color: #fd3d2a }
-	
-
-	.green {
-		float: left;
-		color: #0ebb56;
-		font-weight: 900;
-		}
-
-	.red {
-		float: left;
-		color: #fd3d2a;
-		font-weight: 900;
-		}
-	.gray {
-		float: left;
-		color: #7f8083;
-		font-weight: 900;
-		}
+  .stop-btn  { color: #fd3d2a }

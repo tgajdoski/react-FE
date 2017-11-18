@@ -124,54 +124,6 @@ class FirstBlock extends Component {
           <br/>
           <hr/>
         </div>
-        <div id="div2">
-          <table className="tablecss">
-            <tbody>
-              <tr className="liRectStyle">
-                <td className="halfsize">
-                  <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                      <h2> Test phase {this.props.testList[this.props.currentTestIndex] }</h2>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p> Short explanation regrding proc test </p><br/>
-                        <p> - SD card test </p>
-                        <p> - SD card test </p>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </td>
-                <td className="halfsize">
-                  {/* {(this.state.secondsElapsed !== 0 &&
-                      this.incrementer !== this.state.lastClearedIncrementer
-                      ? <Button onClick={this.handleLabClick.bind(this)}>lab</Button>
-                      : null
-                  )}
-
-
-                  {(this.state.secondsElapsed !== 0 &&
-                      this.incrementer === this.state.lastClearedIncrementer
-                      ? <Button onClick={this.handleResetClick.bind(this)}>reset</Button>
-                      : null
-                  )} */}
-
-                  {/* <ul className="stopwatch-laps">
-                      { this.state.laps.map((lap, i) =>
-                          <li className="stopwatch-lap"><strong>{i + 1}</strong>/ {formattedSeconds(lap)}</li>)
-                      }
-                  </ul> */}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <br/>
-          <hr/>
-        </div>
       </div>
     );
   }
