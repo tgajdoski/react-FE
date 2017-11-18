@@ -20,10 +20,7 @@ class App extends Component {
       currentTestPassed: false,
       errorOccured: false,
       testResponses: initState.ininData
-      
     }
-
-    
   }
 
   cLog = () => {
@@ -32,9 +29,6 @@ class App extends Component {
     // console.log("testsCompleted : " + this.state.testsCompleted);
     // console.log("testResponses : " + JSON.stringify(this.state.testResponses));
   }
-
-
-
 
   formatDate(dateObj,format) {
     // var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
