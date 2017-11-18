@@ -81,12 +81,11 @@ class FirstBlock extends Component {
                   <tbody>
                     <tr>
                       <td>
-                        {(this.state.secondsElapsed === 0 ||
-                        this.incrementer === this.state.lastClearedIncrementer
+                        {(this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer
                         ? <Button className="start-btn" onClick={this.handleStartClick.bind(this)}>START TEST</Button>
                         :  <div></div>
                         )}
-                        {(this.props.currentTestIndex === 7 || this.props.errorOccured && (this.state.secondsElapsed === 0 || this.incrementer !== this.state.lastClearedIncrementer)
+                        {(((this.props.currentTestIndex === 7 && this.props.currentTestPassed) || this.props.errorOccured) && (this.state.secondsElapsed === 0 || this.incrementer !== this.state.lastClearedIncrementer)
                         ? <Button className="stop-btn" onClick={this.handleStopClick.bind(this)}>DOWNLOAD</Button>
                         :  <div></div>
                         )}

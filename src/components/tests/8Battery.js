@@ -65,5 +65,5 @@ export default Batery;
 const Button = (props) =>
 <button type="button" {...props} className={"btnnn " + props.className } />;
 
-const ButtonNext = (props) =>
-<button type="button" {...props} className={"btnnext " + props.className } />;
+// const ButtonNext = (props) =>
+// <button type="button" {...props} className={"btnnext " + props.className } />;

@@ -41,7 +41,7 @@ class SdCard extends Component {
                 </table>
               </td>
               <td className="halfsize">
-                { this.props.currentTestPassed ?
+                { (!this.props.errorOccured && this.props.currentTestPassed) ?
                   <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
                   : null }
               </td>

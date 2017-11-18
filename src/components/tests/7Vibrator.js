@@ -47,7 +47,7 @@ class Vibrator extends Component {
               { !this.props.currentTestStart ?     
                 <Button onClick={this.handleTest.bind(this)}>START TEST</Button>
               : null }
-              { this.props.currentTestPassed ?
+              { !this.props.errorOccured && this.props.currentTestPassed ?
                 <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
                 : null }
           </td>

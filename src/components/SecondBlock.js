@@ -12,9 +12,9 @@ import Batery from './tests/8Battery';
 
 
 class SecondBlock extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
    // TIMER FUNCTIONS
   handleTestClick() {

@@ -5,9 +5,9 @@ import ListTestResults from './ListTestResults';
 
 
 class ThirdBlock extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   // testsdata = [
   //   {

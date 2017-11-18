@@ -106,8 +106,38 @@ class App extends Component {
   StartTest = (index) => {
   //  console.log("STARTING TESTS");
     this.setState({currentTestIndex: index, currentTestStart: true}, this.cLog);
-    var self=this;
-    axios.get('//192.168.12.22:81/cgi-bin/test.cgi', {
+    let self=this;
+    let url = '//192.168.12.22:81/cgi-bin/test.cgi';
+    switch(index) {
+      case 0:
+        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+        break;
+      case 1:
+        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+        break;
+      case 2:
+        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+        break;
+      case 3:
+        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+        break;
+      case 4:
+        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+        break;
+      case 5:
+        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+        break;
+      case 6:
+        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+        break;
+      case 7:
+        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+        break;
+      default : 
+        url = '';
+  }
+    
+    axios.get(url , {
       params: {
         ID: 12345
       }
@@ -118,6 +148,8 @@ class App extends Component {
         self.CatchTestResponse(self.state.currentTestIndex, response, 1);   
         self.setState({currentTestPassed: true}); 
         self.CompleteTest(self.state.currentTestIndex);
+        if (index ===3)
+          self.state.errorOccured = true;
       }
     })
     .catch(function (error) {
