@@ -6,6 +6,10 @@ import SecondBlock from './SecondBlock';
 import ThirdBlock from './ThirdBlock';
 import axios from 'axios';
 import initState from './initState';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
+
 
 class App extends Component {
   constructor(){
@@ -13,6 +17,7 @@ class App extends Component {
     this.state = {
       headerText: 'header text',
       testsCompleted: [],
+      testMessages: [],
       testList:["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
         "Buzzer/Vibrator Test", "Battery & Charger Test"],
       currentTestIndex: null,
@@ -99,7 +104,36 @@ class App extends Component {
   }
 
   StartTest = (index) => {
+    
   //  console.log("STARTING TESTS");
+    //  toast("Default Notification !");
+    //   toast.success("Success Notification !", {
+    //     position: toast.POSITION.TOP_CENTER
+    //   });
+    //   toast.error("Error Notification !", {
+    //     position: toast.POSITION.TOP_LEFT
+    //   });
+    //   toast.warn("Warning Notification !", {
+    //     position: toast.POSITION.BOTTOM_LEFT
+    //   });
+      // toast.info("Info Notification !", {
+      //   position: toast.POSITION.BOTTOM_CENTER
+      // });
+      // toast.info("LALALALALA Notification !", {
+      //   position: toast.POSITION.BOTTOM_CENTER
+      // });
+      // toast.info("MRMRMRMRM Notification !", {
+      //   position: toast.POSITION.BOTTOM_CENTER
+      // });
+      // toast("Custom Style Notification !", {
+      //   position: toast.POSITION.BOTTOM_RIGHT,
+      //   className: 'dark-toast',
+      //   progressClassName: 'transparent-progress'
+      // });
+
+
+
+
     this.setState({currentTestIndex: index, currentTestStart: true}, this.cLog);
     let self = this;
     let url = '';
@@ -114,27 +148,66 @@ class App extends Component {
         let url6 = '//192.168.12.22:81/cgi-bin/01_sdcard_write_test.cgi';
         let url7 = '//192.168.12.22:81/cgi-bin/01_sdcard_final.cgi';
 
+        toast.info("CHECKING SD-CARD INFO", {
+          position: toast.POSITION.BOTTOM_CENTER
+        });
         axios.get(url1 , {
           params: {}
         }).then(function (response) {
           // ispisi sto treba i povikaj nov
-            console.log("01_sdcard_info " + JSON.stringify(response.data.sdcard))
+          console.log("01_sdcard_info " + JSON.stringify(response.data.sdcard))
+          toast.success(JSON.stringify(response.data.sdcard), {
+                  position: toast.POSITION.BOTTOM_RIGHT,
+                  autoClose: 2000
+                });
+            toast.info("CHECKING SD-CARD MOUNT", {
+              position: toast.POSITION.BOTTOM_CENTER
+            });
             axios.get(url2 , {
               params: {}
             }).then(function (response) {
               console.log("01_sdcard_mount " + JSON.stringify(response.data.sdcard_mount.mount))
+              toast.success(" SD CARD MOUNT SUCESS", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000
+              });
+              toast.info("CHECKING SD-CARD WRITE", {
+                position: toast.POSITION.BOTTOM_CENTER
+              });
               axios.get(url3 , {
                 params: {}
               }).then(function (response) {
+                toast.success(" SD CARD WRITE SUCESS", {
+                  position: toast.POSITION.BOTTOM_RIGHT,
+                  autoClose: 2000
+                });
+                toast.info("CHECKING SD-CARD UNMOUNT", {
+                  position: toast.POSITION.BOTTOM_CENTER
+                });
                 console.log("01_sdcard_write " + JSON.stringify(response.data.sdcard_write.write))
                 axios.get(url4 , {
                   params: {}
                 }).then(function (response) {
+
                   console.log("01_sdcard_umount " + JSON.stringify(response.data.sdcard_umount.mount))
+                  toast.success(" SD CARD UNMOUNT SUCESS", {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose: 2000
+                  });
+                  toast.info("CHECKING SD-CARD MOUNT", {
+                    position: toast.POSITION.BOTTOM_CENTER
+                  });
                   axios.get(url5 , {
                     params: {}
                   }).then(function (response) {
                     console.log("01_sdcard_mount " + JSON.stringify(response.data.sdcard_mount.mount))
+                    toast.success(" SD CARD MOUNT SUCESS", {
+                      position: toast.POSITION.BOTTOM_RIGHT,
+                      autoClose: 2000
+                    });
+                    toast.info("CHECKING SD-CARD WRITE TEST", {
+                      position: toast.POSITION.BOTTOM_CENTER
+                    });
                     axios.get(url6 , {
                       params: {}
                     }).then(function (response) {
@@ -142,18 +215,33 @@ class App extends Component {
                       axios.get(url7 , {
                         params: {}
                       }).then(function (response) {
-                        console.log("01_sdcard_write_test " + JSON.stringify(response.data.sdcard_final.test))
+                        toast.success(" SD CARD WRITE TEST SUCESS", {
+                          position: toast.POSITION.BOTTOM_RIGHT,
+                          autoClose: 2000
+                        });
+                        toast.info("CHECKING SD-CARD FINAL TEST", {
+                          position: toast.POSITION.BOTTOM_CENTER
+                        });
+                        console.log("01_sdcard_final " + JSON.stringify(response.data.sdcard_final.test))
                            // ovie se za posledniot od sd-card test
                         self.CatchTestResponse(self.state.currentTestIndex, response, 1);   
                         self.setState({currentTestPassed: true}); 
                         self.CompleteTest(self.state.currentTestIndex);
                       }).catch(function (error) {
+                        toast.error("Error CHECKING WRITE TEST !", {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                          autoClose: false
+                        });
                         self.state.errorOccured = true;
                         self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
                         self.setState({currentTestPassed: false});    
                         self.CompleteTest(self.state.currentTestIndex);
                       });
                     }).catch(function (error) {
+                      toast.error("Error CHECKING WRITE TEST !", {
+                        position: toast.POSITION.BOTTOM_LEFT,
+                        autoClose: false
+                      });
                       self.state.errorOccured = true;
                       self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
                       self.setState({currentTestPassed: false});    
@@ -184,6 +272,10 @@ class App extends Component {
               self.CompleteTest(self.state.currentTestIndex);
             }); 
         }).catch(function (error) {
+          toast.error("Error CHECKING SD-CARD INFO !", {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: false
+          });
           self.state.errorOccured = true;
           self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
           self.setState({currentTestPassed: false});    
@@ -256,6 +348,14 @@ class App extends Component {
             />
             <ThirdBlock  
             {...this.state} 
+            />
+             <ToastContainer 
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                pauseOnHover
             />
         </div>
       </div>
