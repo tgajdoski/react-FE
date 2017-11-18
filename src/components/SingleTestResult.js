@@ -11,7 +11,7 @@ import '../css/ThirdBlock.css';
 
 export default function SinglTest(props) {
   return (
-    <li key={props.testindex}     
+    <li      
           style={{margin:'1em', clear:'both'}}
         className={props.passed ===0 ? 'gray' : props.passed ===1 ? 'green'  : 'red'}>
         <div style={{float:'left',marginRight:'4em'}}>

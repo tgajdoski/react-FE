@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 //import PropTypes from 'prop-types';
 import '../css/FirstBlock.css';
+import axios from 'axios';
 
 
 const formattedSeconds = (sec) =>
@@ -31,6 +32,22 @@ class FirstBlock extends Component {
         this.setState({secondsElapsed: this.state.secondsElapsed + 1}), 1000);
     
     // start first test
+    // check hardware info
+    let url = '//192.168.12.22:81/cgi-bin/00_hwrev.cgi';
+    let self=this;
+    axios.get(url , {
+      params: {
+        ID: 12345
+      }
+    })
+    .then(function (response) {
+      console.log(response.hwrev);
+    })
+    .catch(function (error) {
+      self.state.errorOccured = true;
+    });
+
+
     this.props.StartTest(0);
     }
 

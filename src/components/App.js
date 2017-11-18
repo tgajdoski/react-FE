@@ -19,17 +19,19 @@ class App extends Component {
       currentTestStart: false,
       currentTestPassed: false,
       errorOccured: false,
-      testResponses: initState.ininData
+      testResponses: initState.ininData,
+      hwrev: '',
+      sn: ''
     }
 
     
   }
 
   cLog = () => {
-    console.log("VO CALLBACK");
-    console.log(this.state.currentTestIndex);
-    console.log("testsCompleted : " + this.state.testsCompleted);
-    console.log("testResponses : " + JSON.stringify(this.state.testResponses));
+    // console.log("VO CALLBACK");
+    // console.log(this.state.currentTestIndex);
+    // console.log("testsCompleted : " + this.state.testsCompleted);
+    // console.log("testResponses : " + JSON.stringify(this.state.testResponses));
   }
 
 
@@ -148,11 +150,10 @@ class App extends Component {
         self.CatchTestResponse(self.state.currentTestIndex, response, 1);   
         self.setState({currentTestPassed: true}); 
         self.CompleteTest(self.state.currentTestIndex);
-        if (index ===3)
-          self.state.errorOccured = true;
       }
     })
     .catch(function (error) {
+      self.state.errorOccured = true;
       self.CatchTestResponse(self.state.currentTestIndex, error, 2); 
       self.setState({currentTestPassed: false});    
       self.CompleteTest(self.state.currentTestIndex);
