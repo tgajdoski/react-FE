@@ -16,7 +16,9 @@ class FirstBlock extends Component {
     this.state = { 
         secondsElapsed: 0, 
         laps: [],
-        lastClearedIncrementer: null
+        lastClearedIncrementer: null,
+        hwrev: '',
+        sn: ''
     };
     this.incrementer = null;
    }
@@ -41,7 +43,8 @@ class FirstBlock extends Component {
       }
     })
     .then(function (response) {
-      console.log(response.hwrev);
+      console.log(response.data.hwrev.revision);
+      self.setState({hwrev: response.data.hwrev.revision}); 
     })
     .catch(function (error) {
       self.state.errorOccured = true;
@@ -123,17 +126,18 @@ class FirstBlock extends Component {
                       </tr>
                       <tr>
                           <td>
-                            <h4 className="leftfloat">S/N : XXXXXXXXXXXX</h4>
+                          { (this.state.sn ?
+                          <h4 className="leftfloat">S/N : {this.state.sn}</h4>
+                          : null
+                          )}
                           </td>
                       </tr>
                       <tr>
                         <td>
-                          <h4 className="leftfloat">HW rev: ABC 123</h4>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <h4 className="leftfloat">test status none/ failed/ok</h4>
+                        { (this.state.hwrev ?
+                          <h4 className="leftfloat">HW rev: {this.state.hwrev}</h4>
+                          : null
+                        )}
                         </td>
                       </tr>
                       </tbody>

@@ -19,9 +19,8 @@ class App extends Component {
       currentTestStart: false,
       currentTestPassed: false,
       errorOccured: false,
-      testResponses: initState.ininData,
-      hwrev: '',
-      sn: ''
+      testResponses: initState.ininData
+      
     }
 
     
