@@ -10,7 +10,6 @@ class SdCard extends Component {
       data: '',
       sessionAttributes: {}, visible: 'open'
     };
-    debugger;
   }
  
   render() {
@@ -30,7 +29,7 @@ class SdCard extends Component {
                     <tr>
                       <td>
                         <p> Short explanation regrding proc test </p><br />
-                        <p> - SD card test </p>
+                        <p> - SD card test EEE </p>
                         <p> - SD card test </p>
                       </td>
                     </tr>

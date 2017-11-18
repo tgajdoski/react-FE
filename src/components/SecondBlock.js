@@ -16,32 +16,54 @@ class SecondBlock extends Component {
     super(props);
   }
 
+   // TIMER FUNCTIONS
+  handleTestClick() {
+   this.StartTest(this.currentTestIndex);
+  }
+
+
   render() {
     return( 
       <div>
+        { this.props.currentTestIndex === 0 ?
+          <SdCard  {...this.props} 
+            handleTestClick= {this.handleTestClick}
+          /> : null
+        }
         { this.props.currentTestIndex === 1 ?
-          <SdCard  {...this.props} /> : null
+          <Serialization  {...this.props} 
+            handleTestClick= {this.handleTestClick}
+          /> : null
         }
         { this.props.currentTestIndex === 2 ?
-          <Serialization  {...this.props} /> : null
+          <Video  {...this.props} 
+          handleTestClick= {this.handleTestClick}
+          /> : null
         }
         { this.props.currentTestIndex === 3 ?
-          <Video  {...this.props} /> : null
+          <Audio  {...this.props} 
+          handleTestClick= {this.handleTestClick}
+          /> : null
         }
         { this.props.currentTestIndex === 4 ?
-          <Audio  {...this.props} /> : null
+          <Switch  {...this.props} 
+          handleTestClick= {this.handleTestClick}
+          /> : null
         }
         { this.props.currentTestIndex === 5 ?
-          <Switch  {...this.props} /> : null
+          <Led  {...this.props} 
+          handleTestClick= {this.handleTestClick}
+          /> : null
         }
         { this.props.currentTestIndex === 6 ?
-          <Led  {...this.props} /> : null
+          <Vibrator  {...this.props} 
+          handleTestClick= {this.handleTestClick}
+          /> : null
         }
         { this.props.currentTestIndex === 7 ?
-          <Vibrator  {...this.props} /> : null
-        }
-        { this.props.currentTestIndex === 8 ?
-          <Batery  {...this.props} /> : null
+          <Batery  {...this.props} 
+          handleTestClick= {this.handleTestClick}
+          /> : null
         }
       </div>
     );

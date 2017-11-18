@@ -10,9 +10,13 @@ class Switch extends Component {
       data: '',
       sessionAttributes: {}, visible: 'open'
     };
-    debugger;
   }
  
+  handleTest() {
+    this.props.handleTestClick();
+  }
+
+  
   render() {
     return (
       <div id="div2">
@@ -30,14 +34,14 @@ class Switch extends Component {
                     <tr>
                       <td>
                         <p> Short explanation regrding proc test </p><br />
-                        <p> - SD card test </p>
-                        <p> - SD card test </p>
+                        <p> {this.props.testList[this.props.currentTestIndex]} </p>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </td>
               <td className="halfsize">
+              <Button onClick={this.handleTest.bind(this)}>START TEST</Button>
               </td>
             </tr>
           </tbody>
@@ -50,3 +54,6 @@ class Switch extends Component {
 }
 
 export default Switch;
+
+const Button = (props) =>
+<button type="button" {...props} className={"btnnn " + props.className } />;

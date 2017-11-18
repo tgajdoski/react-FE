@@ -5,8 +5,8 @@ import SinglTest from './SingleTestResult'
 
 export default function ListTestResults(props) {
   return (
-    <div>
+    <ul style={{margin:'1em', float:'left'}} >
       {props.testsresult.map(testRes => <SinglTest {...testRes } />)}
-    </div>
+    </ul>
   );
 };

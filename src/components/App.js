@@ -5,7 +5,7 @@ import FirstBlock from './FirstBlock';
 import SecondBlock from './SecondBlock';
 import ThirdBlock from './ThirdBlock';
 import axios from 'axios';
-
+import initState from './initState';
 
 class App extends Component {
   constructor(){
@@ -16,7 +16,7 @@ class App extends Component {
       testList:["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
         "Buzzer/Vibrator Test", "Battery & Charger Test"],
       currentTestIndex: null,
-      testResponses:[]
+      testResponses: initState.ininData
     }
 
     
@@ -82,7 +82,7 @@ class App extends Component {
       "testname": this.state.testList[this.state.currentTestIndex],
       "response": response.data, 
       "passed" : passed,
-      "datetime " : this.formatDate(d,5)
+      "datetime" : this.formatDate(d,5)
     };
     a[index] = tempRecord;
 
@@ -95,9 +95,9 @@ class App extends Component {
       this.setState({testsCompleted: a, currentTestIndex: this.state.currentTestIndex + 1 }, this.cLog);
   }
   
-  StartTest = () => {
+  StartTest = (index) => {
     console.log("STARTING TESTS");
-    this.setState({currentTestIndex: 0}, this.cLog);
+    this.setState({currentTestIndex: index}, this.cLog);
     var self=this;
     axios.get('//192.168.12.22:81/cgi-bin/test.cgi', {
       params: {
@@ -131,7 +131,7 @@ class App extends Component {
               {...this.state} 
             />
             <SecondBlock 
-              StartTest = {this.StartTest}
+             StartTest = {this.StartTest}
               {...this.state} 
             />
             <ThirdBlock  

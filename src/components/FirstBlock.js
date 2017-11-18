@@ -3,7 +3,6 @@ import React, { Component} from 'react';
 import '../css/FirstBlock.css';
 
 
-
 const formattedSeconds = (sec) =>
 Math.floor(sec / 60) +
   ':' +
@@ -19,18 +18,20 @@ class FirstBlock extends Component {
         lastClearedIncrementer: null
     };
     this.incrementer = null;
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleClick = this.handleClick.bind(this);
-  }
+   }
 
 
   // TIMER FUNCTIONS
     handleStartClick() {
+    this.setState({
+        secondsElapsed: 0,
+        laps: []
+    });
     this.incrementer = setInterval( () =>
         this.setState({secondsElapsed: this.state.secondsElapsed + 1}), 1000);
     
     // start first test
-    this.props.StartTest();
+    this.props.StartTest(0);
     }
 
     handleStopClick() {
@@ -83,6 +84,10 @@ class FirstBlock extends Component {
                         {(this.state.secondsElapsed === 0 ||
                         this.incrementer === this.state.lastClearedIncrementer
                         ? <Button className="start-btn" onClick={this.handleStartClick.bind(this)}>START TEST</Button>
+                        :  <div></div>
+                        )}
+                        {(this.props.currentTestIndex > 7 && (this.state.secondsElapsed === 0 || this.incrementer !== this.state.lastClearedIncrementer)
+                        ? <Button className="stop-btn" onClick={this.handleStopClick.bind(this)}>STOP</Button>
                         :  <div></div>
                         )}
                       </td>

@@ -98,4 +98,19 @@ body {
   
   
   .start-btn { color: #197927 }
-  .stop-btn  { color: #fd3d2a }
+	.stop-btn  { color: #fd3d2a }
+	
+
+  .btnnn {
+		font-family: inherit;
+		font-size: 20px;
+		
+		display: inline-block;
+		
+		width: 145px;
+		height: 152px;
+		margin: 54px;
+		padding: 0;
+		
+	}
+		

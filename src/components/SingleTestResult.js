@@ -11,16 +11,15 @@ import '../css/ThirdBlock.css';
 
 export default function SinglTest(props) {
   return (
-    <div
-        style={{margin:'1em'}} 
-        key={props.testindex} 
+    <li key={props.testindex}     
+          style={{margin:'1em', clear:'both'}}
         className={props.passed ===0 ? 'gray' : props.passed ===1 ? 'green'  : 'red'}>
-        <div style={{float:'left', display:'inline-block'}}>
+        <div style={{float:'left',marginRight:'4em'}}>
           {props.testname}
         </div>
         <div style={{float:'right', marginLeft:'1em'}} >
           {props.datetime}
         </div>
-    </div>
+    </li>
   );
 };
