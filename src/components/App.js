@@ -92,6 +92,19 @@ class App extends Component {
     this.setState({testResponses: a}, this.cLog);
   }
 
+  CatchTestMessage = (index, message) => {
+    let a = this.state.testMessages.slice(); //creates the clone of the state
+    let tempRecord = {
+      "testindex": index,
+      "message": message
+    };
+    a[index] = tempRecord;
+    this.setState({testMessages: a}, null);
+  }
+
+
+
+
   CompleteTest = (index) => {
       let a = this.state.testsCompleted.slice(); //creates the clone of the state
       a[index] = this.state.testList[index];
@@ -104,34 +117,7 @@ class App extends Component {
   }
 
   StartTest = (index) => {
-    
-  //  console.log("STARTING TESTS");
-    //  toast("Default Notification !");
-    //   toast.success("Success Notification !", {
-    //     position: toast.POSITION.TOP_CENTER
-    //   });
-    //   toast.error("Error Notification !", {
-    //     position: toast.POSITION.TOP_LEFT
-    //   });
-    //   toast.warn("Warning Notification !", {
-    //     position: toast.POSITION.BOTTOM_LEFT
-    //   });
-      // toast.info("Info Notification !", {
-      //   position: toast.POSITION.BOTTOM_CENTER
-      // });
-      // toast.info("LALALALALA Notification !", {
-      //   position: toast.POSITION.BOTTOM_CENTER
-      // });
-      // toast.info("MRMRMRMRM Notification !", {
-      //   position: toast.POSITION.BOTTOM_CENTER
-      // });
-      // toast("Custom Style Notification !", {
-      //   position: toast.POSITION.BOTTOM_RIGHT,
-      //   className: 'dark-toast',
-      //   progressClassName: 'transparent-progress'
-      // });
-
-
+ 
 
 
     this.setState({currentTestIndex: index, currentTestStart: true}, this.cLog);
@@ -161,16 +147,10 @@ class App extends Component {
                   autoClose: 5000
                 });
                 // STORE INFO FROM SD_INFO
-                let a = self.state.testMessages.slice(); 
-                a[0] = "CSD: " + response.data.sdcard.csd
-                self.setState({testMessages: a}, null);
-                a = self.state.testMessages.slice(); 
-                a[1] = "CID: " + response.data.sdcard.cid
-                self.setState({testMessages: a}, null);
-                a = self.state.testMessages.slice(); 
-                a[2] = "Capacity: " + response.data.sdcard.capacity
-                self.setState({testMessages: a}, null);
-
+                self.CatchTestMessage(0, "CSD: " + response.data.sdcard.csd);
+                self.CatchTestMessage(1, "CID: " + response.data.sdcard.cid);
+                self.CatchTestMessage(2, "Capacity: " + response.data.sdcard.capacity);
+               
                 toast.success("CID: " + response.data.sdcard.cid, {
                   position: toast.POSITION.BOTTOM_RIGHT,
                   autoClose: 5000
@@ -194,10 +174,8 @@ class App extends Component {
               });
 
               // set success messages and show them in sd card component
-              let a = self.state.testMessages.slice(); 
-              a[3] = 'SD CARD MOUNT SUCCESS '
-              self.setState({testMessages: a}, null);
-              
+              self.CatchTestMessage(3, 'SD CARD MOUNT SUCCESS ');
+             
               toast.info("CHECKING SD-CARD WRITE", {
                 position: toast.POSITION.BOTTOM_CENTER,
                 autoClose: 1000
@@ -209,10 +187,9 @@ class App extends Component {
                   position: toast.POSITION.BOTTOM_RIGHT,
                   autoClose: 2000
                 });
-                // set success messages and show them in sd card component
-                let a = self.state.testMessages.slice(); 
-                a[4] = 'SD CARD WRITE SUCCESS '
-                self.setState({testMessages: a}, null);
+                // set success messages and show them in sd card component 
+                self.CatchTestMessage(4, 'SD CARD WRITE SUCCESS ');
+              
 
                 toast.info("CHECKING SD-CARD UNMOUNT", {
                   position: toast.POSITION.BOTTOM_CENTER,
@@ -228,10 +205,8 @@ class App extends Component {
                     position: toast.POSITION.BOTTOM_RIGHT,
                     autoClose: 2000
                   });
-                   // set success messages and show them in sd card component
-                  let a = self.state.testMessages.slice(); 
-                  a[5] = 'SD CARD UNMOUNT SUCCESS '
-                  self.setState({testMessages: a}, null);
+                
+                  self.CatchTestMessage(5, 'SD CARD UNMOUNT SUCCESS ');
 
                   toast.info("CHECKING SD-CARD MOUNT", {
                     position: toast.POSITION.BOTTOM_CENTER,
@@ -245,10 +220,8 @@ class App extends Component {
                       position: toast.POSITION.BOTTOM_RIGHT,
                       autoClose: 2000
                     });
-                      // set success messages and show them in sd card component
-                    let a = self.state.testMessages.slice(); 
-                    a[6] = 'SD CARD MOUNT SUCCESS '
-                    self.setState({testMessages: a}, null);
+                 
+                    self.CatchTestMessage(6, 'SD CARD MOUNT SUCCESS ');
                     
                     toast.info("CHECKING SD-CARD WRITE TEST", {
                       position: toast.POSITION.BOTTOM_CENTER
@@ -262,10 +235,8 @@ class App extends Component {
                         position: toast.POSITION.BOTTOM_RIGHT,
                         autoClose: 2000
                       });
-                        // set success messages and show them in sd card component
-                      let a = self.state.testMessages.slice(); 
-                      a[7] = 'SD CARD WRITE-TEST  SUCCESS '
-                      self.setState({testMessages: a}, null);
+                     
+                      self.CatchTestMessage(7, 'SD CARD WRITE-TEST SUCCESS ');
                       
                       toast.info("CHECKING SD-CARD FINAL TEST", {
                         position: toast.POSITION.BOTTOM_CENTER
@@ -279,10 +250,7 @@ class App extends Component {
                           autoClose: 2000
                         });
 
-                      // set success messages and show them in sd card component
-                        let a = self.state.testMessages.slice(); 
-                        a[8] = 'SD CARD FINAL TEST SUCCESS '
-                        self.setState({testMessages: a}, null);
+                        self.CatchTestMessage(8, 'SD CARD FINAL TEST SUCCESS ');
 
                         toast.info("CHECKING SD-CARD FINAL TEST", {
                           position: toast.POSITION.BOTTOM_CENTER,
@@ -446,3 +414,34 @@ class App extends Component {
 }
 
 export default App;
+
+
+
+
+   // TOAST VARIABLES
+  //  console.log("STARTING TESTS");
+    //  toast("Default Notification !");
+    //   toast.success("Success Notification !", {
+    //     position: toast.POSITION.TOP_CENTER
+    //   });
+    //   toast.error("Error Notification !", {
+    //     position: toast.POSITION.TOP_LEFT
+    //   });
+    //   toast.warn("Warning Notification !", {
+    //     position: toast.POSITION.BOTTOM_LEFT
+    //   });
+      // toast.info("Info Notification !", {
+      //   position: toast.POSITION.BOTTOM_CENTER
+      // });
+      // toast.info("LALALALALA Notification !", {
+      //   position: toast.POSITION.BOTTOM_CENTER
+      // });
+      // toast.info("MRMRMRMRM Notification !", {
+      //   position: toast.POSITION.BOTTOM_CENTER
+      // });
+      // toast("Custom Style Notification !", {
+      //   position: toast.POSITION.BOTTOM_RIGHT,
+      //   className: 'dark-toast',
+      //   progressClassName: 'transparent-progress'
+      // });
+

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //import PropTypes from 'prop-types';
 import '../../css/tests.css';
+import ListMessage from './ListMessage';
 
 class SdCard extends Component {
 
@@ -33,8 +34,9 @@ class SdCard extends Component {
                     </tr>
                     <tr>
                       <td>
-                        <p> Short explanation regrding proc test </p><br />
-                        <p> - SD card test </p>
+                        <div className="withBorder">
+                              <ListMessage testsmessage={this.props.testMessages} />
+                        </div>
                       </td>
                     </tr>
                   </tbody>
