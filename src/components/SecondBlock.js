@@ -29,6 +29,11 @@ class SecondBlock extends Component {
     this.SetVideoTestPass(fOp);
   }
  
+
+  handleAudioTest(fOp){
+    this.SetAudioTestPass(fOp);
+  }
+ 
   
   handleNextTest() {
     this.NextTest();
@@ -61,6 +66,7 @@ class SecondBlock extends Component {
           <Audio  {...this.props} 
           handleTestClick= {this.handleTestClick}
           handleNextTest= {this.handleNextTest}
+          handleAudioTest = {this.handleAudioTest}
           /> : null
         }
         { this.props.currentTestIndex === 4 ?

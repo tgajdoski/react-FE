@@ -20,7 +20,7 @@ class App extends Component {
       testMessages: [],
       testList:["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
         "Buzzer/Vibrator Test", "Battery&Charger Test"],
-      currentTestIndex: null,
+      currentTestIndex: 3,
       currentTestStart: false,
       currentTestPassed: false,
       videoSnapCounter: 0,
@@ -120,10 +120,21 @@ class App extends Component {
      this.ErrorTest(this.state.currentTestIndex, new Error("VIDEO TEST FAIL"));
     else {
       this.CompleteTest(this.state.currentTestIndex);
-      this.CatchTestMessage(this.state.currentTestIndex, 'SD CARD WRITE-TEST SUCCESS ', true);
+      this.CatchTestMessage(this.state.currentTestIndex, 'VIDEO TEST SUCCESS ', true);
       this.setState({currentTestPassed: true});  
     }
   }
+
+  
+  SetAudioTestPass = (txt) =>{
+    if (!txt)
+      this.ErrorTest(this.state.currentTestIndex, new Error("AUDIO TEST FAIL"));
+     else {
+       this.CompleteTest(this.state.currentTestIndex);
+       this.CatchTestMessage(this.state.currentTestIndex, 'AUDIO TEST SUCCESS ', true);
+       this.setState({currentTestPassed: true});  
+     }
+   }
 
   ErrorTest = (index, error) =>{
     this.setState({errorOccured: true},null);
@@ -366,7 +377,41 @@ class App extends Component {
         }
         break;
       case 3:
-        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+      
+         // AUDIO
+          let dateAudio = new Date();
+              self.ToastMessage("RECORDIN AUDIO... Please wait" , "info", 1000);
+          
+              url = `//192.168.12.22:81/cgi-bin/04_audio_record.cgi`;       
+             
+        
+            axios.get(url)
+            .then(function (response) { 
+             if(response.data.audio_record.status ==='true')
+             {
+               // namesti za da se slusa nekoj state
+             }   
+              
+            }).catch(function (error) {
+            
+            });
+
+           // OVA DOLU PROEMNI I ODKOMENTIRAJ
+            // if (self.state.videoSnapCounter >= 3){
+            // {
+            //   url = `//192.168.12.22:81/cgi-bin/04_audio_final.cgi`;
+            //   axios.get(url)
+            //   .then(function (response) {   
+            //     if (response.data.audio_final.status !=='true'){ 
+            //       self.ToastMessage("Error AUDIO FINAL TETS !" , "error", 5000); 
+            //     // throw new Error("Error VIDEO TEST"); 
+            //     }      
+            //     console.log("SE E OK SO FINAL");
+            //     //self.setState({currentTestPassed: true}); 
+            //   }).catch(function (error) {
+            //   // ne pravi nisto na error
+            //   });
+            // }
         break;
       case 4:
         url = '//192.168.12.22:81/cgi-bin/test.cgi';
