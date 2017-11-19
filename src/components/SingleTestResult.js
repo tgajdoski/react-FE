@@ -12,13 +12,21 @@ import '../css/ThirdBlock.css';
 export default function SinglTest(props) {
   return (
     <li      
-          style={{margin:'1em', clear:'both'}}
-        className={props.passed ===0 ? 'gray' : props.passed ===1 ? 'green'  : 'red'}>
-        <div style={{float:'left',marginRight:'4em'}}>
-          {props.testname}
-        </div>
-        <div style={{float:'right', marginLeft:'1em'}} >
-          {props.datetime}
+         style={{margin:'1em', clear:'both'}}
+        className= {props.passed ===0 ? 'gray' : props.passed ===1 ? 'green'  : 'red'}>
+        <div className="row"> 
+          <div className="col">
+            {props.testname}
+          </div>
+          { props.datetime ?  
+            <div className="col" >
+              {props.datetime} sec
+            </div> 
+            : null
+          }
+          <div  className="col" >
+            {props.dateOccured}
+          </div>
         </div>
     </li>
   );
