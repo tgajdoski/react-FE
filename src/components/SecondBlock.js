@@ -21,6 +21,9 @@ class SecondBlock extends Component {
    this.StartTest(this.currentTestIndex);
   }
 
+  handleSerializationClick(sntxt){
+    this.SetSerializationText(sntxt);
+  }
   
   handleNextTest() {
     this.NextTest();
@@ -39,6 +42,7 @@ class SecondBlock extends Component {
           <Serialization  {...this.props} 
             handleTestClick= {this.handleTestClick}
             handleNextTest= {this.handleNextTest}
+            handleSerializationClick = {this.handleSerializationClick}
           /> : null
         }
         { this.props.currentTestIndex === 2 ?

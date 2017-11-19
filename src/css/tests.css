@@ -15,6 +15,17 @@
   font-size: 40px;
 }
 
+.halfsize {
+  width: 50%; 
+   /* border: 1px solid; */
+   align: left;
+}
+.thirdsize {
+  width: 30%; 
+   /* border: 1px solid; */
+   align: left;
+}
+
 
 .tablecss {
 	width: 100%; 

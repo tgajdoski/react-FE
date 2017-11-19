@@ -126,8 +126,8 @@ class FirstBlock extends Component {
                       </tr>
                       <tr>
                           <td>
-                          { (this.state.sn ?
-                          <h4 className="leftfloat">S/N : {this.state.sn}</h4>
+                          { (this.props.serializationNumber ?
+                          <h4 className="leftfloat">S/N : {this.props.serializationNumber}</h4>
                           : null
                           )}
                           </td>

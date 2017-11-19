@@ -1,24 +1,56 @@
 import React, { Component } from 'react';
 //import PropTypes from 'prop-types';
 import '../../css/tests.css';
+import ListMessage from './ListMessage';
 
 class Serialization extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      data: '',
-      sessionAttributes: {}, visible: 'open'
+      textFullfiled: false
     };
   }
+ 
 
-  handleTest() {
-    this.props.handleTestClick();
-  }
+  // handleTest() {
+  //   this.props.handleTestClick();
+  // }
 
   handleNextTest() {
     this.props.handleNextTest();
   }
+
+  handleKeyPressFirst = (e) => {
+    if (e.key === 'Enter') {
+      this.secondInput.focus();
+    }
+  }
+
+  handleKeyPressSecond = (e) => {
+    if (e.key === 'Enter' ) {
+      if (this.firstInput.value === this.secondInput.value){
+        this.setState({textFullfiled: true}, this.props.handleSerializationClick(this.firstInput.value));
+      }
+      else
+      {
+        this.firstInput.value = '';
+        this.secondInput.value = '';
+        this.firstInput.focus();
+        this.setState({textFullfiled: false, snvalue: ''});
+      }
+    }
+  }
+
+  handleSerialziaton() {   
+    //this.props.handleSerializationClick(this.state.snvalue);
+    this.props.handleTestClick();
+  }
+
+
+  componentDidMount(){
+    this.firstInput.focus(); 
+ }
 
   render() {
     return (
@@ -26,7 +58,7 @@ class Serialization extends Component {
         <table className="tablecss">
           <tbody>
             <tr className="liRectStyle">
-              <td className="halfsize">
+              <td className="thirdsize">
                 <table>
                   <tbody>
                     <tr>
@@ -35,17 +67,29 @@ class Serialization extends Component {
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        <p> Short explanation regrding proc test </p><br />
-                        <p> {this.props.testList[this.props.currentTestIndex]} </p>
-                      </td>
+                    <td>
+                      <div className="withBorder">
+                            <ListMessage testsmessage={this.props.testMessages} />
+                      </div>
+                  </td>
                     </tr>
                   </tbody>
                 </table>
               </td>
-              <td className="halfsize"> 
-                  { !this.props.currentTestStart ?     
-                    <Button onClick={this.handleTest.bind(this)}>START TEST</Button>
+              <td className="thirdsize">
+                        <form>
+                          <input style={{display:'block'}} type="text" onKeyPress={this.handleKeyPressFirst.bind(this)} placeholder="first scan SN"  ref={(input) => { this.firstInput = input; }} />
+                          <br/>
+                          <input style={{float: 'left'}} type="text" onKeyPress={this.handleKeyPressSecond.bind(this)} placeholder="second scan SN"  ref={(input) => { this.secondInput = input; }} />
+                          {/* { this.state.textFullfiled ===true ?
+                          <Button onClick={this.handleSerialziaton.bind(this)}>Start Serialization</Button>
+                          : null
+                          } */}
+                        </form>
+              </td>
+              <td className="thirdsize"> 
+                  { !this.props.currentTestStart && this.state.textFullfiled === true?     
+                    <Button onClick={this.handleSerialziaton.bind(this)}>Start Serialization</Button>
                   : null }
                   { !this.props.errorOccured && this.props.currentTestPassed ?
                     <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>

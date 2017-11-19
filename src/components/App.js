@@ -19,18 +19,20 @@ class App extends Component {
       testsCompleted: [],
       testMessages: [],
       testList:["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
-        "Buzzer/Vibrator Test", "Battery & Charger Test"],
+        "Buzzer/Vibrator Test", "Battery&Charger Test"],
       currentTestIndex: null,
       currentTestStart: false,
       currentTestPassed: false,
       errorOccured: false,
+      serializationNumber: '',
       testResponses: initState.ininData
     }
   }
 
   cLog = () => {
     // console.log("VO CALLBACK");
-    // console.log(this.state.currentTestIndex);
+   // debugger;
+  //   console.log(this.state.serializationNumber);
     // console.log("testsCompleted : " + this.state.testsCompleted);
     // console.log("testResponses : " + JSON.stringify(this.state.testResponses));
   }
@@ -108,6 +110,10 @@ class App extends Component {
     this.setState({testMessages: a}, null);
   }
 
+  SetSerializationText = (txt) =>{
+    this.setState({serializationNumber: txt}, this.cLog);
+  }
+
   ErrorTest = (index, error) =>{
     this.setState({errorOccured: true},null);
     this.CatchTestResponse(index, error, 2, new Date()); 
@@ -152,7 +158,7 @@ class App extends Component {
 
   NextTest = () =>{
     console.log("VO NEXT TEST");
-    this.setState({ currentTestIndex: this.state.currentTestIndex + 1,  currentTestStart: false,  currentTestPassed: false});
+    this.setState({ currentTestIndex: this.state.currentTestIndex + 1,  currentTestStart: false,  currentTestPassed: false, testMessages: []});
   }
 
   StartTest = (index) => {
@@ -170,7 +176,6 @@ class App extends Component {
         let url6 = '//192.168.12.22:81/cgi-bin/01_sdcard_write_test.cgi';
         let url7 = '//192.168.12.22:81/cgi-bin/01_sdcard_final.cgi';
         self.ToastMessage("CHECKING SD-CARD INFO" , "info", 1000);
-        let dateInfo = new Date();
         axios.get(url1 , {
           params: {}
         }).then(function (response) {
@@ -283,7 +288,35 @@ class App extends Component {
         });
         break;
       case 1:
-        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+      // sersial
+       // console.log(self.state.serializationNumber)
+        url = `//192.168.12.22:81/cgi-bin/02_serial.cgi?${self.state.serializationNumber}`;
+        let DATATANATESTOT = new Date();
+        self.ToastMessage("CHECKING SERIALIZATION INFO " , "info", 1000);
+        axios.get(url , {
+          params: {
+           // ID: self.state.serializationNumber
+          }
+        })
+        .then(function (response) {
+          console.log(response.data)
+          console.log(response.data.serial)
+          console.log(response.data.serial.serial)
+          if (response.data.serial.status !=='true'){
+            debugger;
+              self.ToastMessage("Error CHECKING SERIALIZATION INFO !" , "error", 5000); 
+              throw new Error("Error CHECKING SERIALIZATION INFO"); 
+          }
+            self.ToastMessage("SERIALIZATION TEST SUCCESS" , "success", 2000); 
+            self.CatchTestMessage(0, `SN: ${response.data.serial.serial}`, true);
+            self.CatchTestResponse(self.state.currentTestIndex, response, 1, DATATANATESTOT);   
+            self.setState({currentTestPassed: true}); 
+            self.CompleteTest(self.state.currentTestIndex);
+        }).catch(function (error) {
+          console.log(error.message);
+          self.ToastMessage("Error CHECKING SERIALIZATION INFO !" , "error", 5000); 
+          self.ErrorTest(self.state.currentTestIndex, error)
+        });
         break;
       case 2:
         url = '//192.168.12.22:81/cgi-bin/test.cgi';
@@ -308,27 +341,27 @@ class App extends Component {
   }
     
 
-  // PRVO FATI DATA PRED TESTOT
-  let DATATANATESTOT = new Date();
-    axios.get(url , {
-      params: {
-        ID: 12345
-      }
-    })
-    .then(function (response) {
-      if (response.data.indexOf("Hello") > -1) {
-        // check if test pass and get response 
-        self.CatchTestResponse(self.state.currentTestIndex, response, 1, DATATANATESTOT);   
-        self.setState({currentTestPassed: true}); 
-        self.CompleteTest(self.state.currentTestIndex);
-      }
-    })
-    .catch(function (error) {
-      self.state.errorOccured = true;
-      self.CatchTestResponse(self.state.currentTestIndex, error, 2,DATATANATESTOT); 
-      self.setState({currentTestPassed: false});    
-      self.CompleteTest(self.state.currentTestIndex);
-    });
+  // // PRVO FATI DATA PRED TESTOT
+  // let DATATANATESTOT = new Date();
+  //   axios.get(url , {
+  //     params: {
+  //       ID: 12345
+  //     }
+  //   })
+  //   .then(function (response) {
+  //     if (response.data.indexOf("Hello") > -1) {
+  //       // check if test pass and get response 
+  //       self.CatchTestResponse(self.state.currentTestIndex, response, 1, DATATANATESTOT);   
+  //       self.setState({currentTestPassed: true}); 
+  //       self.CompleteTest(self.state.currentTestIndex);
+  //     }
+  //   })
+  //   .catch(function (error) {
+  //     self.state.errorOccured = true;
+  //     self.CatchTestResponse(self.state.currentTestIndex, error, 2,DATATANATESTOT); 
+  //     self.setState({currentTestPassed: false});    
+  //     self.CompleteTest(self.state.currentTestIndex);
+  //   });
 
   }
   
@@ -347,6 +380,7 @@ class App extends Component {
             <SecondBlock 
              StartTest = {this.StartTest}
              NextTest = {this.NextTest}
+             SetSerializationText = {this.SetSerializationText}
               {...this.state} 
             />
             <ThirdBlock  
