@@ -26,6 +26,9 @@
    align: left;
 }
 
+.nobullets{
+	list-style-type: none;
+}
 
 .tablecss {
 	width: 100%; 

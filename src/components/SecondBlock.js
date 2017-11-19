@@ -24,6 +24,11 @@ class SecondBlock extends Component {
   handleSerializationClick(sntxt){
     this.SetSerializationText(sntxt);
   }
+
+  handleVideoTest(fOp){
+    this.SetVideoTestPass(fOp);
+  }
+ 
   
   handleNextTest() {
     this.NextTest();
@@ -49,6 +54,7 @@ class SecondBlock extends Component {
           <Video  {...this.props} 
           handleTestClick= {this.handleTestClick}
           handleNextTest= {this.handleNextTest}
+          handleVideoTest = {this.handleVideoTest}
           /> : null
         }
         { this.props.currentTestIndex === 3 ?

@@ -23,6 +23,8 @@ class App extends Component {
       currentTestIndex: null,
       currentTestStart: false,
       currentTestPassed: false,
+      videoSnapCounter: 0,
+      imagedata: '',
       errorOccured: false,
       serializationNumber: '',
       testResponses: initState.ininData
@@ -33,7 +35,7 @@ class App extends Component {
     // console.log("VO CALLBACK");
    // debugger;
   //   console.log(this.state.serializationNumber);
-    // console.log("testsCompleted : " + this.state.testsCompleted);
+    // console.log ("testsCompleted : " + this.state.testsCompleted);
     // console.log("testResponses : " + JSON.stringify(this.state.testResponses));
   }
 
@@ -112,6 +114,15 @@ class App extends Component {
 
   SetSerializationText = (txt) =>{
     this.setState({serializationNumber: txt}, this.cLog);
+  }
+  SetVideoTestPass = (txt) =>{
+   if (!txt)
+     this.ErrorTest(this.state.currentTestIndex, new Error("VIDEO TEST FAIL"));
+    else {
+      this.CompleteTest(this.state.currentTestIndex);
+      this.CatchTestMessage(this.state.currentTestIndex, 'SD CARD WRITE-TEST SUCCESS ', true);
+      this.setState({currentTestPassed: true});  
+    }
   }
 
   ErrorTest = (index, error) =>{
@@ -303,7 +314,6 @@ class App extends Component {
           console.log(response.data.serial)
           console.log(response.data.serial.serial)
           if (response.data.serial.status !=='true'){
-            debugger;
               self.ToastMessage("Error CHECKING SERIALIZATION INFO !" , "error", 5000); 
               throw new Error("Error CHECKING SERIALIZATION INFO"); 
           }
@@ -319,7 +329,41 @@ class App extends Component {
         });
         break;
       case 2:
-        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+        // video
+        // clear image url
+        self.setState({imagedata: ''});
+        let dateVideo = new Date();
+        setTimeout(function(){
+            url = `//192.168.12.22:81/cgi-bin/03_video_snap.cgi`;       
+            self.ToastMessage("CAPTURING VIDEO... Please wait" , "info", 1000);
+            self.setState({videoSnapCounter: self.state.videoSnapCounter + 1, imagedata: url})
+        }, 1000);
+          // axios.get(url)
+          // .then(function (response) { 
+          //   debugger;         
+            
+          // }).catch(function (error) {
+          //  // ne pravi nisto na error namerno zgolemi da ne cekame
+          //  console.log("VO GRESKA NAMERNO")
+          //   self.setState({videoSnapCounter: self.state.videoSnapCounter + 1})
+          // });
+
+          if (self.state.videoSnapCounter >= 3){
+          {
+            url = `//192.168.12.22:81/cgi-bin/03_video_final.cgi`;
+            axios.get(url)
+            .then(function (response) {   
+              if (response.data.fideo_final.test !=='true'){ 
+                self.ToastMessage("Error VIDEO FINAL TETS !" , "error", 5000); 
+              // throw new Error("Error VIDEO TEST"); 
+              }      
+              console.log("SE E OK SO FINAL");
+              //self.setState({currentTestPassed: true}); 
+            }).catch(function (error) {
+            // ne pravi nisto na error
+            });
+          }
+        }
         break;
       case 3:
         url = '//192.168.12.22:81/cgi-bin/test.cgi';
@@ -381,6 +425,7 @@ class App extends Component {
              StartTest = {this.StartTest}
              NextTest = {this.NextTest}
              SetSerializationText = {this.SetSerializationText}
+             SetVideoTestPass = {this.SetVideoTestPass}
               {...this.state} 
             />
             <ThirdBlock  
