@@ -52,7 +52,7 @@ class Vibrator extends Component {
                 </ul>
               </td>
               <td className="thirdsize"> 
-              { this.props.audioSnapCreated ?
+              { this.props.buzzerCompleted ?
                 <ul className="nobullets">
                     <li>
                         <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
