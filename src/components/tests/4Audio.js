@@ -87,7 +87,7 @@ class Audio extends Component {
                     //  url= {this.state.playSettings.url}
                     //  playStatus={this.state.playSettings.playStatus}
                   />
-                  { !this.state.isplaying ?
+                  { (!this.state.isplaying && this.props.audioSnapCreated) ?
                     <li>
                         <ButtonNext onClick={this.handlePlay.bind(this)}>
                         <span className="glyphicon glyphicon-play"></span> Play 
@@ -95,7 +95,7 @@ class Audio extends Component {
                     </li>
                   : null
                   }
-                  { this.state.isplaying ?
+                  { this.state.isplaying && this.props.audioSnapCreated ?
                     <li>
                         <ButtonNext onClick={this.handleStop.bind(this)}>
                           <span className="glyphicon glyphicon-stop"></span> Stop 
@@ -106,17 +106,20 @@ class Audio extends Component {
                 </ul>
               </td>
               <td className="thirdsize"> 
-              <ul className="nobullets">
+              { this.props.audioSnapCreated ?
+                <ul className="nobullets">
+                    <li>
+                        <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
+                        <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
+                    </li>
                   <li>
-                      <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
-                      <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
+                    { !this.props.errorOccured  ?
+                      <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
+                      : null }
                   </li>
-                <li>
-                  { !this.props.errorOccured  ?
-                    <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
-                    : null }
-                </li>
-                </ul>
+                  </ul>
+                  : null
+                }
               </td>
             </tr>
           </tbody>
@@ -129,14 +132,11 @@ class Audio extends Component {
 }
 export default Audio;
 
-const Button = (props) =>
-<button type="button" {...props} className={"btnnn " + props.className } />
+// const Button = (props) =>
+// <button type="button" {...props} className={"btnnn " + props.className } />
 
 const ButtonNext = (props) =>
 <button type="button"  {...props} className="btn btn-primary  btn-lg"/>
-{/* <button type="button" {...props} className={"btnnext " + props.className } />;
- */}
-
 
  const ButtonDange = (props) =>
  <button type="button"  {...props} className="btn btn-danger btn-lg"/>
