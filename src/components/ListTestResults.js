@@ -5,7 +5,7 @@ import SinglTest from './SingleTestResult'
 
 export default function ListTestResults(props) {
   return (
-    <ul style={{margin:'1em', float:'left'}} >
+    <ul className ="nobullets">
       {props.testsresult.map(testRes => <SinglTest key={testRes.testindex} {...testRes } />)}
     </ul>
   );

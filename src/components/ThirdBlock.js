@@ -81,27 +81,19 @@ class ThirdBlock extends Component {
   render() {
     return (
       <div id="div3">
-          <table className="tablecss">
+          <table>
             <tbody>
               <tr className="liRectStyle">
               <td className="thirdsize">
                 <h2>TEST RUNS:</h2>
               </td>
-                <td>
-                  <table>
-                    <tbody>
-                      <tr>
-                      <td className="withBorder">
-                          <ListTestResults testsresult={this.props.testResponses} />
-                      </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
+                <td className="withBorder">
+                  <ListTestResults testsresult={this.props.testResponses} />
+              </td>
               </tr>
               </tbody>
-          </table>
-          <br/>
+            </table>
+            <br/>
           <hr/>
       </div>
     );

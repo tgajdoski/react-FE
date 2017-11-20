@@ -82,20 +82,13 @@ body {
 	
 	display: inline-block;
 	
-	width: 72px;
+	width: 170px;
 	height: 72px;
 	margin: 24px;
 	padding: 0;
-	
-	cursor: pointer;
-	letter-spacing: 1px;
-	
-	border: 0;
-	border-radius: 50%;
-	outline: none;
-	background: white;
+
   }
-  
+	
   
   .start-btn { color: #4bd761 }
   .stop-btn  { color: #fd3d2a }

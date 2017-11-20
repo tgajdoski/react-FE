@@ -20,7 +20,7 @@ class App extends Component {
       testMessages: [],
       testList:["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
         "Buzzer/Vibrator Test", "Battery&Charger Test"],
-      currentTestIndex: 3,
+      currentTestIndex: 2,
       currentTestStart: false,
       currentTestPassed: false,
       videoSnapCounter: 0,
@@ -346,7 +346,7 @@ class App extends Component {
         let dateVideo = new Date();
         setTimeout(function(){
             url = `//192.168.12.22:81/cgi-bin/03_video_snap.cgi`;       
-            self.ToastMessage("CAPTURING VIDEO... Please wait" , "info", 1000);
+            self.ToastMessage("CAPTURING VIDEO... Please wait" , "info", 3000);
             self.setState({videoSnapCounter: self.state.videoSnapCounter + 1, imagedata: url})
         }, 1000);
           // axios.get(url)

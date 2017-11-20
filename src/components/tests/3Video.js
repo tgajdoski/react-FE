@@ -62,23 +62,22 @@ class Video extends Component {
               </td>
               <td className="thirdsize"> 
               <ul className="nobullets">
-                
                   { this.props.videoSnapCounter > 2 ? 
                   <li>
-                      <ButtonNext onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonNext>
-                      <ButtonNext onClick={this.handlePASSTest.bind(this)}>PASS</ButtonNext>
+                      <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
+                      <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
                   </li>
                   : null
                   }
                   <li>
-                      <Button onClick={this.handleTest.bind(this)}>CAPTURE {this.props.videoSnapCounter}</Button>
+                      <ButtonNext onClick={this.handleTest.bind(this)}>CAPTURE {this.props.videoSnapCounter}</ButtonNext>
                   </li>
                 <li>
                   { !this.props.errorOccured && this.props.videoSnapCounter >= 3 ?
                     <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
                     : null }
                 </li>
-                </ul>
+              </ul>
               </td>
             </tr>
           </tbody>
@@ -91,10 +90,16 @@ class Video extends Component {
 }
 
 export default Video;
+
 const Button = (props) =>
 <button type="button" {...props} className={"btnnn " + props.className } />;
 
 const ButtonNext = (props) =>
-<button type="button" {...props} className={"btnnext " + props.className } />;
+<button type="button"  {...props} className="btn btn-primary  btn-lg"/>
+
+const ButtonDange = (props) =>
+<button type="button"  {...props} className="btn btn-danger btn-lg"/>
 
 
+const ButtonSuccess = (props) =>
+<button type="button"  {...props} className="btn btn-success btn-lg"/>

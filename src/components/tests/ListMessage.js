@@ -5,7 +5,7 @@ import SinglMessage from './SingleMessage'
 
 export default function ListMessage(props) {
   return (
-    <ul style={{margin:'1em', float:'left'}} >
+    <ul className ="nobullets" >
       {props.testsmessage.map(testMess => <SinglMessage key={testMess.testindex} {...testMess } />)}
     </ul>
   );

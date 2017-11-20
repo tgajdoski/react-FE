@@ -89,36 +89,25 @@ body {
 	.col
 	{
 			display: table-cell;
+			
 			/* background-color: red; Optional */
 	}
 
 
   .stopwatch-lap strong::before { content: 'Lap ' }
   
-  .btn {
-	font-family: inherit;
-	font-size: 20px;
-	
-	display: inline-block;
-	
-	width: 72px;
-	height: 72px;
-	margin: 24px;
-	padding: 0;
-	
-	cursor: pointer;
-	letter-spacing: 1px;
-	
-	border: 0;
-	border-radius: 50%;
-	outline: none;
-	background: white;
-  }
-  
   
   .start-btn { color: #4bd761 }
 	.stop-btn  { color: #fd3d2a }
 	
+		
+	.nobullets{
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	/* style={{margin:'1em', float:'left'}} */
 
 	.green {
 		float: left;

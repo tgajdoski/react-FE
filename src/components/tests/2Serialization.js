@@ -89,7 +89,7 @@ class Serialization extends Component {
               </td>
               <td className="thirdsize"> 
                   { !this.props.currentTestStart && this.state.textFullfiled === true?     
-                    <Button onClick={this.handleSerialziaton.bind(this)}>Start Serialization</Button>
+                    <ButtonNext onClick={this.handleSerialziaton.bind(this)}>Start Serialization</ButtonNext>
                   : null }
                   { !this.props.errorOccured && this.props.currentTestPassed ?
                     <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
@@ -111,4 +111,4 @@ const Button = (props) =>
 <button type="button" {...props} className={"btnnn " + props.className } />;
 
 const ButtonNext = (props) =>
-<button type="button" {...props} className={"btnnext " + props.className } />;
+<button type="button"  {...props} className="btn btn-primary  btn-lg"/>

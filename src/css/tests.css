@@ -25,9 +25,21 @@
    /* border: 1px solid; */
    align: left;
 }
+/* 
+li {
+	display: inline-block;
+	margin: 0;
+} */
+
+.correctwidth{
+	width: 80px !important;
+}
+
 
 .nobullets{
 	list-style-type: none;
+	margin: 0;
+	padding: 0;
 }
 
 .tablecss {

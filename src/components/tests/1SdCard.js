@@ -60,4 +60,4 @@ class SdCard extends Component {
 export default SdCard;
 
 const ButtonNext = (props) =>
-<button type="button" {...props} className={"btnnext " + props.className } />;
+<button type="button"  {...props} className="btn btn-primary  btn-lg"/>

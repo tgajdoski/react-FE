@@ -11,6 +11,13 @@
   width: 100%; 
 }
 
+
+.nobullets{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
 .halfsize {
   width: 50%; 
    /* border: 1px solid; */

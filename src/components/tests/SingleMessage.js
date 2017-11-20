@@ -5,9 +5,9 @@ import '../../css/ThirdBlock.css';
 
 export default function SinglMessage(props) {
   return (
-    <li style={{margin:'1em', clear:'both'}} 
+    <li style={{margin:'5px', clear:'both'}} 
         className={ props.success ? 'green'  : 'red'}>
-        <div style={{float:'left',marginRight:'4em'}}>
+        <div style={{float:'left'}}>
           {props.message}
         </div>
     </li>

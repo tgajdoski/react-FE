@@ -97,51 +97,47 @@ class FirstBlock extends Component {
                   </table>
                 </td>
                 <td className="thirdsize">
-                  <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        {(this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer
-                        ? <Button className="start-btn" onClick={this.handleStartClick.bind(this)}>START TEST</Button>
-                        :  <div></div>
+
+                    <ul className="nobullets">
+                     
+                        {(this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer ?
+                         <li>
+                            <Button className="btnn start-btn" onClick={this.handleStartClick.bind(this)}>START TEST</Button>
+                          </li>
+                        :  null
                         )}
-                        {(((this.props.currentTestIndex === 7 && this.props.currentTestPassed) || this.props.errorOccured) && (this.state.secondsElapsed === 0 || this.incrementer !== this.state.lastClearedIncrementer)
-                        ? <Button className="stop-btn" onClick={this.handleStopClick.bind(this)}>DOWNLOAD</Button>
-                        :  <div></div>
+
+                        {(((this.props.currentTestIndex === 7 && this.props.currentTestPassed) || this.props.errorOccured) && (this.state.secondsElapsed === 0 || this.incrementer !== this.state.lastClearedIncrementer) ?
+                        <li> 
+                         <Button className="btnn stop-btn" onClick={this.handleStopClick.bind(this)}>DOWNLOAD</Button>
+                        </li>
+                        :  null
                         )}
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
+                    </ul>
+
                 </td>
                 <td className="thirdsize">
-                  <table>
-                  <tbody>
-                      <tr>
-                        <td>
+                    <ul className="nobullets">
+                        <li>
                           <div className="stopwatch">
                             <h1 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h1>
                           </div>
-                        </td>
-                      </tr>
-                      <tr>
-                          <td>
+                        </li>
+                     
+                          <li>
                           { (this.props.serializationNumber ?
                           <h4 className="leftfloat">S/N : {this.props.serializationNumber}</h4>
                           : null
                           )}
-                          </td>
-                      </tr>
-                      <tr>
-                        <td>
+                          </li>
+
+                        <li>
                         { (this.state.hwrev ?
                           <h4 className="leftfloat">HW rev: {this.state.hwrev}</h4>
                           : null
                         )}
-                        </td>
-                      </tr>
-                      </tbody>
-                  </table>
+                        </li>
+                      </ul>
                 </td>
               </tr>
               </tbody>
