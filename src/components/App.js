@@ -25,6 +25,8 @@ class App extends Component {
       currentTestPassed: false,
       audioSnapCreated: false,
       videoSnapCounter: 0,
+      startVideoDate: null,
+      startAudioDate: null,
       imagedata: '',
       errorOccured: false,
       serializationNumber: '',
@@ -113,6 +115,12 @@ class App extends Component {
     this.setState({testMessages: a}, null);
   }
 
+  CompleteTest = (index) => {
+    let a = this.state.testsCompleted.slice(); //creates the clone of the state
+    a[index] = this.state.testList[index];
+    this.setState({testsCompleted: a}, this.cLog);
+}
+
   SetSerializationText = (txt) =>{
     this.setState({serializationNumber: txt}, this.cLog);
   }
@@ -122,20 +130,42 @@ class App extends Component {
     else {
       this.CompleteTest(this.state.currentTestIndex);
       this.CatchTestMessage(this.state.currentTestIndex, 'VIDEO TEST SUCCESS ', true);
+      this.CatchTestResponse(this.state.currentTestIndex, 'VIDEO TEST PASS', 1, this.state.startVideoDate); 
       this.setState({currentTestPassed: true});  
     }
   }
 
   
-  SetAudioTestPass = (txt) =>{
+  SetAudioTestPass = (txt) => {
+      // povikaj final
+
     if (!txt)
       this.ErrorTest(this.state.currentTestIndex, new Error("AUDIO TEST FAIL"));
      else {
-       this.CompleteTest(this.state.currentTestIndex);
-       this.CatchTestMessage(this.state.currentTestIndex, 'AUDIO TEST SUCCESS ', true);
-       this.setState({currentTestPassed: true});  
+
+      this.ToastMessage("CHECKING AUDIO FINAL TEST ... Please wait" , "info", 1000);
+      let url = `//192.168.12.22:81/cgi-bin/04_audio_final.cgi`;
+      let self = this;
+      axios.get(url)
+      .then(function (response) {   
+        if (response.data.audio_final.status !=='true') { 
+          self.ToastMessage("Error AUDIO FINAL TETS !" , "error", 5000); 
+          self.setState({audioSnapCreated: false});
+          throw new Error("Error AUDIO-FINAL TEST"); 
+        }      
+        self.ToastMessage("AUDIO FINAL-TEST SUCCESS ", "success", 2000); 
+        self.CompleteTest(self.state.currentTestIndex);
+        self.CatchTestMessage(self.state.currentTestIndex, 'AUDIO TEST SUCCESS ', true);
+        self.CatchTestResponse(self.state.currentTestIndex, response, 1, self.state.startAudioDate); 
+        self.setState({currentTestPassed: true});  
+      }).catch(function (error) {
+      // ne pravi nisto na error
+      console.log(error.message);
+      });
      }
    }
+
+    
 
   ErrorTest = (index, error) =>{
     this.setState({errorOccured: true},null);
@@ -173,11 +203,6 @@ class App extends Component {
       }
   };
 
-  CompleteTest = (index) => {
-      let a = this.state.testsCompleted.slice(); //creates the clone of the state
-      a[index] = this.state.testList[index];
-      this.setState({testsCompleted: a}, this.cLog);
-  }
 
   NextTest = () =>{
     console.log("VO NEXT TEST");
@@ -343,7 +368,8 @@ class App extends Component {
         // video
         // clear image url
         self.setState({imagedata: ''});
-        // let dateVideo = new Date();
+        let dateVideo = new Date();
+        self.setState({startVideoDate: dateVideo});
         setTimeout(function(){
             url = `//192.168.12.22:81/cgi-bin/03_video_snap.cgi`;       
             self.ToastMessage("CAPTURING VIDEO... Please wait" , "info", 3000);
@@ -382,27 +408,14 @@ class App extends Component {
           //let dateAudio = new Date();
               self.ToastMessage("RECORDIN AUDIO... Please wait" , "info", 6000);
               url = `//192.168.12.22:81/cgi-bin/04_audio_record.cgi`;       
-
+              let dateAudio = new Date();
+              self.setState({startAudioDate: dateAudio});
             axios.get(url)
             .then(function (response) { 
              if(response.data.audio_record.status ==='true')
              {
                self.ToastMessage("AUDIO FILE CREATED " , "success", 2000); 
-               self.ToastMessage("AUDIO FINAL TEST ... Please wait" , "info", 2000);
-                url = `//192.168.12.22:81/cgi-bin/04_audio_final.cgi`;
-                axios.get(url)
-                .then(function (response) {   
-                  if (response.data.audio_final.status !=='true'){ 
-                    self.ToastMessage("Error AUDIO FINAL TETS !" , "error", 5000); 
-                    self.setState({audioSnapCreated: false});
-                    throw new Error("Error AUDIO-FINAL TEST"); 
-                    
-                  }      
-                  self.ToastMessage("AUDIO FINAL-TEST SUCCESS " , "success", 2000); 
-                  self.setState({audioSnapCreated: true});
-                }).catch(function (error) {
-                // ne pravi nisto na error
-                });
+               self.setState({audioSnapCreated: true});
               } 
             }).catch(function (error) {
               self.ToastMessage("Error AUDIO FINAL TETS !" , "error", 5000); 
@@ -469,13 +482,17 @@ class App extends Component {
               StartTest = {this.StartTest}
               {...this.state} 
             />
-            <SecondBlock 
-             StartTest = {this.StartTest}
-             NextTest = {this.NextTest}
-             SetSerializationText = {this.SetSerializationText}
-             SetVideoTestPass = {this.SetVideoTestPass}
-              {...this.state} 
-            />
+            { !this.state.errorOccured ? 
+              <SecondBlock 
+              StartTest = {this.StartTest}
+              NextTest = {this.NextTest}
+              SetSerializationText = {this.SetSerializationText}
+              SetVideoTestPass = {this.SetVideoTestPass}
+              SetAudioTestPass = {this.SetAudioTestPass}
+                {...this.state} 
+              />
+              : null
+            }
             <ThirdBlock  
             {...this.state} 
             />

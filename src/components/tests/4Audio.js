@@ -78,7 +78,7 @@ class Audio extends Component {
               </td>
               <td className="thirdsize">
               <ul className="nobullets">
-                  <li classname="linomargins">
+                  <li className="linomargins">
                       <ButtonNext onClick={this.handleTest.bind(this)}>
                       <span className="glyphicon glyphicon-record"></span> Record 
                       </ButtonNext>
@@ -113,7 +113,7 @@ class Audio extends Component {
                         <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
                     </li>
                   <li>
-                    { !this.props.errorOccured  ?
+                    { !this.props.errorOccured && this.props.currentTestPassed ?
                       <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
                       : null }
                   </li>
