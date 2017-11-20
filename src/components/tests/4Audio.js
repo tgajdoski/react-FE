@@ -24,6 +24,19 @@ class Audio extends Component {
     this.props.handleTestClick();
   }
 
+
+  handleNextTest() {
+    this.props.handleNextTest();
+  }
+  
+  handleFAILTest = () => {
+    this.props.handleAudioTest(false);
+  }
+
+  handlePASSTest = () => {
+    this.props.handleAudioTest(true);
+  }
+
   handlePlay() {
     const playSet = {
             url : "//192.168.12.22:81/cgi-bin/04_audio_play.cgi",
@@ -42,17 +55,6 @@ class Audio extends Component {
     console.log(this.state.playSettings);
   }
 
-  handleNextTest() {
-    this.props.handleNextTest();
-  }
-  
-  handleFAILTest = () => {
-    this.props.handleAudioTest(false);
-  }
-
-  handlePASSTest = () => {
-    this.props.handleAudioTest(true);
-  }
 
   render() {
     return (

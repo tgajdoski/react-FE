@@ -20,7 +20,7 @@ class App extends Component {
       testMessages: [],
       testList:["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
         "Buzzer/Vibrator Test", "Battery&Charger Test"],
-      currentTestIndex: null,
+      currentTestIndex: 6,
       currentTestStart: false,
       currentTestPassed: false,
       audioSnapCreated: false,
