@@ -29,6 +29,19 @@ class SecondBlock extends Component {
     this.SetVideoTestPass(fOp);
   }
  
+  
+
+  handleSWITCHTest(fOp){
+    this.SetSWITCHTestPass(fOp);
+  }
+  
+  
+  handleBateryTest(fOp){
+    this.SetBateryTestPass(fOp);
+  }
+  handleLEDTest(fOp){
+    this.SetLEDTestPass(fOp);
+  }
 
   handleAudioTest(fOp){
     this.SetAudioTestPass(fOp);
@@ -73,12 +86,14 @@ class SecondBlock extends Component {
           <Switch  {...this.props} 
           handleTestClick= {this.handleTestClick}
           handleNextTest= {this.handleNextTest}
+          handleSWITCHTest = {this.handleSWITCHTest}
           /> : null
         }
         { this.props.currentTestIndex === 5 ?
           <Led  {...this.props} 
           handleTestClick= {this.handleTestClick}
           handleNextTest= {this.handleNextTest}
+          handleLEDTest = {this.handleLEDTest}
           /> : null
         }
         { this.props.currentTestIndex === 6 ?
@@ -89,6 +104,7 @@ class SecondBlock extends Component {
         }
         { this.props.currentTestIndex === 7 ?
           <Batery  {...this.props} 
+          handleBateryTest= {this.handleBateryTest}
           handleTestClick= {this.handleTestClick}
           handleNextTest= {this.handleNextTest}
           /> : null

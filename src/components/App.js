@@ -10,7 +10,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 
-
 class App extends Component {
   constructor(){
     super();
@@ -20,19 +19,24 @@ class App extends Component {
       testMessages: [],
       testList:["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
         "Buzzer/Vibrator Test", "Battery&Charger Test"],
-      currentTestIndex: 6,
+      currentTestIndex: 4,
       currentTestStart: false,
       currentTestPassed: false,
       audioSnapCreated: false,
       videoSnapCounter: 0,
       startVideoDate: null,
       startAudioDate: null,
+      startLedDate: null,
+      startSwitchDate: null,
+      startBateryDate: null,
       imagedata: '',
       errorOccured: false,
       serializationNumber: '',
+      counter: 0,
       testResponses: initState.ininData
     }
   }
+
 
   cLog = () => {
     // console.log("VO CALLBACK");
@@ -119,7 +123,7 @@ class App extends Component {
     let a = this.state.testsCompleted.slice(); //creates the clone of the state
     a[index] = this.state.testList[index];
     this.setState({testsCompleted: a}, this.cLog);
-}
+  }
 
   SetSerializationText = (txt) =>{
     this.setState({serializationNumber: txt}, this.cLog);
@@ -135,6 +139,40 @@ class App extends Component {
     }
   }
 
+  
+
+  SetBateryTestPass = (txt) =>{
+    if (!txt)
+      this.ErrorTest(this.state.currentTestIndex, new Error("BATERY TEST FAIL"));
+     else {
+       this.CompleteTest(this.state.currentTestIndex);
+       this.CatchTestMessage(this.state.currentTestIndex, 'BATERY TEST SUCCESS ', true);
+       this.CatchTestResponse(this.state.currentTestIndex, 'BATERY TEST PASS', 1, this.state.startBateryDate); 
+       this.setState({currentTestPassed: true});  
+     }
+   }
+  SetLEDTestPass = (txt) =>{
+    if (!txt)
+      this.ErrorTest(this.state.currentTestIndex, new Error("LED TEST FAIL"));
+     else {
+       this.CompleteTest(this.state.currentTestIndex);
+       this.CatchTestMessage(this.state.currentTestIndex, 'LED TEST SUCCESS ', true);
+       this.CatchTestResponse(this.state.currentTestIndex, 'LED TEST PASS', 1, this.state.startLedDate); 
+       this.setState({currentTestPassed: true});  
+     }
+   }
+ 
+
+  SetSWITCHTestPass = (txt) =>{
+    if (!txt)
+      this.ErrorTest(this.state.currentTestIndex, new Error("SWITCH TEST FAIL"));
+     else {
+       this.CompleteTest(this.state.currentTestIndex);
+       this.CatchTestMessage(this.state.currentTestIndex, 'SWITCH TEST SUCCESS ', true);
+       this.CatchTestResponse(this.state.currentTestIndex, 'SWITCH TEST PASS', 1, this.state.startSwitchDate); 
+       this.setState({currentTestPassed: true});  
+     }
+   }
   
   SetAudioTestPass = (txt) => {
       // povikaj final
@@ -202,6 +240,10 @@ class App extends Component {
         });
       }
   };
+
+  DownloadReport = () => {
+    console.log("TO DOWNLOAD ");
+  }
 
 
   NextTest = () =>{
@@ -402,11 +444,10 @@ class App extends Component {
           }
         }
         break;
-      case 3:
-      
+      case 3: 
          // AUDIO
           //let dateAudio = new Date();
-              self.ToastMessage("RECORDIN AUDIO... Please wait" , "info", 6000);
+              self.ToastMessage("RECORDING AUDIO... Please wait" , "info", 6000);
               url = `//192.168.12.22:81/cgi-bin/04_audio_record.cgi`;       
               let dateAudio = new Date();
               self.setState({startAudioDate: dateAudio});
@@ -422,15 +463,36 @@ class App extends Component {
               self.setState({audioSnapCreated: false});
               throw new Error("Error AUDIO RECORDING TEST FAILD"); 
             });
-
-           // OVA DOLU PROEMNI I ODKOMENTIRAJ
-            // if (self.state.videoSnapCounter >= 3){
-            // {
-            
-            // }
         break;
       case 4:
-        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+      // SWITCH TEST 
+            self.ToastMessage("SWITCH TEST... Please wait" , "info", 6000);
+            url = `//192.168.12.22:81/cgi-bin/05_switchdaemon.cgi`;       
+            let dateSwitch = new Date();
+            self.setState({startSwitchDate: dateSwitch});
+            axios.get(url)
+            .then(function (response) { 
+              // otkako e krenata skriptata sto ....
+                // napraj nesto i vikaj ja ovaa skripta na period ili nesto
+              // VO LOOP NA 1 SEKUNDA DODEKA NE SE RESI TOA SO 
+              url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi`;
+      
+              var refreshId = setInterval(  
+                  axios.get(url1).then(function (response) {
+                    console.log('@#$@#$@#$#@$@#$' + this.state.counter);
+                    self.setState({counter: this.state.counter+1});
+                    if (this.state.counter > 5) {
+                      clearInterval(refreshId);
+                    }
+                  }).catch(function (error) {
+                    // ne pravi nisto samo vrti
+                  })
+                , 1000); 
+            }).catch(function (error) {
+              self.ToastMessage("Error SWITCH  TETS !" , "error", 5000); 
+              self.setState({audioSnapCreated: false});
+              throw new Error("Error SWITCH TEST FAILD"); 
+            });
         break;
       case 5:
         url = '//192.168.12.22:81/cgi-bin/test.cgi';
@@ -479,6 +541,7 @@ class App extends Component {
               TEST TOOL
           </header>
             <FirstBlock 
+              DownloadReport = {this.DownloadReport}
               StartTest = {this.StartTest}
               {...this.state} 
             />
@@ -494,6 +557,7 @@ class App extends Component {
               : null
             }
             <ThirdBlock  
+            DownloadReport = {this.DownloadReport}
             {...this.state} 
             />
              <ToastContainer 

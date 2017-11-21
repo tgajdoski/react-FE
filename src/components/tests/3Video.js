@@ -56,7 +56,7 @@ class Video extends Component {
               <td className="thirdsize">
              
               { (this.props.imagedata !=="" ? 
-               <img style={{width:'400px', height: '300px'}} src={this.props.imagedata} />
+               <img style={{width:'400px', height: '300px'}} alt='capture' src={this.props.imagedata} />
                : null)
               }
               </td>
@@ -70,7 +70,7 @@ class Video extends Component {
                   : null
                   }
                   <li>
-                      <ButtonNext onClick={this.handleTest.bind(this)}>CAPTURE {this.props.videoSnapCounter}</ButtonNext>
+                      <ButtonNext onClick={this.handleTest.bind(this)}>CAPTURE <span class="badge">{this.props.videoSnapCounter}</span></ButtonNext>
                   </li>
                 <li>
                   { !this.props.errorOccured && this.props.videoSnapCounter >= 3 && this.props.currentTestPassed ?

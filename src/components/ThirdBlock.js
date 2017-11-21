@@ -77,6 +77,9 @@ class ThirdBlock extends Component {
   //   }
   // ];
 
+  handleDownloadClick() {
+    this.props.DownloadReport();
+  }
 
   render() {
     return (
@@ -90,6 +93,9 @@ class ThirdBlock extends Component {
                 <td className="withBorder">
                   <ListTestResults testsresult={this.props.testResponses} />
               </td>
+              <td className="thirdsize">
+                <Button className="btn btn-default" onClick={this.handleDownloadClick.bind(this)}>DOWNLOAD</Button>
+              </td>
               </tr>
               </tbody>
             </table>
@@ -101,4 +107,9 @@ class ThirdBlock extends Component {
 }
 
 export default ThirdBlock;
+
+
+
+const Button = (props) =>
+<button type="button" {...props} className={"btnn " + props.className } />;
 

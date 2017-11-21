@@ -54,6 +54,10 @@ class FirstBlock extends Component {
     this.props.StartTest(0);
     }
 
+    handleDownloadClick() {
+     this.DownloadReport();
+    }
+
     handleStopClick() {
     clearInterval(this.incrementer);
     this.setState({lastClearedIncrementer: this.incrementer});
@@ -109,7 +113,7 @@ class FirstBlock extends Component {
 
                         {(((this.props.currentTestIndex === 7 && this.props.currentTestPassed) || this.props.errorOccured) && (this.state.secondsElapsed === 0 || this.incrementer !== this.state.lastClearedIncrementer) ?
                         <li> 
-                         <Button className="btnn stop-btn" onClick={this.handleStopClick.bind(this)}>DOWNLOAD</Button>
+                         <Button className="btnn stop-btn" onClick={this.handleDownloadClick.bind(this)}>DOWNLOAD</Button>
                         </li>
                         :  null
                         )}

@@ -78,9 +78,9 @@ class Serialization extends Component {
               </td>
               <td className="thirdsize">
                         <form>
-                          <input style={{display:'block'}} type="text" onKeyPress={this.handleKeyPressFirst.bind(this)} placeholder="first scan SN"  ref={(input) => { this.firstInput = input; }} />
+                          <input className = "form-control" style={{display:'block'}} type="text" onKeyPress={this.handleKeyPressFirst.bind(this)} placeholder="first scan SN"  ref={(input) => { this.firstInput = input; }} />
                           <br/>
-                          <input style={{float: 'left'}} type="text" onKeyPress={this.handleKeyPressSecond.bind(this)} placeholder="second scan SN"  ref={(input) => { this.secondInput = input; }} />
+                          <input className = "form-control"  style={{float: 'left'}} type="text" onKeyPress={this.handleKeyPressSecond.bind(this)} placeholder="second scan SN"  ref={(input) => { this.secondInput = input; }} />
                           {/* { this.state.textFullfiled ===true ?
                           <Button onClick={this.handleSerialziaton.bind(this)}>Start Serialization</Button>
                           : null
