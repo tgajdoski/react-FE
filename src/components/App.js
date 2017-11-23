@@ -36,6 +36,7 @@ class App extends Component {
       errorOccured: false,
       serializationNumber: '',
       counter: 0,
+      modelType:'',
       testResponses: initState.ininData
     }
   }
@@ -165,6 +166,11 @@ class App extends Component {
      }
    }
  
+
+   SetTypeModel = (txt) => {
+    if (txt)
+      this.setState({modelType: txt});  
+  }
 
   SetSWITCHTestPass = (txt) =>{
     if (!txt)
@@ -476,7 +482,6 @@ class App extends Component {
             self.setState({startSwitchDate: dateSwitch});
             axios.get(url)
             .then(function (response) { 
-              debugger;
               // otkako e krenata skriptata sto ....
               // VO LOOP NA 1 SEKUNDA DODEKA NE SE RESI TOA SO 
               
@@ -494,18 +499,14 @@ class App extends Component {
                         switch_check_record:  record , switch_check_reset: reset });
                     }).catch(function (error) {
                       // ne pravi nisto samo vrti
-                      console.log('VO GRESKA');
                     });
-                      console.log('COUNTER' + self.state.counter);
-                    if (self.state.counter > 5)
+                    if (self.state.power > 3 && self.state.record > 3 && self.state.reset > 3)
                     {
-                      console.log('COUNTER IN IF' + self.state.counter);
                       clearInterval(refreshId);
                     }
                     }), 1000);
 
               }).catch(function (error) {
-              debugger;
               self.ToastMessage("Error SWITCH  TETS !" , "error", 5000); 
               self.setState({audioSnapCreated: false});
               throw new Error("Error SWITCH TEST FAILD"); 
@@ -555,11 +556,12 @@ class App extends Component {
       <div className="App">
         <div className = "container" >
           <header className="App-header">
-              TEST TOOL
+              VT-50/VT-100 Production Test
           </header>
             <FirstBlock 
               DownloadReport = {this.DownloadReport}
               StartTest = {this.StartTest}
+              SetTypeModel = {this.SetTypeModel}
               {...this.state} 
             />
             { !this.state.errorOccured ? 
@@ -569,6 +571,7 @@ class App extends Component {
               SetSerializationText = {this.SetSerializationText}
               SetVideoTestPass = {this.SetVideoTestPass}
               SetAudioTestPass = {this.SetAudioTestPass}
+              SetSWITCHTestPass  = {this.SetSWITCHTestPass}
                 {...this.state} 
               />
               : null

@@ -31,6 +31,7 @@ class Serialization extends Component {
     if (e.key === 'Enter' ) {
       if (this.firstInput.value === this.secondInput.value){
         this.setState({textFullfiled: true}, this.props.handleSerializationClick(this.firstInput.value));
+        // this.startSerial.focus();
       }
       else
       {

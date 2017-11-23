@@ -26,6 +26,8 @@ class FirstBlock extends Component {
 
   // TIMER FUNCTIONS
     handleStartClick() {
+      
+     
     this.setState({
         secondsElapsed: 0,
         laps: []
@@ -43,8 +45,10 @@ class FirstBlock extends Component {
       }
     })
     .then(function (response) {
-      console.log(response.data.hwrev.revision);
-      self.setState({hwrev: response.data.hwrev.revision}); 
+      console.log('TUKA SUM' + JSON.stringify(response.data));
+      self.setState({hwrev: response.data.hwrev.revision});
+      let modelTypeStr = response.data.hwrev.model;
+      self.props.SetTypeModel(modelTypeStr);
     })
     .catch(function (error) {
       self.state.errorOccured = true;
@@ -89,13 +93,13 @@ class FirstBlock extends Component {
                   <tbody>
                     <tr>
                       <td>
-                      <h2>MODEL - test phase </h2>
+                      <h2>MODEL - {this.props.modelType.toUpperCase()} </h2>
                       </td>
                     </tr>
                     <tr>
-                      <td>
+                      {/* <td>
                         <h3 className="leftfloat"> HOME </h3>
-                      </td>
+                      </td> */}
                     </tr>
                     </tbody>
                   </table>

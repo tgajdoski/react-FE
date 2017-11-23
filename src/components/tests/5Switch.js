@@ -58,12 +58,16 @@ class Switch extends Component {
               <td className="thirdsize">
               <ul className="nobullets">
                   <li className="linomargins">
-                      <ButtonNumbers><span className="badge">{this.props.switch_check_power}</span></ButtonNumbers>
-                      <ButtonNumbers><span className="badge">{this.props.switch_check_record}</span></ButtonNumbers>
-                      <ButtonNumbers><span className="badge">{this.props.switch_check_reset}</span></ButtonNumbers>
-                      <ButtonNumbers><span className="badge">a</span></ButtonNumbers>
-                      <ButtonNumbers><span className="badge">u</span></ButtonNumbers>
-                      <ButtonNumbers><span className="badge">f</span></ButtonNumbers>
+                      <ButtonNumbers>POWER  <span className="badge"> {this.props.switch_check_power}</span></ButtonNumbers>
+                      <ButtonNumbers>RECORD <span className="badge"> {this.props.switch_check_record}</span></ButtonNumbers>
+                      <ButtonNumbers>RESET  <span className="badge"> {this.props.switch_check_reset}</span></ButtonNumbers>
+                      { this.props.modelType.toUpperCase()!=='VT-100' ? 
+                        <div> 
+                          <ButtonNumbers><span className="badge">a</span></ButtonNumbers>
+                          <ButtonNumbers><span className="badge">u</span></ButtonNumbers>
+                          <ButtonNumbers><span className="badge">f</span></ButtonNumbers>
+                        </div>
+                      : null }
                   </li>
                 </ul>
               </td>
@@ -96,7 +100,7 @@ class Switch extends Component {
 export default Switch
 
 const ButtonNumbers = (props) =>
-<button type="button"  {...props} className="btncounter btn-primary"/> 
+<button type="button"  {...props} className="btncounter btn-primary btn-md"/> 
 
 const ButtonNext = (props) =>
 <button type="button"  {...props} className="btn btn-primary  btn-lg"/>
