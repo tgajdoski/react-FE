@@ -32,6 +32,8 @@ class App extends Component {
       switch_check_power: null,
       switch_check_record: null,
       switch_check_reset: null,
+      switch_check_mode: null,
+      counterLimit: 0,
       imagedata: '',
       errorOccured: false,
       serializationNumber: '',
@@ -475,7 +477,7 @@ class App extends Component {
         break;
       case 4:
       // SWITCH TEST 
-     
+            self.setState({counterLimit: false})
             self.ToastMessage("SWITCH TEST... Please wait" , "info", 6000);
             url = `//192.168.12.22:81/cgi-bin/05_switchdaemon.cgi`;       
             let dateSwitch = new Date();
@@ -487,29 +489,48 @@ class App extends Component {
               
               var refreshId = setInterval(
                 (function() {    
-                let url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi`;
-                    axios.get(url1).then(function (response) {
-                      
+                let url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi?model=${self.state.modelType}`;
+                    axios.get(url1).then(function (response) {                      
                       let power = response.data.switch_check.Power;
                       let record = response.data.switch_check.Record;
                       let reset = response.data.switch_check.Reset;
-
+                      let mode = response.data.switch_check.mode;
                       console.log('Power/record/reset ', power, ' ', record, ' ', reset );
                       self.setState({counter: self.state.counter +1 , switch_check_power:  power,
-                        switch_check_record:  record , switch_check_reset: reset });
+                        switch_check_record:  record , switch_check_reset: reset , switch_check_mode: mode});
                     }).catch(function (error) {
                       // ne pravi nisto samo vrti
                     });
-                    if (self.state.power > 3 && self.state.record > 3 && self.state.reset > 3)
-                    {
-                      clearInterval(refreshId);
+                    if (self.state.modelType.toUpperCase()==='VT-100'){
+                      if (self.state.power >= 6 && self.state.record >= 6 && self.state.reset >= 6)
+                      {
+                        self.setState({counterLimit: true})
+                        clearInterval(refreshId);
+                      }
                     }
-                    }), 1000);
+                    if (self.state.modelType.toUpperCase()==='VT-50'){
+                      if (self.state.power >= 6 && self.state.record >= 6 && self.state.reset >= 6 && self.state.mode >= 6)
+                      {
+                        self.setState({counterLimit: true})
+                        clearInterval(refreshId);
+                      }
 
+                    }
+                }), 1000);
+              })
+              .then(function () { 
+                // gasi ja skriptata
+                let url2 = `//192.168.12.22:81/cgi-bin/05_switch_final.cgi`;
+                axios.get(url2).then(function (response) {   
+                  console.log("SE E OK SO GASENJE SKRIPTA "+ JSON.stringify(response.data));
+               })
+               .catch(function (error) {
+                self.ToastMessage("Error SWITCH FINAL TETS !" , "error", 5000); 
+              });
               }).catch(function (error) {
               self.ToastMessage("Error SWITCH  TETS !" , "error", 5000); 
               self.setState({audioSnapCreated: false});
-              throw new Error("Error SWITCH TEST FAILD"); 
+              throw new Error("Error SWITCH TEST FAILED"); 
             });
         break;
       case 5:
@@ -524,31 +545,7 @@ class App extends Component {
       default : 
         url = '';
   }
-    
- 
-  // // PRVO FATI DATA PRED TESTOT
-  // let DATATANATESTOT = new Date();
-  //   axios.get(url , {
-  //     params: {
-  //       ID: 12345
-  //     }
-  //   })
-  //   .then(function (response) {
-  //     if (response.data.indexOf("Hello") > -1) {
-  //       // check if test pass and get response 
-  //       self.CatchTestResponse(self.state.currentTestIndex, response, 1, DATATANATESTOT);   
-  //       self.setState({currentTestPassed: true}); 
-  //       self.CompleteTest(self.state.currentTestIndex);
-  //     }
-  //   })
-  //   .catch(function (error) {
-  //     self.state.errorOccured = true;
-  //     self.CatchTestResponse(self.state.currentTestIndex, error, 2,DATATANATESTOT); 
-  //     self.setState({currentTestPassed: false});    
-  //     self.CompleteTest(self.state.currentTestIndex);
-  //   });
-
-  }
+}
 
   
   render() {

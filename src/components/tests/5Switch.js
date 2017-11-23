@@ -61,12 +61,8 @@ class Switch extends Component {
                       <ButtonNumbers>POWER  <span className="badge"> {this.props.switch_check_power}</span></ButtonNumbers>
                       <ButtonNumbers>RECORD <span className="badge"> {this.props.switch_check_record}</span></ButtonNumbers>
                       <ButtonNumbers>RESET  <span className="badge"> {this.props.switch_check_reset}</span></ButtonNumbers>
-                      { this.props.modelType.toUpperCase()!=='VT-100' ? 
-                        <div> 
-                          <ButtonNumbers><span className="badge">a</span></ButtonNumbers>
-                          <ButtonNumbers><span className="badge">u</span></ButtonNumbers>
-                          <ButtonNumbers><span className="badge">f</span></ButtonNumbers>
-                        </div>
+                      { this.props.modelType.toUpperCase()!=='VT-50' ? 
+                      <ButtonNumbers>MODE  <span className="badge"> {this.props.switch_check_mode}</span></ButtonNumbers>
                       : null }
                   </li>
                 </ul>
@@ -76,7 +72,10 @@ class Switch extends Component {
                 <ul className="nobullets">
                     <li>
                         <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
-                        <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
+                        { this.props.counterLimit ?
+                          <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
+                          : null
+                          }
                     </li>
                    
                     <li>
