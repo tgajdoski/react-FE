@@ -1,23 +1,50 @@
 import React, { Component } from 'react';
 //import PropTypes from 'prop-types';
 import '../../css/tests.css';
+import ListMessage from './ListMessage';
 
 class Batery extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: '',
-      sessionAttributes: {}, visible: 'open'
-    };
-  }
  
+  BATsteps = ["Is USB cable disconnected from Camera?", "Please connect USB cable", "Please disconnected USB cable"];
+  
+  
 
- 
+
   handleTest() {
     this.props.handleTestClick();
   }
 
+  // handleTest() {
+  //   // confirm 
+  //   console.log("counter " + this.state.counter);
+  //   this.setState({counter: this.state.counter+1});
+  //   if (this.state.counter===1)
+  //     {
+  //      // da se testira uklucuvanje 
+  //      // ako e ukluceno da se kaze deka e OK
+  //      // axios 08_charger_conn.cgi
+      
+  //     }
+  //     if (this.state.counter===2)
+  //     {
+  //      // da se testira isklucuvanjeto  
+  //      // ako e ukluceno da se kaze deka e OK
+  //      // axios 08_charger_discon.cgi
+      
+  //     }
+  //    if (this.state.counter >=2)
+  //      this.setState({counterLimit: true});
+  //    this.props.handleTestMessages(this.state.counter, this.BATsteps[this.state.counter], true)
+  //  }
+
+  componentDidMount(){
+    this.props.StartTest(7);
+  }
+  
+  Confirm() {
+    this.props.handleConfirm();
+  }
 
   handleNextTest() {
     this.props.handleNextTest();
@@ -29,6 +56,7 @@ class Batery extends Component {
 
   handlePASSTest = () => {
     this.props.handleBateryTest(true);
+    this.props.handleNextTest();
   }
 
 
@@ -38,17 +66,19 @@ class Batery extends Component {
       <table className="tablecss">
         <tbody>
           <tr className="liRectStyle">
-            <td >
+            <td  className="thirdsize">
               <table>
                 <tbody>
                   <tr>
                     <td>
-                      <h2> Test: {this.props.testList[this.props.currentTestIndex]}</h2>
+                    <h2>{this.props.testList[this.props.currentTestIndex]}</h2>
                     </td>
                   </tr>
                   <tr>
                   <td>
-                    
+                  <div className="withBorder">
+                      <ListMessage testsmessage={this.props.testMessages} />
+                  </div>
                 </td>
                   </tr>
                 </tbody>
@@ -56,21 +86,19 @@ class Batery extends Component {
             </td>
             <td className="thirdsize">
               <ul className="nobullets">
-                <li>
-                    <p>1. Is USB cable disconnected from Camera?</p>
-                    <p>2. Please connect USB cable</p>
-                    <p>3. Please disconnected USB cable</p>
-                </li>
-                </ul>
-            </td>
-
-              <td>
-                <ul className="nobullets">
-                <li>
-                    <ButtonNext onClick={this.handleTest.bind(this)}>
-                     Confirm 
-                    </ButtonNext>
-                </li>
+              <li className="linomargins">
+                <h2>
+                  {this.BATsteps[this.props.currentBateryCounter]}
+                </h2>
+              </li>
+                { this.props.currentBateryCounter <3 ?
+                  <li className="linomargins">
+                      <ButtonConfirm onClick={this.Confirm.bind(this)}>
+                      CONFIRM
+                      </ButtonConfirm>
+                  </li>
+                 : null
+                }
               </ul>
             </td>
             <td className="thirdsize"> 
@@ -78,13 +106,11 @@ class Batery extends Component {
               <ul className="nobullets">
                   <li>
                       <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
+                      { this.props.currentBateryCounter >=3 ?
                       <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
+                      : null
+                    }
                   </li>
-                <li>
-                  { !this.props.errorOccured && this.props.currentTestPassed ?
-                    <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
-                    : null }
-                </li>
                 </ul>
 
             </td>
@@ -100,8 +126,10 @@ class Batery extends Component {
 
 export default Batery;
 
-const ButtonNext = (props) =>
-<button type="button"  {...props} className="btn btn-primary  btn-lg"/>
+
+
+const ButtonConfirm = (props) =>
+<button type="button"  {...props} className="btnLed btn-success btn-md"/> 
 
  const ButtonDange = (props) =>
  <button type="button"  {...props} className="btn btn-danger btn-lg"/>

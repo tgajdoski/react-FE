@@ -13,11 +13,11 @@ class Vibrator extends Component {
   }
   
   handleFAILTest = () => {
-    this.props.handleAudioTest(false);
+    this.props.handleVibTest(false);
   }
 
   handlePASSTest = () => {
-    this.props.handleAudioTest(true);
+    this.props.handleVibTest(true);
   }
   
   render() {
@@ -31,7 +31,7 @@ class Vibrator extends Component {
                   <tbody>
                     <tr>
                       <td>
-                        <h2> Test: {this.props.testList[this.props.currentTestIndex]}</h2>
+                        <h2>{this.props.testList[this.props.currentTestIndex]}</h2>
                       </td>
                     </tr>
                     <tr>
@@ -52,11 +52,14 @@ class Vibrator extends Component {
                 </ul>
               </td>
               <td className="thirdsize"> 
-              { this.props.buzzerCompleted ?
+              
                 <ul className="nobullets">
                     <li>
                         <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
+                        { this.props.currentTestStart ?
                         <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
+                        : null
+                      }
                     </li>
                   <li>
                     { !this.props.errorOccured && this.props.currentTestPassed ?
@@ -64,8 +67,7 @@ class Vibrator extends Component {
                       : null }
                   </li>
                   </ul>
-                  : null
-                }
+                 
               </td>
             </tr>
           </tbody>

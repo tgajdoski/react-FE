@@ -18,8 +18,8 @@ class App extends Component {
       testsCompleted: [],
       testMessages: [],
       testList:["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
-        "Buzzer/Vibrator Test", "Battery&Charger Test"],
-      currentTestIndex: 5,
+        "Buzzer/Vibrator Test", "Battery Test"],
+      currentTestIndex: null,
       currentTestStart: false,
       currentTestPassed: false,
       audioSnapCreated: false,
@@ -27,8 +27,10 @@ class App extends Component {
       startVideoDate: null,
       startAudioDate: null,
       startLedDate: null,
+      startBuzzDate: null,
       startSwitchDate: null,
       startBateryDate: null,
+      currentBateryCounter: 0,
       switch_check_power: null,
       switch_check_record: null,
       switch_check_reset: null,
@@ -38,7 +40,7 @@ class App extends Component {
       errorOccured: false,
       serializationNumber: '',
       counter: 0,
-      modelType:'VT-50',
+      modelType:'',
       testResponses: initState.ininData
     }
   }
@@ -145,7 +147,62 @@ class App extends Component {
     }
   }
 
-  
+  SetBateryCounter = () => {
+    let self = this;
+    this.setState({currentBateryCounter: this.state.currentBateryCounter + 1},
+      function(){
+        let BATsteps = ["Is USB cable disconnected from Camera?", "Please connect USB cable", "Please disconnected USB cable"];
+        if (this.state.currentBateryCounter===2)
+        {
+          // da se testira uklucuvanje 
+          // ako e ukluceno da se kaze deka e OK
+          // axios 08_charger_conn.cgi
+          self.ToastMessage("CHARGER CONNECTION TEST" , "info", 2000);    
+          let url = '//192.168.12.22:81/cgi-bin/08_charger_conn.cgi';
+          axios.get(url)
+          .then(function (response) { 
+            if(response.data.charger_connected.charger ==='charge')
+            {
+              self.ToastMessage("CHARGE ON  battery_mv :" + response.data.charger_connected.battery_mv , "success", 3000);
+            //  self.CatchTestMessage(self.state.currentBateryCounter, BATsteps[self.state.currentBateryCounter], true);   
+              self.setState({currentTestStart: true});
+              self.CatchTestMessage(self.state.currentBateryCounter, 'CHARGE ON CHECKED ', true);
+            } 
+          }).catch(function (error) {
+            self.ToastMessage("Error CHARGER CONNECTION TEST !" , "error", 5000); 
+            self.setState({currentTestStart: false});
+            throw new Error("Error CHARGER CONNECTION TEST"); 
+          });
+        }
+        if (this.state.currentBateryCounter===3)
+        {
+          // da se testira isklucuvanjeto  
+          // ako e ukluceno da se kaze deka e OK
+          // axios 08_charger_discon.cgi
+          self.ToastMessage("CHARGER DISCONNECTION TEST" , "info", 2000);    
+          let url = '//192.168.12.22:81/cgi-bin/08_charger_discon.cgi';
+          axios.get(url)
+          .then(function (response) { 
+            if(response.data.charger_disconnected.charger ==='discharging')
+            {
+              self.ToastMessage("CHARGE OFF  battery_mv :" + response.data.charger_disconnected.battery_mv , "success", 3000);  
+            //  self.CatchTestMessage(self.state.currentBateryCounter, BATsteps[self.state.currentBateryCounter], true); 
+              self.setState({currentTestStart: true});
+              self.CatchTestMessage(self.state.currentBateryCounter, 'CHARGE OFF CHECKED ', true);
+            } 
+          }).catch(function (error) {
+            self.ToastMessage("Error CHARGER DISCONNECTION TEST !" , "error", 5000); 
+            self.setState({currentTestStart: false});
+            throw new Error("Error CHARGER DISCONNECTION TEST"); 
+          });
+        }
+        if (this.state.counter >=2){
+          this.setState({counterLimit: true});
+          self.CatchTestMessage(self.state.currentBateryCounter, BATsteps[self.state.currentBateryCounter], true); 
+        }    
+      }
+    ); 
+  }
 
   SetBateryTestPass = (txt) =>{
     if (!txt)
@@ -165,6 +222,16 @@ class App extends Component {
        this.CompleteTest(this.state.currentTestIndex);
        this.CatchTestMessage(this.state.currentTestIndex, 'LED TEST SUCCESS ', true);
        this.CatchTestResponse(this.state.currentTestIndex, 'LED TEST PASS', 1, this.state.startLedDate); 
+       this.setState({currentTestPassed: true});  
+     }
+   }
+   SetVibTestPass = (txt) =>{
+    if (!txt)
+      this.ErrorTest(this.state.currentTestIndex, new Error("Buzzer/Vibrator TEST FAIL"));
+     else {
+       this.CompleteTest(this.state.currentTestIndex);
+       this.CatchTestMessage(this.state.currentTestIndex, 'Buzzer/Vibrator TEST SUCCESS ', true);
+       this.CatchTestResponse(this.state.currentTestIndex, 'Buzzer/Vibrator TEST PASS', 1, this.state.startBuzzDate); 
        this.setState({currentTestPassed: true});  
      }
    }
@@ -261,6 +328,7 @@ class App extends Component {
   NextTest = () =>{
     console.log("VO NEXT TEST");
     this.setState({ currentTestIndex: this.state.currentTestIndex + 1,  currentTestStart: false,  currentTestPassed: false, testMessages: []});
+    // AKO SE SITE ZAVRSENI 
   }
 
   StartTest = (index) => {
@@ -535,6 +603,7 @@ class App extends Component {
             });
         break;
       case 5:
+      // LED TEST
           url = '//192.168.12.22:81/cgi-bin/06_leds_off.cgi';
             self.ToastMessage("LED TURN OFF" , "info", 2000);     
             let LedDate = new Date();
@@ -553,10 +622,31 @@ class App extends Component {
             });
         break;
       case 6:
-        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+      // BUZZER TEST
+          self.ToastMessage("BUZZER TEST" , "info", 500);    
+          url = '//192.168.12.22:81/cgi-bin/07_buzzvib.cgi';
+          let BuzzDate = new Date();
+          self.setState({startBuzzDate: BuzzDate});
+          axios.get(url)
+          .then(function (response) { 
+            if(response.data.buzzer_vibrator.status ==='true')
+            {
+              self.ToastMessage("BUZZER ON" , "success", 1000);   
+              self.setState({currentTestStart: true});
+            } 
+          }).catch(function (error) {
+            self.ToastMessage("Error BUZZER TEST !" , "error", 5000); 
+            self.setState({currentTestStart: false});
+            throw new Error("Error BUZZER TEST"); 
+          });
         break;
       case 7:
-        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+      // BATERY TEST
+          let BatDate = new Date();
+          self.setState({currentTestStart: true});
+          self.ToastMessage("BATERY TEST STARTED" , "info", 2000);  
+          self.setState({startBateryDate: BatDate}); 
+
         break;
       default : 
         url = '';
@@ -587,6 +677,9 @@ class App extends Component {
               SetSWITCHTestPass  = {this.SetSWITCHTestPass}
               SetLEDTestPass = {this.SetLEDTestPass}
               CatchTestMessage = {this.CatchTestMessage}
+              SetVibTestPass = {this.SetVibTestPass}
+              SetBateryTestPass = {this.SetBateryTestPass}
+              SetBateryCounter = {this.SetBateryCounter}
                 {...this.state} 
               />
               : null

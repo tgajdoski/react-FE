@@ -13,8 +13,7 @@ class Led extends Component {
     };
   }
  
-  VT100enum = ["All LED are OFF", "front order RED2 is ON?","front order BICOLOR1_R is ON?", "front order BICOLOR1_G is ON?", "rear order GREEN1 is ON?",
-    "rear order RED1 is ON?", "rear order BLUE1 is ON?"];
+  VT100enum = ["All LED are OFF", "RED2 is ON?","BICOLOR1_R is ON?", "BICOLOR1_G is ON?", "GREEN1 is ON?", "RED1 is ON?", "BLUE1 is ON?"];
   VT50enum = ["All LED are OFF", "RED is ON?", "GREEN is ON?","BLUE is ON?"];
   
   componentDidMount(){
@@ -65,7 +64,7 @@ class Led extends Component {
                 <tbody>
                   <tr>
                     <td>
-                      <h2> Test: {this.props.testList[this.props.currentTestIndex]}</h2>
+                      <h2>{this.props.testList[this.props.currentTestIndex]}</h2>
                     </td>
                   </tr>
                   <tr>

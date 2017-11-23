@@ -29,7 +29,7 @@ class SdCard extends Component {
                   <tbody>
                     <tr>
                       <td>
-                        <h2> Test phase {this.props.testList[this.props.currentTestIndex]}</h2>
+                        <h2>{this.props.testList[this.props.currentTestIndex]}</h2>
                       </td>
                     </tr>
                     <tr>

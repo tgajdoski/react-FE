@@ -9,6 +9,7 @@ import Switch from './tests/5Switch';
 import Led from './tests/6Led';
 import Vibrator from './tests/7Vibrator';
 import Batery from './tests/8Battery';
+import OverAll from './tests/Overall';
 
 
 class SecondBlock extends Component {
@@ -41,6 +42,14 @@ class SecondBlock extends Component {
   }
   handleLEDTest(fOp){
     this.SetLEDTestPass(fOp);
+  }
+
+  handleConfirm(){
+    this.SetBateryCounter();
+  }
+
+  handleVibTest(fOp){
+    this.SetVibTestPass(fOp);
   }
 
   handleAudioTest(fOp){
@@ -106,6 +115,8 @@ class SecondBlock extends Component {
           <Vibrator  {...this.props} 
           handleTestClick= {this.handleTestClick}
           handleNextTest= {this.handleNextTest}
+          handleVibTest = {this.handleVibTest}
+        
           /> : null
         }
         { this.props.currentTestIndex === 7 ?
@@ -113,6 +124,11 @@ class SecondBlock extends Component {
           handleBateryTest= {this.handleBateryTest}
           handleTestClick= {this.handleTestClick}
           handleNextTest= {this.handleNextTest}
+          handleConfirm = {this.handleConfirm}
+          /> : null
+        }
+        { this.props.currentTestIndex > 7 ?
+          <OverAll  {...this.props} 
           /> : null
         }
       </div>

@@ -88,6 +88,21 @@ body {
 	padding: 0;
 
   }
+  
+
+  .btnOver {
+    font-family: inherit;
+    font-size: 18px;
+    
+    display: inline-block;
+    border: 2px solid;
+    border-radius: 25px;
+    width: 400px;
+    height: 152px;
+    margin: 24px;
+    padding: 0;
+
+    }
 
 
   .btnLed {
