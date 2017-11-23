@@ -70,7 +70,7 @@ class Video extends Component {
                   : null
                   }
                   <li>
-                      <ButtonNext onClick={this.handleTest.bind(this)}>CAPTURE <span class="badge">{this.props.videoSnapCounter}</span></ButtonNext>
+                      <ButtonNext onClick={this.handleTest.bind(this)}>CAPTURE <span className="badge">{this.props.videoSnapCounter}</span></ButtonNext>
                   </li>
                 <li>
                   { !this.props.errorOccured && this.props.videoSnapCounter >= 3 && this.props.currentTestPassed ?

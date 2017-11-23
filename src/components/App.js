@@ -29,6 +29,9 @@ class App extends Component {
       startLedDate: null,
       startSwitchDate: null,
       startBateryDate: null,
+      switch_check_power: null,
+      switch_check_record: null,
+      switch_check_reset: null,
       imagedata: '',
       errorOccured: false,
       serializationNumber: '',
@@ -466,29 +469,43 @@ class App extends Component {
         break;
       case 4:
       // SWITCH TEST 
+     
             self.ToastMessage("SWITCH TEST... Please wait" , "info", 6000);
             url = `//192.168.12.22:81/cgi-bin/05_switchdaemon.cgi`;       
             let dateSwitch = new Date();
             self.setState({startSwitchDate: dateSwitch});
             axios.get(url)
             .then(function (response) { 
+              debugger;
               // otkako e krenata skriptata sto ....
-                // napraj nesto i vikaj ja ovaa skripta na period ili nesto
               // VO LOOP NA 1 SEKUNDA DODEKA NE SE RESI TOA SO 
-              url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi`;
-      
-              var refreshId = setInterval(  
-                  axios.get(url1).then(function (response) {
-                    console.log('@#$@#$@#$#@$@#$' + this.state.counter);
-                    self.setState({counter: this.state.counter+1});
-                    if (this.state.counter > 5) {
+              
+              var refreshId = setInterval(
+                (function() {    
+                let url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi`;
+                    axios.get(url1).then(function (response) {
+                      
+                      let power = response.data.switch_check.Power;
+                      let record = response.data.switch_check.Record;
+                      let reset = response.data.switch_check.Reset;
+
+                      console.log('Power/record/reset ', power, ' ', record, ' ', reset );
+                      self.setState({counter: self.state.counter +1 , switch_check_power:  power,
+                        switch_check_record:  record , switch_check_reset: reset });
+                    }).catch(function (error) {
+                      // ne pravi nisto samo vrti
+                      console.log('VO GRESKA');
+                    });
+                      console.log('COUNTER' + self.state.counter);
+                    if (self.state.counter > 5)
+                    {
+                      console.log('COUNTER IN IF' + self.state.counter);
                       clearInterval(refreshId);
                     }
-                  }).catch(function (error) {
-                    // ne pravi nisto samo vrti
-                  })
-                , 1000); 
-            }).catch(function (error) {
+                    }), 1000);
+
+              }).catch(function (error) {
+              debugger;
               self.ToastMessage("Error SWITCH  TETS !" , "error", 5000); 
               self.setState({audioSnapCreated: false});
               throw new Error("Error SWITCH TEST FAILD"); 
@@ -507,7 +524,7 @@ class App extends Component {
         url = '';
   }
     
-
+ 
   // // PRVO FATI DATA PRED TESTOT
   // let DATATANATESTOT = new Date();
   //   axios.get(url , {
@@ -531,8 +548,8 @@ class App extends Component {
   //   });
 
   }
-  
 
+  
   render() {
     return (
       <div className="App">

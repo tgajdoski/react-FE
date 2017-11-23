@@ -58,11 +58,12 @@ class Switch extends Component {
               <td className="thirdsize">
               <ul className="nobullets">
                   <li className="linomargins">
-                      <ButtonNumbers><span className="badge">2</span></ButtonNumbers>
-                      <ButtonNumbers><span className="badge">1</span></ButtonNumbers>
-                      <ButtonNumbers><span className="badge">4</span></ButtonNumbers>
-                      <ButtonNumbers><span className="badge">1</span></ButtonNumbers>
-                      <ButtonNumbers><span className="badge">1</span></ButtonNumbers>
+                      <ButtonNumbers><span className="badge">{this.props.switch_check_power}</span></ButtonNumbers>
+                      <ButtonNumbers><span className="badge">{this.props.switch_check_record}</span></ButtonNumbers>
+                      <ButtonNumbers><span className="badge">{this.props.switch_check_reset}</span></ButtonNumbers>
+                      <ButtonNumbers><span className="badge">a</span></ButtonNumbers>
+                      <ButtonNumbers><span className="badge">u</span></ButtonNumbers>
+                      <ButtonNumbers><span className="badge">f</span></ButtonNumbers>
                   </li>
                 </ul>
               </td>
