@@ -1,20 +1,43 @@
 import React, { Component } from 'react';
 //import PropTypes from 'prop-types';
 import '../../css/tests.css';
+import ListMessage from './ListMessage';
 
 class Led extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      data: '',
-      sessionAttributes: {}, visible: 'open'
+     counter: 0,
+     counterLimit:false
     };
   }
  
+  VT100enum = ["All LED are OFF", "front order RED2 is ON?","front order BICOLOR1_R is ON?", "front order BICOLOR1_G is ON?", "rear order GREEN1 is ON?",
+    "rear order RED1 is ON?", "rear order BLUE1 is ON?"];
+  VT50enum = ["All LED are OFF", "RED is ON?", "GREEN is ON?","BLUE is ON?"];
+  
+  componentDidMount(){
+    this.props.StartTest(5);
+  }
 
   handleTest() {
-    this.props.handleTestClick();
+   // confirm 
+   console.log("counter " + this.state.counter);
+   this.setState({counter: this.state.counter+1});
+   if (this.props.modelType.toUpperCase()==='VT-50')
+   {
+    if (this.state.counter >=3)
+      this.setState({counterLimit: true});
+    this.props.handleTestMessages(this.state.counter, this.VT50enum[this.state.counter], true)
+   }
+   if (this.props.modelType.toUpperCase()==='VT-100')
+   {
+    if (this.state.counter >=6)
+      this.setState({counterLimit: true});
+    this.props.handleTestMessages(this.state.counter, this.VT100enum[this.state.counter], true)
+   }
+
   }
 
 
@@ -47,7 +70,9 @@ class Led extends Component {
                   </tr>
                   <tr>
                   <td>
-                    
+                  <div className="withBorder">
+                              <ListMessage testsmessage={this.props.testMessages} />
+                        </div>
                 </td>
                   </tr>
                 </tbody>
@@ -56,15 +81,27 @@ class Led extends Component {
             <td className="thirdsize">
             <ul className="nobullets">
                 <li className="linomargins">
-                    <ButtonNext onClick={this.handleTest.bind(this)}>
-                     Turn on all LEDs 
-                    </ButtonNext>
+                { this.props.modelType.toUpperCase()==='VT-50' ? 
+                  <h2>
+                    {this.VT50enum[this.state.counter]}
+                  </h2>
+                  : null
+                }
+                 { this.props.modelType.toUpperCase()==='VT-100' ? 
+                  <h2>
+                    {this.VT100enum[this.state.counter]}
+                  </h2>
+                  : null
+                }
                 </li>
-                <li className="linomargins">
-                    <ButtonNext onClick={this.handleTest.bind(this)}>
-                     Turn OFF all LEDs 
-                    </ButtonNext>
-                </li>
+                { !this.state.counterLimit  ?
+                  <li className="linomargins">
+                      <ButtonConfirm onClick={this.handleTest.bind(this)}>
+                      CONFIRM
+                      </ButtonConfirm>
+                  </li>
+                 : null
+                }
               </ul>
             </td>
             <td className="thirdsize"> 
@@ -72,7 +109,10 @@ class Led extends Component {
               <ul className="nobullets">
                   <li>
                       <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
-                      <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
+                      { this.state.counterLimit ?
+                        <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
+                      : null
+                      }
                   </li>
                 <li>
                   { !this.props.errorOccured && this.props.currentTestPassed ?
@@ -95,6 +135,8 @@ class Led extends Component {
 export default Led;
 
 
+const ButtonConfirm = (props) =>
+<button type="button"  {...props} className="btnLed btn-success btn-md"/> 
 
 
 const ButtonNext = (props) =>

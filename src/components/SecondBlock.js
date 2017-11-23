@@ -46,6 +46,11 @@ class SecondBlock extends Component {
   handleAudioTest(fOp){
     this.SetAudioTestPass(fOp);
   }
+
+ // this.CatchTestMessage(this.state.currentTestIndex, 'VIDEO TEST SUCCESS ', true);
+  handleTestMessages(index, message, passfail){
+    this.CatchTestMessage(index, message, passfail);
+  }
  
   
   handleNextTest() {
@@ -94,6 +99,7 @@ class SecondBlock extends Component {
           handleTestClick= {this.handleTestClick}
           handleNextTest= {this.handleNextTest}
           handleLEDTest = {this.handleLEDTest}
+          handleTestMessages = {this.handleTestMessages}
           /> : null
         }
         { this.props.currentTestIndex === 6 ?

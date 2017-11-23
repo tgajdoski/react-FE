@@ -88,7 +88,23 @@ body {
 	padding: 0;
 
   }
-	
-  
+
+
+  .btnLed {
+    font-family: inherit;
+    font-size: 18px;
+    
+    display: inline-block;
+    border: 2px solid;
+    border-radius: 25px;
+    width: 140px;
+    height: 52px;
+    margin: 24px;
+    padding: 0;
+
+    }
+    
+
+
   .start-btn { color: #4bd761 }
   .stop-btn  { color: #fd3d2a }

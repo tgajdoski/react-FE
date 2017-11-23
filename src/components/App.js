@@ -19,7 +19,7 @@ class App extends Component {
       testMessages: [],
       testList:["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
         "Buzzer/Vibrator Test", "Battery&Charger Test"],
-      currentTestIndex: 4,
+      currentTestIndex: 5,
       currentTestStart: false,
       currentTestPassed: false,
       audioSnapCreated: false,
@@ -38,7 +38,7 @@ class App extends Component {
       errorOccured: false,
       serializationNumber: '',
       counter: 0,
-      modelType:'',
+      modelType:'VT-50',
       testResponses: initState.ininData
     }
   }
@@ -157,6 +157,7 @@ class App extends Component {
        this.setState({currentTestPassed: true});  
      }
    }
+
   SetLEDTestPass = (txt) =>{
     if (!txt)
       this.ErrorTest(this.state.currentTestIndex, new Error("LED TEST FAIL"));
@@ -534,7 +535,22 @@ class App extends Component {
             });
         break;
       case 5:
-        url = '//192.168.12.22:81/cgi-bin/test.cgi';
+          url = '//192.168.12.22:81/cgi-bin/06_leds_off.cgi';
+            self.ToastMessage("LED TURN OFF" , "info", 2000);     
+            let LedDate = new Date();
+            self.setState({startLedDate: LedDate});
+            axios.get(url)
+            .then(function (response) { 
+            if(response.data.leds_off.status ==='true')
+            {
+              self.ToastMessage("ALL LED TURNED OFF " , "success", 2000); 
+              self.setState({currentTestStart: true});
+              } 
+            }).catch(function (error) {
+              self.ToastMessage("Error TURN OFF LED !" , "error", 5000); 
+              self.setState({currentTestStart: false});
+              throw new Error("Error TURN OFF LED"); 
+            });
         break;
       case 6:
         url = '//192.168.12.22:81/cgi-bin/test.cgi';
@@ -569,6 +585,8 @@ class App extends Component {
               SetVideoTestPass = {this.SetVideoTestPass}
               SetAudioTestPass = {this.SetAudioTestPass}
               SetSWITCHTestPass  = {this.SetSWITCHTestPass}
+              SetLEDTestPass = {this.SetLEDTestPass}
+              CatchTestMessage = {this.CatchTestMessage}
                 {...this.state} 
               />
               : null
