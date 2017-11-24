@@ -87,15 +87,15 @@ class ThirdBlock extends Component {
           <table>
             <tbody>
               <tr className="liRectStyle">
-              <td className="thirdsize">
-                <h2>TEST RUNS:</h2>
-              </td>
+                <td className="fifthsize">
+                  <h2>TEST RUNS:</h2>
+                </td>
                 <td className="withBorder">
                   <ListTestResults testsresult={this.props.testResponses} />
-              </td>
-              <td className="thirdsize">
-                <Button className="btn btn-default" onClick={this.handleDownloadClick.bind(this)}>DOWNLOAD</Button>
-              </td>
+                </td>
+                  <td className="thirdsize">
+                    <Button className="btn btn-default" onClick={this.handleDownloadClick.bind(this)}>DOWNLOAD</Button>
+                  </td>
               </tr>
               </tbody>
             </table>
