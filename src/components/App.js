@@ -41,6 +41,7 @@ class App extends Component {
       serializationNumber: '',
       counter: 0,
       modelType:'',
+      refreshId: null,
       testResponses: initState.ininData
     }
   }
@@ -242,7 +243,7 @@ class App extends Component {
       this.setState({modelType: txt});  
   }
 
-  SetSWITCHTestPass = (txt) =>{
+  SetSWITCHTestPass = (txt) => {
     if (!txt)
       this.ErrorTest(this.state.currentTestIndex, new Error("SWITCH TEST FAIL"));
      else {
@@ -251,6 +252,17 @@ class App extends Component {
        this.CatchTestResponse(this.state.currentTestIndex, 'SWITCH TEST PASS', 1, this.state.startSwitchDate); 
        this.setState({currentTestPassed: true});  
      }
+     
+      // gasi ja skriptata
+      console.log("GASAM SKRIPTA");
+      let url2 = `//192.168.12.22:81/cgi-bin/05_switch_final.cgi`;
+      axios.get(url2).then(function (response) {   
+        console.log("SE E OK SO GASENJE SKRIPTA "+ JSON.stringify(response.data));
+      })
+     .catch(function (error) {
+      this.ToastMessage("Error SWITCH FINAL TETS !" , "error", 5000); 
+    });
+    
    }
   
   SetAudioTestPass = (txt) => {
@@ -283,6 +295,7 @@ class App extends Component {
    }
 
     
+
 
   ErrorTest = (index, error) =>{
     this.setState({errorOccured: true},null);
@@ -546,9 +559,14 @@ class App extends Component {
         break;
       case 4:
       // SWITCH TEST 
+            //  za testiranje samo
+            // self.setState({modelType: 'VT-100'});
+
             self.setState({counterLimit: false})
             self.ToastMessage("SWITCH TEST... Please wait" , "info", 6000);
-            url = `//192.168.12.22:81/cgi-bin/05_switchdaemon.cgi`;       
+            url = `//192.168.12.22:81/cgi-bin/05_switchdaemon.cgi?vt50`;  
+            if (self.state.modelType.toUpperCase()==='VT-100')
+              url = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi?vt100`;     
             let dateSwitch = new Date();
             self.setState({startSwitchDate: dateSwitch});
             axios.get(url)
@@ -556,9 +574,11 @@ class App extends Component {
               // otkako e krenata skriptata sto ....
               // VO LOOP NA 1 SEKUNDA DODEKA NE SE RESI TOA SO 
               
-              var refreshId = setInterval(
+              var refreshIntervalId = setInterval(
                 (function() {    
-                let url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi?model=${self.state.modelType}`;
+                let url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi?vt50`;
+                if (self.state.modelType.toUpperCase()==='VT-100')
+                  url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi?vt100`;
                     axios.get(url1).then(function (response) {                      
                       let power = response.data.switch_check.Power;
                       let record = response.data.switch_check.Record;
@@ -570,33 +590,31 @@ class App extends Component {
                     }).catch(function (error) {
                       // ne pravi nisto samo vrti
                     });
+                    debugger;
                     if (self.state.modelType.toUpperCase()==='VT-100'){
-                      if (self.state.power >= 6 && self.state.record >= 6 && self.state.reset >= 6)
+                      if (self.state.switch_check_power >= 6 && self.state.switch_check_record >= 6 && self.state.switch_check_reset >= 6)
                       {
                         self.setState({counterLimit: true})
-                        clearInterval(refreshId);
+                        clearInterval(refreshIntervalId);
                       }
                     }
                     if (self.state.modelType.toUpperCase()==='VT-50'){
-                      if (self.state.power >= 6 && self.state.record >= 6 && self.state.reset >= 6 && self.state.mode >= 6)
+                      if (self.state.switch_check_power >= 6 && self.state.switch_check_record >= 6 && self.state.switch_check_reset >= 6 && self.state.switch_check_mode >= 6)
                       {
                         self.setState({counterLimit: true})
-                        clearInterval(refreshId);
+                        clearInterval(refreshIntervalId);
                       }
-
                     }
+                  //  debugger;
+                    if ( refreshIntervalId)
+                    self.setState({refreshId: refreshIntervalId});
                 }), 1000);
+                // debugger;
+                // if (  refreshIntervalId)
+                //   this.setState({refreshId: refreshIntervalId});
               })
-              .then(function () { 
-                // gasi ja skriptata
-                let url2 = `//192.168.12.22:81/cgi-bin/05_switch_final.cgi`;
-                axios.get(url2).then(function (response) {   
-                  console.log("SE E OK SO GASENJE SKRIPTA "+ JSON.stringify(response.data));
-               })
-               .catch(function (error) {
-                self.ToastMessage("Error SWITCH FINAL TETS !" , "error", 5000); 
-              });
-              }).catch(function (error) {
+              .catch(function (error) {
+                debugger;
               self.ToastMessage("Error SWITCH  TETS !" , "error", 5000); 
               self.setState({audioSnapCreated: false});
               throw new Error("Error SWITCH TEST FAILED"); 

@@ -61,6 +61,9 @@ class SecondBlock extends Component {
     this.CatchTestMessage(index, message, passfail);
   }
  
+  componentWillUnmount = () => {
+    clearInterval(this.props.refreshId);
+  }
   
   handleNextTest() {
     this.NextTest();

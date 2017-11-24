@@ -34,6 +34,13 @@ class Switch extends Component {
     this.props.handleSWITCHTest(true);
   }
   
+
+  componentWillUnmount = () => {
+    clearInterval(this.props.refreshId);
+  }
+
+
+
   render() {
     return (
       <div id="div2">
@@ -61,7 +68,7 @@ class Switch extends Component {
                       <ButtonNumbers>POWER  <span className="badge"> {this.props.switch_check_power}</span></ButtonNumbers>
                       <ButtonNumbers>RECORD <span className="badge"> {this.props.switch_check_record}</span></ButtonNumbers>
                       <ButtonNumbers>RESET  <span className="badge"> {this.props.switch_check_reset}</span></ButtonNumbers>
-                      { this.props.modelType.toUpperCase()!=='VT-50' ? 
+                      { this.props.modelType.toUpperCase()==='VT-50' ? 
                       <ButtonNumbers>MODE  <span className="badge"> {this.props.switch_check_mode}</span></ButtonNumbers>
                       : null }
                   </li>
