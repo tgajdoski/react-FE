@@ -131,20 +131,18 @@ class FirstBlock extends Component {
                             <h1 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h1>
                           </div>
                         </li>
-                     
+                        { (this.props.serializationNumber ?
                           <li>
-                          { (this.props.serializationNumber ?
-                          <h4 className="leftfloat">S/N : {this.props.serializationNumber}</h4>
-                          : null
-                          )}
+                           <h4>S/N : {this.props.serializationNumber}</h4>
                           </li>
-
-                        <li>
-                        { (this.state.hwrev ?
-                          <h4 className="leftfloat">HW rev: {this.state.hwrev}</h4>
-                          : null
+                        : null
                         )}
+                        { (this.state.hwrev ?
+                        <li>
+                          <h4>HW rev: {this.state.hwrev}</h4>
                         </li>
+                         : null
+                        )}
                       </ul>
                 </td>
               </tr>

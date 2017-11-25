@@ -333,8 +333,34 @@ class App extends Component {
       }
   };
 
+  download = (url) => {
+    // fake server request, getting the file url as response
+    setTimeout(() => {
+      const response = {
+        file: url,
+      };
+      // server sent the url to the file!
+      // now, let's download:
+      window.open(response.file);
+      // you could also do:
+      // window.location.href = response.file;
+    }, 100);
+  }
+
   DownloadReport = () => {
+    let self = this;
     console.log("TO DOWNLOAD ");
+   // url = `//192.168.12.22:81/cgi-bin/09_download.cgi`;
+    let url = `//192.168.12.22:81/cgi-bin/00_hwrev.cgi`;
+    axios.get(url)
+    .then(function (response) {   
+      // throw new Error("Error VIDEO TEST"); 
+      let test = '//192.168.12.22:81/favicon.ico';
+    //  self.download(test); //response.url
+    window.location.assign(test);
+    }).catch(function (error) {
+    // ne pravi nisto na error
+    });
   }
 
 
@@ -506,7 +532,7 @@ class App extends Component {
         let dateVideo = new Date();
         self.setState({startVideoDate: dateVideo});
         setTimeout(function(){
-            url = `//192.168.12.22:81/cgi-bin/03_video_snap.cgi`;       
+            url = `//192.168.12.22:81/cgi-bin/03_video_snap.cgi?${self.state.videoSnapCounter+1}`;       
             self.ToastMessage("CAPTURING VIDEO... Please wait" , "info", 3000);
             self.setState({videoSnapCounter: self.state.videoSnapCounter + 1, imagedata: url})
         }, 1000);
@@ -566,7 +592,7 @@ class App extends Component {
             self.ToastMessage("SWITCH TEST... Please wait" , "info", 6000);
             url = `//192.168.12.22:81/cgi-bin/05_switchdaemon.cgi?vt50`;  
             if (self.state.modelType.toUpperCase()==='VT100')
-              url = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi?vt100`;     
+              url = `//192.168.12.22:81/cgi-bin/05_switchdaemon.cgi?vt100`;     
             let dateSwitch = new Date();
             self.setState({startSwitchDate: dateSwitch});
             axios.get(url)
@@ -583,23 +609,23 @@ class App extends Component {
                       let power = response.data.switch_check.Power;
                       let record = response.data.switch_check.Record;
                       let reset = response.data.switch_check.Reset;
-                      let mode = response.data.switch_check.mode;
+                      let mode = response.data.switch_check.Mode;
                       console.log('Power/record/reset ', power, ' ', record, ' ', reset );
-                      self.setState({counter: self.state.counter +1 , switch_check_power:  power,
-                        switch_check_record:  record , switch_check_reset: reset , switch_check_mode: mode});
+                      self.setState({counter: self.state.counter +1 , switch_check_power: Math.floor(power/2) ,
+                        switch_check_record:  record , switch_check_reset: Math.floor(reset/2) , switch_check_mode: Math.floor(mode/2)});
                     }).catch(function (error) {
                       // ne pravi nisto samo vrti
                     });
                     debugger;
                     if (self.state.modelType.toUpperCase()==='VT100'){
-                      if (self.state.switch_check_power >= 6 && self.state.switch_check_record >= 6 && self.state.switch_check_reset >= 6)
+                      if (self.state.switch_check_power >= 3 && self.state.switch_check_record >= 3 && self.state.switch_check_reset >= 3)
                       {
                         self.setState({counterLimit: true})
                         clearInterval(refreshIntervalId);
                       }
                     }
                     if (self.state.modelType.toUpperCase()==='VT50'){
-                      if (self.state.switch_check_power >= 6 && self.state.switch_check_record >= 6 && self.state.switch_check_reset >= 6 && self.state.switch_check_mode >= 6)
+                      if (self.state.switch_check_power >= 3 && self.state.switch_check_record >= 3 && self.state.switch_check_reset >= 3 && self.state.switch_check_mode >= 3)
                       {
                         self.setState({counterLimit: true})
                         clearInterval(refreshIntervalId);
