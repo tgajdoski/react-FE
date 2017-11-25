@@ -565,7 +565,7 @@ class App extends Component {
             self.setState({counterLimit: false})
             self.ToastMessage("SWITCH TEST... Please wait" , "info", 6000);
             url = `//192.168.12.22:81/cgi-bin/05_switchdaemon.cgi?vt50`;  
-            if (self.state.modelType.toUpperCase()==='VT-100')
+            if (self.state.modelType.toUpperCase()==='VT100')
               url = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi?vt100`;     
             let dateSwitch = new Date();
             self.setState({startSwitchDate: dateSwitch});
@@ -577,7 +577,7 @@ class App extends Component {
               var refreshIntervalId = setInterval(
                 (function() {    
                 let url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi?vt50`;
-                if (self.state.modelType.toUpperCase()==='VT-100')
+                if (self.state.modelType.toUpperCase()==='VT100')
                   url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi?vt100`;
                     axios.get(url1).then(function (response) {                      
                       let power = response.data.switch_check.Power;
@@ -591,14 +591,14 @@ class App extends Component {
                       // ne pravi nisto samo vrti
                     });
                     debugger;
-                    if (self.state.modelType.toUpperCase()==='VT-100'){
+                    if (self.state.modelType.toUpperCase()==='VT100'){
                       if (self.state.switch_check_power >= 6 && self.state.switch_check_record >= 6 && self.state.switch_check_reset >= 6)
                       {
                         self.setState({counterLimit: true})
                         clearInterval(refreshIntervalId);
                       }
                     }
-                    if (self.state.modelType.toUpperCase()==='VT-50'){
+                    if (self.state.modelType.toUpperCase()==='VT50'){
                       if (self.state.switch_check_power >= 6 && self.state.switch_check_record >= 6 && self.state.switch_check_reset >= 6 && self.state.switch_check_mode >= 6)
                       {
                         self.setState({counterLimit: true})

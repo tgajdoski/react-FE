@@ -24,13 +24,13 @@ class Led extends Component {
    // confirm 
    console.log("counter " + this.state.counter);
    this.setState({counter: this.state.counter+1});
-   if (this.props.modelType.toUpperCase()==='VT-50')
+   if (this.props.modelType.toUpperCase()==='VT50')
    {
     if (this.state.counter >=3)
       this.setState({counterLimit: true});
     this.props.handleTestMessages(this.state.counter, this.VT50enum[this.state.counter], true)
    }
-   if (this.props.modelType.toUpperCase()==='VT-100')
+   if (this.props.modelType.toUpperCase()==='VT100')
    {
     if (this.state.counter >=6)
       this.setState({counterLimit: true});
@@ -80,13 +80,13 @@ class Led extends Component {
             <td className="thirdsize">
             <ul className="nobullets">
                 <li className="linomargins">
-                { this.props.modelType.toUpperCase()==='VT-50' ? 
+                { this.props.modelType.toUpperCase()==='VT50' ? 
                   <h2>
                     {this.VT50enum[this.state.counter]}
                   </h2>
                   : null
                 }
-                 { this.props.modelType.toUpperCase()==='VT-100' ? 
+                 { this.props.modelType.toUpperCase()==='VT100' ? 
                   <h2>
                     {this.VT100enum[this.state.counter]}
                   </h2>
