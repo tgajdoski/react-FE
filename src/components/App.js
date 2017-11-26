@@ -333,34 +333,36 @@ class App extends Component {
       }
   };
 
-  download = (url) => {
-    // fake server request, getting the file url as response
-    setTimeout(() => {
-      const response = {
-        file: url,
-      };
-      // server sent the url to the file!
-      // now, let's download:
-      window.open(response.file);
-      // you could also do:
-      // window.location.href = response.file;
-    }, 100);
-  }
+  // download = (url) => {
+  //   // fake server request, getting the file url as response
+  //   setTimeout(() => {
+  //     const response = {
+  //       file: url,
+  //     };
+  //     // server sent the url to the file!
+  //     // now, let's download:
+  //     window.open(response.file);
+  //     // you could also do:
+  //     // window.location.href = response.file;
+  //   }, 100);
+  // }
 
   DownloadReport = () => {
     let self = this;
     console.log("TO DOWNLOAD ");
-   // url = `//192.168.12.22:81/cgi-bin/09_download.cgi`;
-    let url = `//192.168.12.22:81/cgi-bin/00_hwrev.cgi`;
-    axios.get(url)
-    .then(function (response) {   
-      // throw new Error("Error VIDEO TEST"); 
-      let test = '//192.168.12.22:81/favicon.ico';
-    //  self.download(test); //response.url
-    window.location.assign(test);
-    }).catch(function (error) {
-    // ne pravi nisto na error
-    });
+    let url = `//192.168.12.22:81/cgi-bin/09_download.cgi`;
+    window.location.assign(url);
+  
+   // let url = `//192.168.12.22:81/cgi-bin/00_hwrev.cgi`;
+    // axios.get(url)
+    // .then(function (response) {   
+    //   // throw new Error("Error VIDEO TEST"); 
+    //   let test = '//192.168.12.22:81/favicon.ico';
+    // //  self.download(test); //response.url
+    // window.location.assign(test);
+    // }).catch(function (error) {
+    // // ne pravi nisto na error
+    // });
   }
 
 
