@@ -614,7 +614,7 @@ class App extends Component {
                       let mode = response.data.switch_check.Mode;
                       console.log('Power/record/reset ', power, ' ', record, ' ', reset );
                       self.setState({counter: self.state.counter +1 , switch_check_power: Math.floor(power/2) ,
-                        switch_check_record:  record , switch_check_reset: Math.floor(reset/2) , switch_check_mode: Math.floor(mode/2)});
+                        switch_check_record:   Math.floor(record/2) , switch_check_reset: Math.floor(reset/2) , switch_check_mode: Math.floor(mode/2)});
                     }).catch(function (error) {
                       // ne pravi nisto samo vrti
                     });

@@ -59,7 +59,7 @@ class FirstBlock extends Component {
     }
 
     handleDownloadClick() {
-     this.DownloadReport();
+      this.props.DownloadReport();
     }
 
     handleStopClick() {
