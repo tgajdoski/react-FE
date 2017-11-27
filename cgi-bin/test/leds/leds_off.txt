@@ -1,0 +1,2 @@
+LEDS: VT-100: front: r2=0 bi1:r=0,g=0
+LEDS: VT-100:  back: g1=0 r1=0 b1=0

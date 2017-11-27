@@ -1,0 +1,2 @@
+charger=discharging
+battery_mv=3700

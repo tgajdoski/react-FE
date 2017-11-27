@@ -1,0 +1,13 @@
+#!/bin/sh
+test="switch_daemon"
+testdir="/mnt/share/cgi-bin/test/switch"
+mkdir -p $testdir
+#nc -ll -p 3000 -e ./daemon &
+#./daemon 
+echo "Content-type: text/html"
+echo ""
+echo "{"
+echo -e '\t' '"'$test'":' "{"
+echo -e '\t\t' '"'status'"': '"'true'"'
+echo -e '\t'"}"
+echo "}"
