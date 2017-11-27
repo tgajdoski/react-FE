@@ -9,7 +9,7 @@ class Audio extends Component {
     this.state = {
       isplaying: false,
       playSettings: {
-          url : `${this.props.url}gi-bin/04_audio_play.cgi`,
+          url : `${this.props.url}cgi-bin/04_audio_play.cgi`,
           playStatus : 'STOPPED'
       }
     }
