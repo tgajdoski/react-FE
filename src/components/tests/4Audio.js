@@ -9,7 +9,7 @@ class Audio extends Component {
     this.state = {
       isplaying: false,
       playSettings: {
-          url : "//192.168.12.22:81/cgi-bin/04_audio_play.cgi",
+          url : `${this.props.url}gi-bin/04_audio_play.cgi`,
           playStatus : 'STOPPED'
       }
     }
@@ -39,7 +39,7 @@ class Audio extends Component {
 
   handlePlay() {
     const playSet = {
-            url : "//192.168.12.22:81/cgi-bin/04_audio_play.cgi",
+            url : `${this.props.url}cgi-bin/04_audio_play.cgi`,
             playStatus : "PLAYING"
     }
     this.setState({playSettings: playSet, isplaying: true});
@@ -48,7 +48,7 @@ class Audio extends Component {
 
   handleStop() {
     const playSet = {
-            url : "//192.168.12.22:81/cgi-bin/04_audio_play.cgi",
+            url : `${this.props.url}cgi-bin/04_audio_play.cgi`,
             playStatus : 'STOPPED'
     }
     this.setState({playSettings: playSet, isplaying: false});

@@ -49,10 +49,6 @@ class Serialization extends Component {
   }
 
 
-  componentDidMount(){
-    this.firstInput.focus(); 
- }
-
   render() {
     return (
       <div id="div2">

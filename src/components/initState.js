@@ -1,5 +1,5 @@
 export default {
- "ininData" : 
+ "initData" : 
  [
     {
       "testindex": 0,

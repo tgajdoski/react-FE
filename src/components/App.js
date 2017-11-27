@@ -14,6 +14,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
+      url: '',
       headerText: 'header text',
       testsCompleted: [],
       testMessages: [],
@@ -40,11 +41,18 @@ class App extends Component {
       errorOccured: false,
       serializationNumber: '',
       counter: 0,
-      modelType:'',
+      modelType: '',
       refreshId: null,
       testResponses: initState.ininData
     }
   }
+
+
+
+  componentDidMount(){
+    let url = window.location.href;
+    this.setState({url: url});
+ }
 
 
   cLog = () => {
@@ -159,7 +167,7 @@ class App extends Component {
           // ako e ukluceno da se kaze deka e OK
           // axios 08_charger_conn.cgi
           self.ToastMessage("CHARGER CONNECTION TEST" , "info", 2000);    
-          let url = '//192.168.12.22:81/cgi-bin/08_charger_conn.cgi';
+          let url = `${self.state.url}cgi-bin/08_charger_conn.cgi`;
           axios.get(url)
           .then(function (response) { 
             if(response.data.charger_connected.charger ==='charge')
@@ -181,7 +189,7 @@ class App extends Component {
           // ako e ukluceno da se kaze deka e OK
           // axios 08_charger_discon.cgi
           self.ToastMessage("CHARGER DISCONNECTION TEST" , "info", 2000);    
-          let url = '//192.168.12.22:81/cgi-bin/08_charger_discon.cgi';
+          let url = `${self.state.url}cgi-bin/08_charger_discon.cgi`;
           axios.get(url)
           .then(function (response) { 
             if(response.data.charger_disconnected.charger ==='discharging')
@@ -255,7 +263,7 @@ class App extends Component {
      
       // gasi ja skriptata
       console.log("GASAM SKRIPTA");
-      let url2 = `//192.168.12.22:81/cgi-bin/05_switch_final.cgi`;
+      let url2 = `${this.state.url}cgi-bin/05_switch_final.cgi`;
       axios.get(url2).then(function (response) {   
         console.log("SE E OK SO GASENJE SKRIPTA "+ JSON.stringify(response.data));
       })
@@ -273,7 +281,7 @@ class App extends Component {
      else {
 
       this.ToastMessage("CHECKING AUDIO FINAL TEST ... Please wait" , "info", 1000);
-      let url = `//192.168.12.22:81/cgi-bin/04_audio_final.cgi`;
+      let url = `${this.state.url}cgi-bin/04_audio_final.cgi`;
       let self = this;
       axios.get(url)
       .then(function (response) {   
@@ -350,19 +358,9 @@ class App extends Component {
   DownloadReport = () => {
     let self = this;
     console.log("TO DOWNLOAD ");
-    let url = `//192.168.12.22:81/cgi-bin/09_download.cgi`;
+    let url = `${self.state.url}cgi-bin/09_download.cgi`;
     window.location.assign(url);
   
-   // let url = `//192.168.12.22:81/cgi-bin/00_hwrev.cgi`;
-    // axios.get(url)
-    // .then(function (response) {   
-    //   // throw new Error("Error VIDEO TEST"); 
-    //   let test = '//192.168.12.22:81/favicon.ico';
-    // //  self.download(test); //response.url
-    // window.location.assign(test);
-    // }).catch(function (error) {
-    // // ne pravi nisto na error
-    // });
   }
 
 
@@ -379,13 +377,13 @@ class App extends Component {
     switch(index) {
       case 0:
       // sd card 
-        let url1 = '//192.168.12.22:81/cgi-bin/01_sdcard_info.cgi';
-        let url2 = '//192.168.12.22:81/cgi-bin/01_sdcard_mount.cgi';
-        let url3 = '//192.168.12.22:81/cgi-bin/01_sdcard_write.cgi';
-        let url4 = '//192.168.12.22:81/cgi-bin/01_sdcard_umount.cgi';
-        let url5 = '//192.168.12.22:81/cgi-bin/01_sdcard_mount.cgi';
-        let url6 = '//192.168.12.22:81/cgi-bin/01_sdcard_write_test.cgi';
-        let url7 = '//192.168.12.22:81/cgi-bin/01_sdcard_final.cgi';
+        let url1 = `${self.state.url}cgi-bin/01_sdcard_info.cgi`;
+        let url2 = `${self.state.url}cgi-bin/01_sdcard_mount.cgi`;
+        let url3 = `${self.state.url}cgi-bin/01_sdcard_write.cgi`;
+        let url4 = `${self.state.url}cgi-bin/01_sdcard_umount.cgi`;
+        let url5 = `${self.state.url}cgi-bin/01_sdcard_mount.cgi`;
+        let url6 = `${self.state.url}cgi-bin/01_sdcard_write_test.cgi`;
+        let url7 = `${self.state.url}cgi-bin/01_sdcard_final.cgi`;
         self.ToastMessage("CHECKING SD-CARD INFO" , "info", 1000);
         axios.get(url1 , {
           params: {}
@@ -501,7 +499,7 @@ class App extends Component {
       case 1:
       // sersial
        // console.log(self.state.serializationNumber)
-        url = `//192.168.12.22:81/cgi-bin/02_serial.cgi?${self.state.serializationNumber}`;
+        url = `${self.state.url}cgi-bin/02_serial.cgi?${self.state.serializationNumber}`;
         let DATATANATESTOT = new Date();
         self.ToastMessage("CHECKING SERIALIZATION INFO " , "info", 1000);
         axios.get(url , {
@@ -534,7 +532,7 @@ class App extends Component {
         let dateVideo = new Date();
         self.setState({startVideoDate: dateVideo});
         setTimeout(function(){
-            url = `//192.168.12.22:81/cgi-bin/03_video_snap.cgi?${self.state.videoSnapCounter+1}`;       
+            url = `${self.state.url}/cgi-bin/03_video_snap.cgi?${self.state.videoSnapCounter+1}`;       
             self.ToastMessage("CAPTURING VIDEO... Please wait" , "info", 3000);
             self.setState({videoSnapCounter: self.state.videoSnapCounter + 1, imagedata: url})
         }, 1000);
@@ -550,7 +548,7 @@ class App extends Component {
 
           if (self.state.videoSnapCounter >= 3){
           {
-            url = `//192.168.12.22:81/cgi-bin/03_video_final.cgi`;
+            url = `${self.state.url}cgi-bin/03_video_final.cgi`;
             axios.get(url)
             .then(function (response) {   
               if (response.data.fideo_final.test !=='true'){ 
@@ -569,7 +567,7 @@ class App extends Component {
          // AUDIO
           //let dateAudio = new Date();
               self.ToastMessage("RECORDING AUDIO... Please wait" , "info", 6000);
-              url = `//192.168.12.22:81/cgi-bin/04_audio_record.cgi`;       
+              url = `${self.state.url}cgi-bin/04_audio_record.cgi`;       
               let dateAudio = new Date();
               self.setState({startAudioDate: dateAudio});
             axios.get(url)
@@ -592,9 +590,9 @@ class App extends Component {
 
             self.setState({counterLimit: false})
             self.ToastMessage("SWITCH TEST... Please wait" , "info", 6000);
-            url = `//192.168.12.22:81/cgi-bin/05_switchdaemon.cgi?vt50`;  
+            url = `${self.state.url}cgi-bin/05_switchdaemon.cgi?vt50`;  
             if (self.state.modelType.toUpperCase()==='VT100')
-              url = `//192.168.12.22:81/cgi-bin/05_switchdaemon.cgi?vt100`;     
+              url = `${self.state.url}cgi-bin/05_switchdaemon.cgi?vt100`;     
             let dateSwitch = new Date();
             self.setState({startSwitchDate: dateSwitch});
             axios.get(url)
@@ -604,9 +602,9 @@ class App extends Component {
               
               var refreshIntervalId = setInterval(
                 (function() {    
-                let url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi?vt50`;
+                let url1 = `${self.state.url}cgi-bin/05_switch_check.cgi?vt50`;
                 if (self.state.modelType.toUpperCase()==='VT100')
-                  url1 = `//192.168.12.22:81/cgi-bin/05_switch_check.cgi?vt100`;
+                  url1 = `${self.state.url}cgi-bin/05_switch_check.cgi?vt100`;
                     axios.get(url1).then(function (response) {                      
                       let power = response.data.switch_check.Power;
                       let record = response.data.switch_check.Record;
@@ -650,7 +648,7 @@ class App extends Component {
         break;
       case 5:
       // LED TEST
-          url = '//192.168.12.22:81/cgi-bin/06_leds_off.cgi';
+          url = `${self.state.url}cgi-bin/06_leds_off.cgi`;
             self.ToastMessage("LED TURN OFF" , "info", 2000);     
             let LedDate = new Date();
             self.setState({startLedDate: LedDate});
@@ -670,7 +668,7 @@ class App extends Component {
       case 6:
       // BUZZER TEST
           self.ToastMessage("BUZZER TEST" , "info", 500);    
-          url = '//192.168.12.22:81/cgi-bin/07_buzzvib.cgi';
+          url = `${self.state.url}cgi-bin/07_buzzvib.cgi`;
           let BuzzDate = new Date();
           self.setState({startBuzzDate: BuzzDate});
           axios.get(url)
