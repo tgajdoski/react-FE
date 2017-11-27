@@ -4,18 +4,19 @@ import Sound from 'react-sound';
 import '../../css/tests.css';
 
 class Audio extends Component {
-  constructor(){
-    super();
+  constructor(props) {
+    super(props)
+    let url =`${this.props.url}cgi-bin/04_audio_play.cgi`;
     this.state = {
       isplaying: false,
       playSettings: {
-          url : `${this.props.state.url}cgi-bin/04_audio_play.cgi`,
+          url : url,
           playStatus : 'STOPPED'
       }
     }
   }
 
-  componentDidMount() {
+  componentDidMount(){
     console.log(this.state.playSettings.playStatus);
     console.log(this.state.isplaying);
   }
@@ -39,7 +40,7 @@ class Audio extends Component {
 
   handlePlay() {
     const playSet = {
-            url : `${this.props.state.url}cgi-bin/04_audio_play.cgi`,
+            url : `${this.props.url}cgi-bin/04_audio_play.cgi`,
             playStatus : "PLAYING"
     }
     this.setState({playSettings: playSet, isplaying: true});
@@ -48,7 +49,7 @@ class Audio extends Component {
 
   handleStop() {
     const playSet = {
-            url : `${this.props.state.url}cgi-bin/04_audio_play.cgi`,
+            url : `${this.props.url}cgi-bin/04_audio_play.cgi`,
             playStatus : 'STOPPED'
     }
     this.setState({playSettings: playSet, isplaying: false});
