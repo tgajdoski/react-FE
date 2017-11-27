@@ -43,7 +43,7 @@ class App extends Component {
       counter: 0,
       modelType: '',
       refreshId: null,
-      testResponses: initState.ininData
+      testResponses: initState.initData
     }
   }
 
