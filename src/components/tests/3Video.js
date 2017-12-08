@@ -62,9 +62,12 @@ class Video extends Component {
               </td>
               <td className="thirdsize"> 
               <ul className="nobullets">
+                <li>
+                  <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
+                </li>
                   { this.props.videoSnapCounter > 2 ? 
                   <li>
-                      <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
+                      
                       <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
                   </li>
                   : null

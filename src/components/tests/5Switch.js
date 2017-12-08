@@ -64,14 +64,20 @@ class Switch extends Component {
               </td>
               <td className="thirdsize">
               <ul className="nobullets">
-                  <li className="linomargins">
+                     <li className="linomargins">
                       <ButtonNumbers>POWER  <span className="badge"> {this.props.switch_check_power}</span></ButtonNumbers>
+                      </li>
+                      <li className="linomargins">
                       <ButtonNumbers>RECORD <span className="badge"> {this.props.switch_check_record}</span></ButtonNumbers>
+                      </li>
+                      <li className="linomargins">
                       <ButtonNumbers>RESET  <span className="badge"> {this.props.switch_check_reset}</span></ButtonNumbers>
+                      </li>
                       { this.props.modelType.toUpperCase()==='VT50' ? 
+                       <li className="linomargins">
                       <ButtonNumbers>MODE  <span className="badge"> {this.props.switch_check_mode}</span></ButtonNumbers>
+                      </li>
                       : null }
-                  </li>
                 </ul>
               </td>
               <td className="thirdsize"> 

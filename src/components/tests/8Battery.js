@@ -105,7 +105,7 @@ class Batery extends Component {
           
               <ul className="nobullets">
                   <li>
-                      <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
+                      {/* <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange> */}
                       { this.props.currentBateryCounter >=3 ?
                       <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
                       : null
