@@ -25,8 +25,8 @@ class OverAll extends Component {
 
 export default OverAll;
 
-const ButtonDange = (props) =>
-  <button type="button"  {...props} className="btn btn-danger btn-lg" />
+// const ButtonDange = (props) =>
+//   <button type="button"  {...props} className="btn btn-danger btn-lg" />
 
 
 const ButtonSuccess = (props) =>

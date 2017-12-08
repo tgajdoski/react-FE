@@ -113,5 +113,5 @@ export default Serialization;
 // const Button = (props) =>
 // <button type="button" {...props} className={"btnnn " + props.className } />;
 
-const ButtonNext = (props) =>
-<button type="button"  {...props} className="btn btn-primary  btn-lg"/>
+// const ButtonNext = (props) =>
+// <button type="button"  {...props} className="btn btn-primary  btn-lg"/>

@@ -131,8 +131,8 @@ export default Batery;
 const ButtonConfirm = (props) =>
   <button type="button"  {...props} className="btnLed btn-success btn-md" />
 
-const ButtonDange = (props) =>
-  <button type="button"  {...props} className="btn btn-danger btn-lg" />
+// const ButtonDange = (props) =>
+//   <button type="button"  {...props} className="btn btn-danger btn-lg" />
 
 
 const ButtonSuccess = (props) =>
