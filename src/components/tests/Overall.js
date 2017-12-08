@@ -7,28 +7,27 @@ class OverAll extends Component {
   render() {
     return (
       <div id="div2">
-         <ul className="nobullets">       
-           
-              <li className="linomargins">
-                  <ButtonSuccess >
-                  PASSED 
-                  </ButtonSuccess>
-              </li>
+        <ul className="nobullets">
 
-              </ul>
-      <br />
-      <hr />
-    </div>
-);
-}
+          <li className="linomargins">
+            <ButtonSuccess >
+              PASSED
+            </ButtonSuccess>
+          </li>
+
+        </ul>
+        <br />
+        <hr />
+      </div>
+    );
+  }
 }
 
 export default OverAll;
 
- const ButtonDange = (props) =>
- <button type="button"  {...props} className="btn btn-danger btn-lg"/>
- 
+const ButtonDange = (props) =>
+  <button type="button"  {...props} className="btn btn-danger btn-lg" />
 
- const ButtonSuccess = (props) =>
- <button type="button"  {...props} className="btnOver btn-success btn-lg"/>
- 
+
+const ButtonSuccess = (props) =>
+  <button type="button"  {...props} className="btnOver btn-success btn-lg" />

@@ -26,12 +26,11 @@ class FirstBlock extends Component {
 
   // TIMER FUNCTIONS
     handleStartClick() {
-      
-     
     this.setState({
         secondsElapsed: 0,
         laps: []
     });
+
     this.incrementer = setInterval( () =>
         this.setState({secondsElapsed: this.state.secondsElapsed + 1}), 1000);
     
@@ -45,7 +44,6 @@ class FirstBlock extends Component {
       }
     })
     .then(function (response) {
-      console.log('TUKA SUM' + JSON.stringify(response.data));
       self.setState({hwrev: response.data.hwrev.revision});
       let modelTypeStr = response.data.hwrev.model;
       self.props.SetTypeModel(modelTypeStr);
@@ -61,6 +59,17 @@ class FirstBlock extends Component {
     handleDownloadClick() {
       this.props.DownloadReport();
     }
+
+    
+
+componentWillReceiveProps(nextProps){
+      if ((!this.props.errorOccured && nextProps.errorOccured) || (this.props.currentTestIndex === 7 && this.props.currentTestPassed))
+         {
+           // so treba da se napravi
+           this.handleStopClick()
+         }
+    }
+
 
     handleStopClick() {
     clearInterval(this.incrementer);

@@ -11,9 +11,9 @@ class Switch extends Component {
       sessionAttributes: {}, visible: 'open'
     };
   }
- 
- 
-  componentDidMount(){
+
+
+  componentDidMount() {
     this.props.StartTest(4);
   }
 
@@ -25,7 +25,7 @@ class Switch extends Component {
   handleNextTest() {
     this.props.handleNextTest();
   }
-  
+
   handleFAILTest = () => {
     this.props.handleSWITCHTest(false);
   }
@@ -33,7 +33,7 @@ class Switch extends Component {
   handlePASSTest = () => {
     this.props.handleSWITCHTest(true);
   }
-  
+
 
   componentWillUnmount = () => {
     clearInterval(this.props.refreshId);
@@ -56,48 +56,48 @@ class Switch extends Component {
                       </td>
                     </tr>
                     <tr>
-                    <td>
-                  </td>
+                      <td>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
               </td>
               <td className="thirdsize">
-              <ul className="nobullets">
-                     <li className="linomargins">
-                      <ButtonNumbers>POWER  <span className="badge"> {this.props.switch_check_power}</span></ButtonNumbers>
-                      </li>
-                      <li className="linomargins">
-                      <ButtonNumbers>RECORD <span className="badge"> {this.props.switch_check_record}</span></ButtonNumbers>
-                      </li>
-                      <li className="linomargins">
-                      <ButtonNumbers>RESET  <span className="badge"> {this.props.switch_check_reset}</span></ButtonNumbers>
-                      </li>
-                      { this.props.modelType.toUpperCase()==='VT50' ? 
-                       <li className="linomargins">
+                <ul className="nobullets">
+                  <li className="linomargins">
+                    <ButtonNumbers>POWER  <span className="badge"> {this.props.switch_check_power}</span></ButtonNumbers>
+                  </li>
+                  <li className="linomargins">
+                    <ButtonNumbers>RECORD <span className="badge"> {this.props.switch_check_record}</span></ButtonNumbers>
+                  </li>
+                  <li className="linomargins">
+                    <ButtonNumbers>RESET  <span className="badge"> {this.props.switch_check_reset}</span></ButtonNumbers>
+                  </li>
+                  {this.props.modelType.toUpperCase() === 'VT50' ?
+                    <li className="linomargins">
                       <ButtonNumbers>MODE  <span className="badge"> {this.props.switch_check_mode}</span></ButtonNumbers>
-                      </li>
-                      : null }
+                    </li>
+                    : null}
                 </ul>
               </td>
-              <td className="thirdsize"> 
-            
+              <td className="thirdsize">
+
                 <ul className="nobullets">
-                    <li>
-                        <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
-                        { this.props.counterLimit ?
-                          <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
-                          : null
-                          }
-                    </li>
-                   
-                    <li>
-                      { !this.props.errorOccured && this.props.currentTestPassed && 6===7?
-                        <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
-                        : null }
-                    </li>
-                  </ul>
-               
+                  <li>
+                    <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
+                    {this.props.counterLimit ?
+                      <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
+                      : null
+                    }
+                  </li>
+
+                  <li>
+                    {!this.props.errorOccured && this.props.currentTestPassed && 6 === 7 ?
+                      <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
+                      : null}
+                  </li>
+                </ul>
+
               </td>
             </tr>
           </tbody>
@@ -105,22 +105,21 @@ class Switch extends Component {
         <br />
         <hr />
       </div>
-);
-}
+    );
+  }
 }
 
 export default Switch
 
 const ButtonNumbers = (props) =>
-<button type="button"  {...props} className="btncounter btn-primary btn-md"/> 
+  <button type="button"  {...props} className="btncounter btn-primary btn-md" />
 
 const ButtonNext = (props) =>
-<button type="button"  {...props} className="btn btn-primary  btn-lg"/>
+  <button type="button"  {...props} className="btn btn-primary  btn-lg" />
 
- const ButtonDange = (props) =>
- <button type="button"  {...props} className="btn btn-danger btn-lg"/>
- 
+const ButtonDange = (props) =>
+  <button type="button"  {...props} className="btn btn-danger btn-lg" />
 
- const ButtonSuccess = (props) =>
- <button type="button"  {...props} className="btn btn-success btn-lg"/>
- 
+
+const ButtonSuccess = (props) =>
+  <button type="button"  {...props} className="btn btn-success btn-lg" />
