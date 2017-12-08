@@ -105,6 +105,12 @@ class FirstBlock extends Component {
                       </li>
                         : null
                       )}
+                      { (this.state.pchost ?
+                      <li>
+                        <h4>PC host name: {this.state.pchost}</h4>
+                      </li>
+                        : null
+                      )}    
                  </ul>
                 </td>
                 <td className="thirdsize">

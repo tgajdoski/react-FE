@@ -11,6 +11,10 @@ class Serialization extends Component {
       textFullfiled: false
     };
   }
+
+  componentDidMount(){
+    this.firstInput.focus();
+ }
  
 
   // handleTest() {
@@ -32,6 +36,7 @@ class Serialization extends Component {
       if (this.firstInput.value === this.secondInput.value){
         this.setState({textFullfiled: true}, this.props.handleSerializationClick(this.firstInput.value));
         // this.startSerial.focus();
+        this.handleSerialziaton();
       }
       else
       {
@@ -39,6 +44,7 @@ class Serialization extends Component {
         this.secondInput.value = '';
         this.firstInput.focus();
         this.setState({textFullfiled: false, snvalue: ''});
+       
       }
     }
   }
@@ -85,12 +91,12 @@ class Serialization extends Component {
                         </form>
               </td>
               <td className="thirdsize"> 
-                  { !this.props.currentTestStart && this.state.textFullfiled === true?     
+                  {/* { !this.props.currentTestStart && this.state.textFullfiled === true?     
                     <ButtonNext onClick={this.handleSerialziaton.bind(this)}>Start Serialization</ButtonNext>
                   : null }
                   { !this.props.errorOccured && this.props.currentTestPassed ?
                     <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
-                    : null }
+                    : null } */}
               </td>
             </tr>
           </tbody>
