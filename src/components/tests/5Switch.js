@@ -86,7 +86,7 @@ class Switch extends Component {
                     </li>
                    
                     <li>
-                      { !this.props.errorOccured && this.props.currentTestPassed ?
+                      { !this.props.errorOccured && this.props.currentTestPassed && 6===7?
                         <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
                         : null }
                     </li>

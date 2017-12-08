@@ -116,7 +116,7 @@ class Audio extends Component {
                         <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
                     </li>
                   <li>
-                    { !this.props.errorOccured && this.props.currentTestPassed ?
+                    { !this.props.errorOccured && this.props.currentTestPassed &&  6===7 ?
                       <ButtonNext onClick={this.handleNextTest.bind(this)}>NEXT TEST</ButtonNext>
                       : null }
                   </li>

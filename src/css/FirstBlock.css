@@ -51,9 +51,9 @@ body {
   
   .stopwatch { text-align: center }
   .stopwatch-timer {
-	font-size: 76px;
+	font-size: 36px;
 	font-weight: 100;
-	line-height: 160px;
+	line-height: 90px;
 	
 	margin: 0;
 	
@@ -68,9 +68,9 @@ body {
   }
   
   .stopwatch-lap {
-	font-size: 20px;
+	/* font-size: 20px;
 	line-height: 60px;
-	padding-right: 20px;
+	padding-right: 20px; */
 	text-align: right;
 	border-bottom: 1px solid #d9dae0;
   }

@@ -48,12 +48,6 @@ li {
 	padding: 0;
 }
 
-.tablecss {
-	width: 100%; 
-	margin-top: 20px;
-	table-layout: fixed; 
-  }
-  
 .btncounter{
 	margin: 10px;
 }

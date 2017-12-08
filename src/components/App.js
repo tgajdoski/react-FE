@@ -47,11 +47,12 @@ class App extends Component {
     }
   }
 
-
-
   componentDidMount(){
     let url = window.location.href;
-    this.setState({url: url});
+   // this.setState({url: url});
+   // ova za local
+   
+    this.setState({url: '//192.168.12.22:81/'});
  }
 
 
@@ -133,7 +134,7 @@ class App extends Component {
       "success": success
     };
     a[index] = tempRecord;
-    this.setState({testMessages: a}, null);
+   // this.setState({testMessages: a}, null);
   }
 
   CompleteTest = (index) => {
@@ -153,6 +154,8 @@ class App extends Component {
       this.CatchTestMessage(this.state.currentTestIndex, 'VIDEO TEST SUCCESS ', true);
       this.CatchTestResponse(this.state.currentTestIndex, 'VIDEO TEST PASS', 1, this.state.startVideoDate); 
       this.setState({currentTestPassed: true});  
+      //odi na drug test
+      this.NextTest();
     }
   }
 
@@ -166,13 +169,13 @@ class App extends Component {
           // da se testira uklucuvanje 
           // ako e ukluceno da se kaze deka e OK
           // axios 08_charger_conn.cgi
-          self.ToastMessage("CHARGER CONNECTION TEST" , "info", 2000);    
+      //    self.ToastMessage("CHARGER CONNECTION TEST" , "info", 2000);    
           let url = `${self.state.url}cgi-bin/08_charger_conn.cgi`;
           axios.get(url)
           .then(function (response) { 
             if(response.data.charger_connected.charger ==='charge')
             {
-              self.ToastMessage("CHARGE ON  battery_mv :" + response.data.charger_connected.battery_mv , "success", 3000);
+         //     self.ToastMessage("CHARGE ON  battery_mv :" + response.data.charger_connected.battery_mv , "success", 3000);
             //  self.CatchTestMessage(self.state.currentBateryCounter, BATsteps[self.state.currentBateryCounter], true);   
               self.setState({currentTestStart: true});
               self.CatchTestMessage(self.state.currentBateryCounter, 'CHARGE ON CHECKED ', true);
@@ -188,13 +191,13 @@ class App extends Component {
           // da se testira isklucuvanjeto  
           // ako e ukluceno da se kaze deka e OK
           // axios 08_charger_discon.cgi
-          self.ToastMessage("CHARGER DISCONNECTION TEST" , "info", 2000);    
+       //   self.ToastMessage("CHARGER DISCONNECTION TEST" , "info", 2000);    
           let url = `${self.state.url}cgi-bin/08_charger_discon.cgi`;
           axios.get(url)
           .then(function (response) { 
             if(response.data.charger_disconnected.charger ==='discharging')
             {
-              self.ToastMessage("CHARGE OFF  battery_mv :" + response.data.charger_disconnected.battery_mv , "success", 3000);  
+         //     self.ToastMessage("CHARGE OFF  battery_mv :" + response.data.charger_disconnected.battery_mv , "success", 3000);  
             //  self.CatchTestMessage(self.state.currentBateryCounter, BATsteps[self.state.currentBateryCounter], true); 
               self.setState({currentTestStart: true});
               self.CatchTestMessage(self.state.currentBateryCounter, 'CHARGE OFF CHECKED ', true);
@@ -232,6 +235,8 @@ class App extends Component {
        this.CatchTestMessage(this.state.currentTestIndex, 'LED TEST SUCCESS ', true);
        this.CatchTestResponse(this.state.currentTestIndex, 'LED TEST PASS', 1, this.state.startLedDate); 
        this.setState({currentTestPassed: true});  
+        //odi na drug test
+        this.NextTest();
      }
    }
    SetVibTestPass = (txt) =>{
@@ -242,6 +247,9 @@ class App extends Component {
        this.CatchTestMessage(this.state.currentTestIndex, 'Buzzer/Vibrator TEST SUCCESS ', true);
        this.CatchTestResponse(this.state.currentTestIndex, 'Buzzer/Vibrator TEST PASS', 1, this.state.startBuzzDate); 
        this.setState({currentTestPassed: true});  
+
+       // GOTO NEXT TEST
+       this.NextTest();
      }
    }
  
@@ -252,6 +260,7 @@ class App extends Component {
   }
 
   SetSWITCHTestPass = (txt) => {
+    let self = this;
     if (!txt)
       this.ErrorTest(this.state.currentTestIndex, new Error("SWITCH TEST FAIL"));
      else {
@@ -264,8 +273,11 @@ class App extends Component {
       // gasi ja skriptata
       console.log("GASAM SKRIPTA");
       let url2 = `${this.state.url}cgi-bin/05_switch_final.cgi`;
+      
       axios.get(url2).then(function (response) {   
-        console.log("SE E OK SO GASENJE SKRIPTA "+ JSON.stringify(response.data));
+      console.log("SE E OK SO GASENJE SKRIPTA "+ JSON.stringify(response.data));
+        //odi na drug test
+        self.NextTest();
       })
      .catch(function (error) {
       this.ToastMessage("Error SWITCH FINAL TETS !" , "error", 5000); 
@@ -280,21 +292,24 @@ class App extends Component {
       this.ErrorTest(this.state.currentTestIndex, new Error("AUDIO TEST FAIL"));
      else {
 
-      this.ToastMessage("CHECKING AUDIO FINAL TEST ... Please wait" , "info", 1000);
+    //  this.ToastMessage("CHECKING AUDIO FINAL TEST ... Please wait" , "info", 1000);
       let url = `${this.state.url}cgi-bin/04_audio_final.cgi`;
       let self = this;
       axios.get(url)
       .then(function (response) {   
         if (response.data.audio_final.status !=='true') { 
-          self.ToastMessage("Error AUDIO FINAL TETS !" , "error", 5000); 
+       //   self.ToastMessage("Error AUDIO FINAL TETS !" , "error", 5000); 
           self.setState({audioSnapCreated: false});
           throw new Error("Error AUDIO-FINAL TEST"); 
         }      
-        self.ToastMessage("AUDIO FINAL-TEST SUCCESS ", "success", 2000); 
+     //   self.ToastMessage("AUDIO FINAL-TEST SUCCESS ", "success", 2000); 
         self.CompleteTest(self.state.currentTestIndex);
         self.CatchTestMessage(self.state.currentTestIndex, 'AUDIO TEST SUCCESS ', true);
         self.CatchTestResponse(self.state.currentTestIndex, response, 1, self.state.startAudioDate); 
         self.setState({currentTestPassed: true});  
+        //odi na drug test
+        self.NextTest();
+
       }).catch(function (error) {
       // ne pravi nisto na error
       console.log(error.message);
@@ -384,7 +399,7 @@ class App extends Component {
         let url5 = `${self.state.url}cgi-bin/01_sdcard_mount.cgi`;
         let url6 = `${self.state.url}cgi-bin/01_sdcard_write_test.cgi`;
         let url7 = `${self.state.url}cgi-bin/01_sdcard_final.cgi`;
-        self.ToastMessage("CHECKING SD-CARD INFO" , "info", 1000);
+    //    self.ToastMessage("CHECKING SD-CARD INFO" , "info", 1000);
         axios.get(url1 , {
           params: {}
         }).then(function (response) {
@@ -394,79 +409,82 @@ class App extends Component {
               self.CatchTestMessage(0, "CSD: " + response.data.sdcard.csd, true);
               self.CatchTestMessage(1, "CID: " + response.data.sdcard.cid, true);
               self.CatchTestMessage(2, "Capacity: " + response.data.sdcard.capacity, true);
-              self.ToastMessage("CSD: " + response.data.sdcard.csd, "success", 3000);
-              self.ToastMessage("CID: " + response.data.sdcard.cid, "success", 3000);
-              self.ToastMessage("CAPACITY: " + response.data.sdcard.capacity, "success", 3000);
-              self.ToastMessage("CHECKING SD-CARD MOUNT" , "info", 1000);
+           //   self.ToastMessage("CSD: " + response.data.sdcard.csd, "success", 3000);
+          //    self.ToastMessage("CID: " + response.data.sdcard.cid, "success", 3000);
+           //   self.ToastMessage("CAPACITY: " + response.data.sdcard.capacity, "success", 3000);
+           //   self.ToastMessage("CHECKING SD-CARD MOUNT" , "info", 1000);
               let dateSDCard = new Date();
             axios.get(url2 , {
               params: {}
             }).then(function (response) {
               console.log("01_sdcard_mount " + JSON.stringify(response.data.sdcard_mount.mount));
               if (response.data.sdcard_mount.mount !=='true'){
-                self.ToastMessage("SD CARD MOUNT TEST FAILED" , "error", 2000);
+         //       self.ToastMessage("SD CARD MOUNT TEST FAILED" , "error", 2000);
                 throw new Error("SD CARD MOUNT TEST FAILED");
                // throw "SD CARD MOUNT TEST FAILED";
               }
-              self.ToastMessage("SD CARD MOUNT SUCCESS" , "success", 2000);
+         //     self.ToastMessage("SD CARD MOUNT SUCCESS" , "success", 2000);
               // set success messages and show them in sd card component
               self.CatchTestMessage(3, 'SD CARD MOUNT SUCCESS ', true);
-              self.ToastMessage("CHECKING SD-CARD WRITE" , "info", 1000);
+        //      self.ToastMessage("CHECKING SD-CARD WRITE" , "info", 1000);
             
               //let dateSDWrite = new Date();
               axios.get(url3 , {
                 params: {}
               }).then(function (response) {
-                self.ToastMessage("SD CARD WRITE SUCCESS" , "success", 2000);
+      //          self.ToastMessage("SD CARD WRITE SUCCESS" , "success", 2000);
                 // set success messages and show them in sd card component 
                 self.CatchTestMessage(4, 'SD CARD WRITE SUCCESS ', true);
-                self.ToastMessage("CHECKING SD-CARD UNMOUNT" , "info", 1000);
+      //          self.ToastMessage("CHECKING SD-CARD UNMOUNT" , "info", 1000);
                
                 console.log("01_sdcard_write " + JSON.stringify(response.data.sdcard_write.write))
                 axios.get(url4 , {
                   params: {}
                 }).then(function (response) {
                   console.log("01_sdcard_umount " + JSON.stringify(response.data.sdcard_umount.mount))
-                  self.ToastMessage("SD CARD UNMOUNT SUCCESS" , "success", 2000);
+      //            self.ToastMessage("SD CARD UNMOUNT SUCCESS" , "success", 2000);
                   self.CatchTestMessage(5, 'SD CARD UNMOUNT SUCCESS ', true);
                   // SIMULACIJA DEKA NE USPEAL UNMOUNT
                    //response.data.sdcard_umount.mount  = 'true'
                   if (response.data.sdcard_umount.mount !=='false'){
-                    self.ToastMessage("SD CARD UNMOUNT FAILED" , "error", 2000);
+             //       self.ToastMessage("SD CARD UNMOUNT FAILED" , "error", 2000);
                     throw new Error("SD CARD UNMOUNT TEST FAILED");
                   }
-                  self.ToastMessage("CHECKING SD-CARD MOUNT" , "info", 1000);
+      //            self.ToastMessage("CHECKING SD-CARD MOUNT" , "info", 1000);
                   axios.get(url5 , {
                     params: {}
                   }).then(function (response) {
                     console.log("01_sdcard_mount " + JSON.stringify(response.data.sdcard_mount.mount))
                     if (response.data.sdcard_mount.mount !=='true'){
-                      self.ToastMessage("SD CARD MOUNT TEST FAILED" , "error", 2000);
+         //             self.ToastMessage("SD CARD MOUNT TEST FAILED" , "error", 2000);
                       //throw "SD CARD MOUNT TEST FAILED";
                       throw new Error("SD CARD MOUNT TEST FAILED");
                     }
-                    self.ToastMessage("SD CARD MOUNT SUCCESS" , "success", 2000);     
+       //             self.ToastMessage("SD CARD MOUNT SUCCESS" , "success", 2000);     
                     self.CatchTestMessage(6, 'SD CARD MOUNT SUCCESS ', true);
                     
-                    self.ToastMessage("CHECKING SD-CARD WRITE-TEST" , "info", 1000);
+      //              self.ToastMessage("CHECKING SD-CARD WRITE-TEST" , "info", 1000);
                     
                     axios.get(url6 , {
                       params: {}
                     }).then(function (response) {
                       console.log("01_sdcard_write_test " + JSON.stringify(response.data.sdcard_write_test.write_test))
-                      self.ToastMessage("SD CARD WRITE-TEST SUCCESS" , "success", 2000); 
+       //               self.ToastMessage("SD CARD WRITE-TEST SUCCESS" , "success", 2000); 
                       self.CatchTestMessage(7, 'SD CARD WRITE-TEST SUCCESS ', true);
-                      self.ToastMessage("CHECKING SD-CARD FINAL TEST" , "info", 1000);
+       //               self.ToastMessage("CHECKING SD-CARD FINAL TEST" , "info", 1000);
                       axios.get(url7 , {
                         params: {}
                       }).then(function (response) {
-                        self.ToastMessage("SD CARD FINAL TEST SUCCESS" , "success", 2000); 
+      //                  self.ToastMessage("SD CARD FINAL TEST SUCCESS" , "success", 2000); 
                         self.CatchTestMessage(8, 'SD CARD FINAL TEST SUCCESS ', true);
                         console.log("01_sdcard_final " + JSON.stringify(response.data.sdcard_final.test))
                            // ovie se za posledniot od sd-card test
                         self.CatchTestResponse(self.state.currentTestIndex, response, 1, dateSDCard);   
                         self.setState({currentTestPassed: true}); 
                         self.CompleteTest(self.state.currentTestIndex);
+                          // odi na next
+                        self.NextTest();
+                        
                       }).catch(function (error) {
                         self.ToastMessage("Error CHECKING FINAL TEST !" , "error", 5000); 
                         self.ErrorTest(self.state.currentTestIndex, error)
@@ -501,25 +519,28 @@ class App extends Component {
        // console.log(self.state.serializationNumber)
         url = `${self.state.url}cgi-bin/02_serial.cgi?${self.state.serializationNumber}`;
         let DATATANATESTOT = new Date();
-        self.ToastMessage("CHECKING SERIALIZATION INFO " , "info", 1000);
+     //   self.ToastMessage("CHECKING SERIALIZATION INFO " , "info", 1000);
         axios.get(url , {
           params: {
            // ID: self.state.serializationNumber
           }
         })
         .then(function (response) {
-          console.log(response.data)
-          console.log(response.data.serial)
-          console.log(response.data.serial.serial)
+          // console.log(response.data)
+          // console.log(response.data.serial)
+          // console.log(response.data.serial.serial)
           if (response.data.serial.status !=='true'){
               self.ToastMessage("Error CHECKING SERIALIZATION INFO !" , "error", 5000); 
               throw new Error("Error CHECKING SERIALIZATION INFO"); 
           }
-            self.ToastMessage("SERIALIZATION TEST SUCCESS" , "success", 2000); 
+    //        self.ToastMessage("SERIALIZATION TEST SUCCESS" , "success", 2000); 
             self.CatchTestMessage(0, `SN: ${response.data.serial.serial}`, true);
             self.CatchTestResponse(self.state.currentTestIndex, response, 1, DATATANATESTOT);   
             self.setState({currentTestPassed: true}); 
             self.CompleteTest(self.state.currentTestIndex);
+            // odi na next
+            self.NextTest();
+
         }).catch(function (error) {
           self.ToastMessage("Error CHECKING SERIALIZATION INFO !" , "error", 5000); 
           self.ErrorTest(self.state.currentTestIndex, error)
@@ -533,7 +554,7 @@ class App extends Component {
         self.setState({startVideoDate: dateVideo});
         setTimeout(function(){
             url = `${self.state.url}/cgi-bin/03_video_snap.cgi?${self.state.videoSnapCounter+1}`;       
-            self.ToastMessage("CAPTURING VIDEO... Please wait" , "info", 3000);
+          //  self.ToastMessage("CAPTURING VIDEO... Please wait" , "info", 3000);
             self.setState({videoSnapCounter: self.state.videoSnapCounter + 1, imagedata: url})
         }, 1000);
           // axios.get(url)
@@ -557,6 +578,7 @@ class App extends Component {
               }      
               console.log("SE E OK SO FINAL");
               //self.setState({currentTestPassed: true}); 
+          
             }).catch(function (error) {
             // ne pravi nisto na error
             });
@@ -574,7 +596,7 @@ class App extends Component {
             .then(function (response) { 
              if(response.data.audio_record.status ==='true')
              {
-               self.ToastMessage("AUDIO FILE CREATED " , "success", 2000); 
+        //       self.ToastMessage("AUDIO FILE CREATED " , "success", 2000); 
                self.setState({audioSnapCreated: true});
               } 
             }).catch(function (error) {
@@ -589,7 +611,7 @@ class App extends Component {
             // self.setState({modelType: 'VT-100'});
 
             self.setState({counterLimit: false})
-            self.ToastMessage("SWITCH TEST... Please wait" , "info", 6000);
+   //         self.ToastMessage("SWITCH TEST... Please wait" , "info", 6000);
             url = `${self.state.url}cgi-bin/05_switchdaemon.cgi?vt50`;  
             if (self.state.modelType.toUpperCase()==='VT100')
               url = `${self.state.url}cgi-bin/05_switchdaemon.cgi?vt100`;     
@@ -649,14 +671,14 @@ class App extends Component {
       case 5:
       // LED TEST
           url = `${self.state.url}cgi-bin/06_leds_off.cgi`;
-            self.ToastMessage("LED TURN OFF" , "info", 2000);     
+         //   self.ToastMessage("LED TURN OFF" , "info", 2000);     
             let LedDate = new Date();
             self.setState({startLedDate: LedDate});
             axios.get(url)
             .then(function (response) { 
             if(response.data.leds_off.status ==='true')
             {
-              self.ToastMessage("ALL LED TURNED OFF " , "success", 2000); 
+          //    self.ToastMessage("ALL LED TURNED OFF " , "success", 2000); 
               self.setState({currentTestStart: true});
               } 
             }).catch(function (error) {
@@ -667,7 +689,7 @@ class App extends Component {
         break;
       case 6:
       // BUZZER TEST
-          self.ToastMessage("BUZZER TEST" , "info", 500);    
+   //       self.ToastMessage("BUZZER TEST" , "info", 500);    
           url = `${self.state.url}cgi-bin/07_buzzvib.cgi`;
           let BuzzDate = new Date();
           self.setState({startBuzzDate: BuzzDate});
@@ -675,7 +697,7 @@ class App extends Component {
           .then(function (response) { 
             if(response.data.buzzer_vibrator.status ==='true')
             {
-              self.ToastMessage("BUZZER ON" , "success", 1000);   
+         //     self.ToastMessage("BUZZER ON" , "success", 1000);   
               self.setState({currentTestStart: true});
             } 
           }).catch(function (error) {
@@ -688,7 +710,7 @@ class App extends Component {
       // BATERY TEST
           let BatDate = new Date();
           self.setState({currentTestStart: true});
-          self.ToastMessage("BATERY TEST STARTED" , "info", 2000);  
+     //     self.ToastMessage("BATERY TEST STARTED" , "info", 2000);  
           self.setState({startBateryDate: BatDate}); 
 
         break;

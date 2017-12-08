@@ -89,20 +89,23 @@ class FirstBlock extends Component {
             <tbody>
               <tr className="liRectStyle">
                 <td className="thirdsize">
-                  <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                      <h2>MODEL - {this.props.modelType.toUpperCase()} </h2>
-                      </td>
-                    </tr>
-                    <tr>
-                      {/* <td>
-                        <h3 className="leftfloat"> HOME </h3>
-                      </td> */}
-                    </tr>
-                    </tbody>
-                  </table>
+                <ul className="nobullets">
+                  <li>
+                    <h4>MODEL - {this.props.modelType.toUpperCase()} </h4>
+                  </li>
+                    { (this.props.serializationNumber ?
+                        <li>
+                          <h4>S/N : {this.props.serializationNumber}</h4>
+                        </li>
+                      : null
+                      )}
+                      { (this.state.hwrev ?
+                      <li>
+                        <h4>HW rev: {this.state.hwrev}</h4>
+                      </li>
+                        : null
+                      )}
+                 </ul>
                 </td>
                 <td className="thirdsize">
 
@@ -128,21 +131,10 @@ class FirstBlock extends Component {
                     <ul className="nobullets">
                         <li>
                           <div className="stopwatch">
-                            <h1 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h1>
+                            <h4 className="stopwatch-timer">{formattedSeconds(this.state.secondsElapsed)}</h4>
                           </div>
                         </li>
-                        { (this.props.serializationNumber ?
-                          <li>
-                           <h4>S/N : {this.props.serializationNumber}</h4>
-                          </li>
-                        : null
-                        )}
-                        { (this.state.hwrev ?
-                        <li>
-                          <h4>HW rev: {this.state.hwrev}</h4>
-                        </li>
-                         : null
-                        )}
+                       
                       </ul>
                 </td>
               </tr>

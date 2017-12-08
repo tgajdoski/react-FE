@@ -42,40 +42,6 @@ body {
 	background-color: #efeff5;
   }
   
-  .stopwatch { text-align: center }
-  .stopwatch-timer {
-	font-size: 76px;
-	font-weight: 100;
-	line-height: 160px;
-	
-	margin: 0;
-	
-	border: solid #cecfd0;
-	border-width: 1px 0;
-	background-color: white;
-  }
-  
-  .stopwatch-laps {
-	padding: 0 0 0 20px;
-	list-style-type: none;
-  }
-  
-  .stopwatch-lap {
-	font-size: 20px;
-	line-height: 60px;
-	padding-right: 20px;
-	text-align: right;
-	border-bottom: 1px solid #d9dae0;
-  }
-  
-  .stopwatch-lap strong {
-	float: left;
-	color: #7f8083;
-	font-weight: 100;
-  }
-  
-  .stopwatch-lap strong::before { content: 'Lap ' }
-  
   .btn {
 	font-family: inherit;
 	font-size: 20px;
