@@ -58,7 +58,6 @@ class App extends Component {
    
   }
 
-
   cLog = () => {
     // console.log("VO CALLBACK");
     // debugger;
@@ -323,13 +322,14 @@ class App extends Component {
     }
   }
 
-
   ErrorTest = (index, error) => {
+   
     this.setState({ errorOccured: true }, null);
     this.CatchTestResponse(index, error, 2, new Date());
     this.setState({ currentTestPassed: false });
     this.CatchTestMessage(index, error.message, false);
     this.CompleteTest(index);
+    this.setState({ currentTestIndex: 10 }, null);
   }
 
   ToastMessage = (message, type, times) => {
@@ -388,12 +388,44 @@ class App extends Component {
     // AKO SE SITE ZAVRSENI 
   }
 
+  setInitState =() =>{
+    this.setState({  testsCompleted: [],
+      testMessages: [],
+      currentTestIndex: null,
+      currentTestStart: false,
+      currentTestPassed: false,
+      audioSnapCreated: false,
+      videoSnapCounter: 0,
+      startVideoDate: null,
+      startAudioDate: null,
+      startLedDate: null,
+      startBuzzDate: null,
+      startSwitchDate: null,
+      startBateryDate: null,
+      currentBateryCounter: 0,
+      switch_check_power: null,
+      switch_check_record: null,
+      switch_check_reset: null,
+      switch_check_mode: null,
+      counterLimit: 0,
+      imagedata: '',
+      errorOccured: false,
+      serializationNumber: '',
+      counter: 0,
+      refreshId: null,
+      testResponses: initState.initData
+     }, this.cLog);
+  }
+
   StartTest = (index) => {
+// init state again
     this.setState({ currentTestIndex: index, currentTestStart: true }, this.cLog);
     let self = this;
     let url = '';
     switch (index) {
       case 0:
+      // inicijaliziraj gi site
+    
         // sd card 
         let url1 = `${self.state.url}cgi-bin/01_sdcard_info.cgi`;
         let url2 = `${self.state.url}cgi-bin/01_sdcard_mount.cgi`;
@@ -732,9 +764,10 @@ class App extends Component {
             StartTest={this.StartTest}
             SetTypeModel={this.SetTypeModel}
             SetMinMaxDigits = {this.SetMinMaxDigits}
+            setInitState = {this.setInitState}
             {...this.state}
           />
-          {!this.state.errorOccured ?
+          
             <SecondBlock
               StartTest={this.StartTest}
               NextTest={this.NextTest}
@@ -749,8 +782,7 @@ class App extends Component {
               SetBateryCounter={this.SetBateryCounter}
               {...this.state}
             />
-            : null
-          }
+  
           <ThirdBlock
             DownloadReport={this.DownloadReport}
             {...this.state}

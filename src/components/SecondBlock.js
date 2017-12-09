@@ -10,7 +10,7 @@ import Led from './tests/6Led';
 import Vibrator from './tests/7Vibrator';
 import Batery from './tests/8Battery';
 import OverAll from './tests/Overall';
-
+import OverAllFail from './tests/OverallFail';
 
 class SecondBlock extends Component {
   // constructor(props) {
@@ -30,6 +30,18 @@ class SecondBlock extends Component {
     this.SetVideoTestPass(fOp);
   }
  
+
+
+  componentWillReceiveProps(nextProps){
+    console.log('AAAAAA' , this.props.errorOccured , nextProps.errorOccured);
+    if ((!this.props.errorOccured && nextProps.errorOccured))
+      {
+        console.log('AAAAAA' , this.props.currentTestIndex);
+        // || (this.props.currentTestIndex === 7 && this.props.currentTestPassed)
+        // so treba da se napravi
+       
+      }
+  }
   
 
   handleSWITCHTest(fOp){
@@ -70,6 +82,8 @@ class SecondBlock extends Component {
    }
 
   render() {
+
+    console.log('ALLLLAO ', this.props.errorOccured);
     return( 
       <div>
         { this.props.currentTestIndex === 0 ?
@@ -130,8 +144,12 @@ class SecondBlock extends Component {
           handleConfirm = {this.handleConfirm}
           /> : null
         }
-        { this.props.currentTestIndex > 7 ?
+        { this.props.currentTestIndex === 8 ?
           <OverAll  {...this.props} 
+          /> : null
+        }
+        { this.props.errorOccured  && this.props.currentTestIndex === 10 ?
+          <OverAllFail  {...this.props} 
           /> : null
         }
       </div>

@@ -55,6 +55,7 @@ class FirstBlock extends Component {
       self.state.errorOccured = true;
     });
 
+    this.props.setInitState();
 
     this.props.StartTest(0);
     }
@@ -66,7 +67,7 @@ class FirstBlock extends Component {
     
 
 componentWillReceiveProps(nextProps){
-      if ((!this.props.errorOccured && nextProps.errorOccured) || (this.props.currentTestIndex === 7 && this.props.currentTestPassed))
+      if ((!this.props.errorOccured && nextProps.errorOccured) || (this.props.currentTestIndex === 8 && !this.props.currentTestPassed && !this.props.currentTestStart))
          {
            // so treba da se napravi
            this.handleStopClick()
@@ -133,13 +134,6 @@ componentWillReceiveProps(nextProps){
                          <li>
                             <Button className="btnn start-btn" onClick={this.handleStartClick.bind(this)}>START TEST</Button>
                           </li>
-                        :  null
-                        )}
-
-                        {(((this.props.currentTestIndex === 7 && this.props.currentTestPassed) || this.props.errorOccured) && (this.state.secondsElapsed === 0 || this.incrementer !== this.state.lastClearedIncrementer) ?
-                        <li> 
-                         <Button className="btnn stop-btn" onClick={this.handleDownloadClick.bind(this)}>DOWNLOAD</Button>
-                        </li>
                         :  null
                         )}
                     </ul>
