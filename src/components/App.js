@@ -52,7 +52,7 @@ class App extends Component {
   componentDidMount() {
     let url = window.location.href;
      // ova za local - komentiraj go 
-    url = '//192.168.12.22:81/';
+   // url = '//192.168.12.22:81/';
     this.setState({url: url});
    
    
