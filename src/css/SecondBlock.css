@@ -58,14 +58,14 @@ body {
 
   .btnOver {
     font-family: inherit;
-    font-size: 18px;
+    font-size: 28px;
     
     display: inline-block;
     border: 2px solid;
     border-radius: 25px;
-    width: 400px;
-    height: 152px;
-    margin: 24px;
+    width: 500px;
+    height: 100px;
+    margin: 10px;
     padding: 0;
 
     }
