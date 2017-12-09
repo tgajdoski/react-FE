@@ -26,8 +26,11 @@ class Serialization extends Component {
   }
 
   handleKeyPressFirst = (e) => {
+   let self =  this;
     if (e.key === 'Enter') {
-      this.secondInput.focus();
+      if(!isNaN(self.firstInput.value) && self.firstInput.value.toString().length <=this.props.minDigits &&  self.firstInput.value.toString().length >= this.props.maxDigits){
+        this.secondInput.focus();  
+      }
     }
   }
 

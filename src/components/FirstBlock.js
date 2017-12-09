@@ -46,7 +46,10 @@ class FirstBlock extends Component {
     .then(function (response) {
       self.setState({hwrev: response.data.hwrev.revision});
       let modelTypeStr = response.data.hwrev.model;
+      let minDigits = response.data.hwrev.min_serial;
+      let maxDigits = response.data.hwrev.max_serial;
       self.props.SetTypeModel(modelTypeStr);
+      self.props.SetMinMaxDigits(minDigits, maxDigits);
     })
     .catch(function (error) {
       self.state.errorOccured = true;

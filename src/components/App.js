@@ -42,6 +42,8 @@ class App extends Component {
       serializationNumber: '',
       counter: 0,
       modelType: '',
+      minDigits: 0,
+      maxDigits: 10,
       refreshId: null,
       testResponses: initState.initData
     }
@@ -254,6 +256,13 @@ class App extends Component {
   SetTypeModel = (txt) => {
     if (txt)
       this.setState({ modelType: txt });
+  }
+
+  SetMinMaxDigits = (minn, maxx) => {
+    if (minn)
+      this.setState({ minDigits: minn });
+    if (maxx)
+      this.setState({ maxDigits: maxx });
   }
 
   SetSWITCHTestPass = (txt) => {
@@ -633,7 +642,7 @@ class App extends Component {
                 }).catch(function (error) {
                   // ne pravi nisto samo vrti
                 });
-                debugger;
+               
                 if (self.state.modelType.toUpperCase() === 'VT100') {
                   if (self.state.switch_check_power >= 3 && self.state.switch_check_record >= 3 && self.state.switch_check_reset >= 3) {
                     self.setState({ counterLimit: true })
@@ -655,7 +664,7 @@ class App extends Component {
             //   this.setState({refreshId: refreshIntervalId});
           })
           .catch(function (error) {
-            debugger;
+          
             self.ToastMessage("Error SWITCH  TETS !", "error", 5000);
             self.setState({ audioSnapCreated: false });
             throw new Error("Error SWITCH TEST FAILED");
@@ -722,6 +731,7 @@ class App extends Component {
             DownloadReport={this.DownloadReport}
             StartTest={this.StartTest}
             SetTypeModel={this.SetTypeModel}
+            SetMinMaxDigits = {this.SetMinMaxDigits}
             {...this.state}
           />
           {!this.state.errorOccured ?
