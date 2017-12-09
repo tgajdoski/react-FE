@@ -66,12 +66,9 @@ class FirstBlock extends Component {
 
     
 
-componentWillReceiveProps(nextProps){
-      if ((!this.props.errorOccured && nextProps.errorOccured) || (this.props.currentTestIndex === 8 && !this.props.currentTestPassed && !this.props.currentTestStart))
-         {
-           // so treba da se napravi
+    componentWillReceiveProps(nextProps){
+      if ((!this.props.errorOccured && nextProps.errorOccured) || nextProps.currentTestIndex === 8 )
            this.handleStopClick()
-         }
     }
 
 
@@ -130,13 +127,13 @@ componentWillReceiveProps(nextProps){
 
                     <ul className="nobullets">
                      
-                        {(this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer && !this.props.errorOccured  && this.props.currentTestIndex !== 10 && this.props.currentTestIndex !== 8 ?
+                        {((this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer) && !this.props.errorOccured  && this.props.currentTestIndex !== 10 && this.props.currentTestIndex !== 8 ?
                          <li>
                             <Button className="btnn start-btn" onClick={this.handleStartClick.bind(this)}>START TEST</Button>
                           </li>
                         :  null
                         )}
-                        {(this.props.errorOccured  && this.props.currentTestIndex === 10 || this.props.currentTestIndex === 8 ?
+                        {((this.props.errorOccured  && this.props.currentTestIndex === 10) || this.props.currentTestIndex === 8 ?
                           <li>
                              <Button className="btnnagain start-btn" onClick={this.handleStartClick.bind(this)}>START AGAIN</Button>
                            </li>
