@@ -31,17 +31,6 @@ class SecondBlock extends Component {
   }
  
 
-
-  componentWillReceiveProps(nextProps){
-    console.log('AAAAAA' , this.props.errorOccured , nextProps.errorOccured);
-    if ((!this.props.errorOccured && nextProps.errorOccured))
-      {
-        console.log('AAAAAA' , this.props.currentTestIndex);
-        // || (this.props.currentTestIndex === 7 && this.props.currentTestPassed)
-        // so treba da se napravi
-       
-      }
-  }
   
 
   handleSWITCHTest(fOp){
@@ -82,8 +71,6 @@ class SecondBlock extends Component {
    }
 
   render() {
-
-    console.log('ALLLLAO ', this.props.errorOccured);
     return( 
       <div>
         { this.props.currentTestIndex === 0 ?

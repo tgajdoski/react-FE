@@ -102,8 +102,29 @@ body {
 	outline: none;
 	background: white;
   }
+	
   
-  
+  .btnnagain {
+		font-family: inherit;
+		font-size: 20px;
+		
+		display: inline-block;
+		
+		width: 105px;
+		height: 122px;
+		margin: 34px;
+		padding: 0;
+		
+		cursor: pointer;
+		letter-spacing: 1px;
+		
+		border: 1;
+		border-radius: 30%;
+		outline: none;
+		background: white;
+		}
+
+
   .start-btn { color: #197927 }
 	.stop-btn  { color: #fd3d2a }
 	

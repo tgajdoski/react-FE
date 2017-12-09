@@ -276,11 +276,11 @@ class App extends Component {
     }
 
     // gasi ja skriptata
-    console.log("GASAM SKRIPTA");
+   // console.log("GASAM SKRIPTA");
     let url2 = `${this.state.url}cgi-bin/05_switch_final.cgi`;
 
     axios.get(url2).then(function (response) {
-      console.log("SE E OK SO GASENJE SKRIPTA " + JSON.stringify(response.data));
+     // console.log("SE E OK SO GASENJE SKRIPTA " + JSON.stringify(response.data));
       //odi na drug test
       self.NextTest();
     })
@@ -317,7 +317,7 @@ class App extends Component {
 
         }).catch(function (error) {
           // ne pravi nisto na error
-          console.log(error.message);
+         // console.log(error.message);
         });
     }
   }
@@ -376,14 +376,14 @@ class App extends Component {
 
   DownloadReport = () => {
     let self = this;
-    console.log("TO DOWNLOAD ");
+   // console.log("TO DOWNLOAD ");
     let url = `${self.state.url}cgi-bin/09_download.cgi`;
     window.location.assign(url);
 
   }
 
   NextTest = () => {
-    console.log("VO NEXT TEST");
+   // console.log("VO NEXT TEST");
     this.setState({ currentTestIndex: this.state.currentTestIndex + 1, currentTestStart: false, currentTestPassed: false, testMessages: [] });
     // AKO SE SITE ZAVRSENI 
   }
@@ -439,7 +439,7 @@ class App extends Component {
           params: {}
         }).then(function (response) {
           // ispisi sto treba i povikaj nov
-          console.log("01_sdcard_info " + JSON.stringify(response.data.sdcard))
+        //  console.log("01_sdcard_info " + JSON.stringify(response.data.sdcard))
           // STORE INFO FROM SD_INFO
           self.CatchTestMessage(0, "CSD: " + response.data.sdcard.csd, true);
           self.CatchTestMessage(1, "CID: " + response.data.sdcard.cid, true);
@@ -452,7 +452,7 @@ class App extends Component {
           axios.get(url2, {
             params: {}
           }).then(function (response) {
-            console.log("01_sdcard_mount " + JSON.stringify(response.data.sdcard_mount.mount));
+        //    console.log("01_sdcard_mount " + JSON.stringify(response.data.sdcard_mount.mount));
             if (response.data.sdcard_mount.mount !== 'true') {
               //       self.ToastMessage("SD CARD MOUNT TEST FAILED" , "error", 2000);
               throw new Error("SD CARD MOUNT TEST FAILED");
@@ -472,7 +472,7 @@ class App extends Component {
               self.CatchTestMessage(4, 'SD CARD WRITE SUCCESS ', true);
               //          self.ToastMessage("CHECKING SD-CARD UNMOUNT" , "info", 1000);
 
-              console.log("01_sdcard_write " + JSON.stringify(response.data.sdcard_write.write))
+        //      console.log("01_sdcard_write " + JSON.stringify(response.data.sdcard_write.write))
               axios.get(url4, {
                 params: {}
               }).then(function (response) {
@@ -489,7 +489,7 @@ class App extends Component {
                 axios.get(url5, {
                   params: {}
                 }).then(function (response) {
-                  console.log("01_sdcard_mount " + JSON.stringify(response.data.sdcard_mount.mount))
+            //      console.log("01_sdcard_mount " + JSON.stringify(response.data.sdcard_mount.mount))
                   if (response.data.sdcard_mount.mount !== 'true') {
                     //             self.ToastMessage("SD CARD MOUNT TEST FAILED" , "error", 2000);
                     //throw "SD CARD MOUNT TEST FAILED";
@@ -503,7 +503,7 @@ class App extends Component {
                   axios.get(url6, {
                     params: {}
                   }).then(function (response) {
-                    console.log("01_sdcard_write_test " + JSON.stringify(response.data.sdcard_write_test.write_test))
+          //          console.log("01_sdcard_write_test " + JSON.stringify(response.data.sdcard_write_test.write_test))
                     //               self.ToastMessage("SD CARD WRITE-TEST SUCCESS" , "success", 2000); 
                     self.CatchTestMessage(7, 'SD CARD WRITE-TEST SUCCESS ', true);
                     //               self.ToastMessage("CHECKING SD-CARD FINAL TEST" , "info", 1000);
@@ -512,7 +512,7 @@ class App extends Component {
                     }).then(function (response) {
                       //                  self.ToastMessage("SD CARD FINAL TEST SUCCESS" , "success", 2000); 
                       self.CatchTestMessage(8, 'SD CARD FINAL TEST SUCCESS ', true);
-                      console.log("01_sdcard_final " + JSON.stringify(response.data.sdcard_final.test))
+                //      console.log("01_sdcard_final " + JSON.stringify(response.data.sdcard_final.test))
                       // ovie se za posledniot od sd-card test
                       self.CatchTestResponse(self.state.currentTestIndex, response, 1, dateSDCard);
                       self.setState({ currentTestPassed: true });
@@ -611,7 +611,7 @@ class App extends Component {
                   self.ToastMessage("Error VIDEO FINAL TETS !", "error", 5000);
                   // throw new Error("Error VIDEO TEST"); 
                 }
-                console.log("SE E OK SO FINAL");
+          //      console.log("SE E OK SO FINAL");
                 //self.setState({currentTestPassed: true}); 
 
               }).catch(function (error) {
@@ -666,7 +666,7 @@ class App extends Component {
                   let record = response.data.switch_check.Record;
                   let reset = response.data.switch_check.Reset;
                   let mode = response.data.switch_check.Mode;
-                  console.log('Power/record/reset ', power, ' ', record, ' ', reset);
+            //      console.log('Power/record/reset ', power, ' ', record, ' ', reset);
                   self.setState({
                     counter: self.state.counter + 1, switch_check_power: Math.floor(power / 2),
                     switch_check_record: Math.floor(record / 2), switch_check_reset: Math.floor(reset / 2), switch_check_mode: Math.floor(mode / 2)

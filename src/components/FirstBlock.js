@@ -130,12 +130,18 @@ componentWillReceiveProps(nextProps){
 
                     <ul className="nobullets">
                      
-                        {(this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer ?
+                        {(this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer && !this.props.errorOccured  && this.props.currentTestIndex !== 10 && this.props.currentTestIndex !== 8 ?
                          <li>
                             <Button className="btnn start-btn" onClick={this.handleStartClick.bind(this)}>START TEST</Button>
                           </li>
                         :  null
                         )}
+                        {(this.props.errorOccured  && this.props.currentTestIndex === 10 || this.props.currentTestIndex === 8 ?
+                          <li>
+                             <Button className="btnnagain start-btn" onClick={this.handleStartClick.bind(this)}>START AGAIN</Button>
+                           </li>
+                         :  null
+                         )}
                     </ul>
 
                 </td>
