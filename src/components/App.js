@@ -51,12 +51,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    let url = window.location.href;
+    let url = window.location.host +'/';
      // ova za local - komentiraj go 
    // url = '//192.168.12.22:81/';
     let urlwithParams = new URL(window.location);
     let client = urlwithParams.searchParams.get("client");
-    console.log("URL ", url);
+    console.log("URL ", urlwithParams);
     this.setState({url: url, clientHost: client});
 
     setTimeout(() => {
