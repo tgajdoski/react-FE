@@ -7,24 +7,38 @@ class Audio extends Component {
   constructor(props) {
     super(props)
     let url =`${this.props.url}cgi-bin/04_audio_play.cgi`;
+    let interval = 0;
+    let secCount = 0;
     this.state = {
       isplaying: false,
       playSettings: {
           url : url,
           playStatus : 'STOPPED'
-      }
+      },
+      position:0
     }
+    this.handlePlaying = this.handlePlaying.bind(this);
   }
 
-  componentDidMount(){
-    console.log(this.state.playSettings.playStatus);
-    console.log(this.state.isplaying);
+  // componentDidMount(){
+  //   console.log(this.state.playSettings.playStatus);
+  //   console.log(this.state.isplaying);
+  // }
+
+  
+  componentWillUpdate(){
+    console.log("INTERVAL", this.secCount);
   }
 
   handleTest() {
     this.props.handleTestClick();
   }
+  
 
+  handlePlaying(ev) {
+    this.setState({ position: ev.position });
+    console.log('position' , ev.position)
+  }
 
   handleNextTest() {
     this.props.handleNextTest();
@@ -43,7 +57,14 @@ class Audio extends Component {
             url : `${this.props.url}cgi-bin/04_audio_play.cgi`,
             playStatus : "PLAYING"
     }
+  
     this.setState({playSettings: playSet, isplaying: true});
+    // count seconds
+    // this.interval = setInterval(() => {
+    //   this.secCount = this.secCount +1;
+    // }, 1000); 
+    
+
     console.log(this.state.playSettings.playStatus);
   }
 
@@ -86,7 +107,9 @@ class Audio extends Component {
                       <span className="glyphicon glyphicon-record"></span> Record 
                       </ButtonNext>
                   </li>
-                  <Sound {...this.state.playSettings}
+                  <Sound 
+                      onPlaying={this.handlePlaying}
+                      {...this.state.playSettings}
                     //  url= {this.state.playSettings.url}
                     //  playStatus={this.state.playSettings.playStatus}
                   />
@@ -101,7 +124,7 @@ class Audio extends Component {
                   { this.state.isplaying && this.props.audioSnapCreated ?
                     <li>
                         <ButtonNext onClick={this.handleStop.bind(this)}>
-                          <span className="glyphicon glyphicon-stop"></span> Stop 
+                          <span className="glyphicon glyphicon-stop"></span> Stop  {Math.floor(this.state.position/1000)}
                         </ButtonNext>
                     </li>
                     : null
@@ -113,7 +136,9 @@ class Audio extends Component {
                 <ul className="nobullets">
                     <li>
                         <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
+                         { this.state.position >= 5000 ?
                         <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
+                        : null }
                     </li>
                   <li>
                     { !this.props.errorOccured && this.props.currentTestPassed &&  6===7 ?
