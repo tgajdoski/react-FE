@@ -41,6 +41,7 @@ class App extends Component {
       errorOccured: false,
       serializationNumber: '',
       counter: 0,
+      clientHost:'',
       modelType: '',
       minDigits: 0,
       maxDigits: 10,
@@ -52,11 +53,31 @@ class App extends Component {
   componentDidMount() {
     let url = window.location.href;
      // ova za local - komentiraj go 
-    // url = '//192.168.12.22:81/';
-    this.setState({url: url});
-   
-   
+   // url = '//192.168.12.22:81/';
+    let urlwithParams = new URL(window.location);
+    let client = urlwithParams.searchParams.get("client");
+    console.log("URL ", url);
+    this.setState({url: url, clientHost: client});
+
+    setTimeout(() => {
+      this.callDateFunc() ;
+    }, 300);
+     
   }
+
+
+  callDateFunc = () => {
+    let self = this;
+    console.log("ASDASD ", this.state.url);
+    let d = new Date();
+    let url = `${self.state.url}cgi-bin/00_date.cgi?${self.formatDate(d, 6)}`;
+     axios.get(url)
+       .then(function (response) {
+        console.log(response);
+       }).catch(function (error) {
+         console.log('ERROR');
+       });
+   }
 
   cLog = () => {
     // console.log("VO CALLBACK");
@@ -103,6 +124,10 @@ class App extends Component {
     else if (format === 5)// MM/dd/yyyy HH:mm:ss
     {
       return curr_hr + ":" + curr_min + ":" + curr_sc;
+    }
+    else if (format === 6)///yyyymmDDHHmm
+    {
+      return curr_year.toString() + curr_month.toString() + curr_date.toString() + curr_hr.toString() + curr_min.toString();
     }
   }
 
@@ -240,6 +265,7 @@ class App extends Component {
       this.NextTest();
     }
   }
+
   SetVibTestPass = (txt) => {
     if (!txt)
       this.ErrorTest(this.state.currentTestIndex, new Error("Buzzer/Vibrator TEST FAIL"));
@@ -253,7 +279,6 @@ class App extends Component {
       this.NextTest();
     }
   }
-
 
   SetTypeModel = (txt) => {
     if (txt)

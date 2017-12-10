@@ -36,12 +36,9 @@ class FirstBlock extends Component {
     
     // start first test
     // check hardware info
-    let url = `${this.props.url}cgi-bin/00_hwrev.cgi`;
+    let url = `${this.props.url}cgi-bin/00_hwrev.cgi?client=${this.props.clientHost}`;
     let self=this;
     axios.get(url , {
-      params: {
-        ID: 12345
-      }
     })
     .then(function (response) {
       self.setState({hwrev: response.data.hwrev.revision});
@@ -103,6 +100,12 @@ class FirstBlock extends Component {
                   <li>
                     <h4>MODEL - {this.props.modelType.toUpperCase()} </h4>
                   </li>
+                  { (this.props.clientHost ?
+                        <li>
+                          <h4>Host : {this.props.clientHost}</h4>
+                        </li>
+                      : null
+                      )}
                     { (this.props.serializationNumber ?
                         <li>
                           <h4>S/N : {this.props.serializationNumber}</h4>
