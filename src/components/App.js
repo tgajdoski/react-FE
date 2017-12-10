@@ -52,7 +52,7 @@ class App extends Component {
   componentDidMount() {
     let url = window.location.href;
      // ova za local - komentiraj go 
-   // url = '//192.168.12.22:81/';
+    // url = '//192.168.12.22:81/';
     this.setState({url: url});
    
    
@@ -222,6 +222,9 @@ class App extends Component {
       this.CatchTestMessage(this.state.currentTestIndex, 'BATERY TEST SUCCESS ', true);
       this.CatchTestResponse(this.state.currentTestIndex, 'BATERY TEST PASS', 1, this.state.startBateryDate);
       this.setState({ currentTestPassed: true });
+      
+      // sto da vikne na krajot
+      this.CallFinalPass()
     }
   }
 
@@ -329,7 +332,29 @@ class App extends Component {
     this.setState({ currentTestPassed: false });
     this.CatchTestMessage(index, error.message, false);
     this.CompleteTest(index);
-    this.setState({ currentTestIndex: 10 }, null);
+    this.CallFinalFail()
+    this.setState({ currentTestIndex: 10 }, null); 
+  }
+
+  
+  CallFinalPass = () => {
+   let url = `${this.state.url}cgi-bin/10_passed.cgi`;
+    axios.get(url)
+      .then(function (response) {
+       console.log(response);
+      }).catch(function (error) {
+        console.log('ERROR');
+      });
+  }
+
+  CallFinalFail = () => {
+    let url = `${this.state.url}cgi-bin/11_failed.cgi`;
+    axios.get(url)
+      .then(function (response) {
+       console.log(response);
+      }).catch(function (error) {
+        console.log('ERROR');
+      });
   }
 
   ToastMessage = (message, type, times) => {
@@ -359,20 +384,6 @@ class App extends Component {
         });
     }
   };
-
-  // download = (url) => {
-  //   // fake server request, getting the file url as response
-  //   setTimeout(() => {
-  //     const response = {
-  //       file: url,
-  //     };
-  //     // server sent the url to the file!
-  //     // now, let's download:
-  //     window.open(response.file);
-  //     // you could also do:
-  //     // window.location.href = response.file;
-  //   }, 100);
-  // }
 
   DownloadReport = () => {
     let self = this;
