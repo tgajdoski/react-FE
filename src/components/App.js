@@ -56,7 +56,6 @@ class App extends Component {
    // url = '//192.168.12.22:81/';
     let urlwithParams = new URL(window.location);
     let client = urlwithParams.searchParams.get("client");
-    console.log("URL ", urlwithParams);
     this.setState({url: url, clientHost: client});
 
     setTimeout(() => {
@@ -68,14 +67,14 @@ class App extends Component {
 
   callDateFunc = () => {
     let self = this;
-    console.log("ASDASD ", this.state.url);
+
     let d = new Date();
     let url = `${self.state.url}cgi-bin/00_date.cgi?${self.formatDate(d, 6)}`;
      axios.get(url)
        .then(function (response) {
-        console.log(response);
+  
        }).catch(function (error) {
-         console.log('ERROR');
+      
        });
    }
 
@@ -366,9 +365,9 @@ class App extends Component {
    let url = `${this.state.url}cgi-bin/10_passed.cgi`;
     axios.get(url)
       .then(function (response) {
-       console.log(response);
+     
       }).catch(function (error) {
-        console.log('ERROR');
+      
       });
   }
 
@@ -376,9 +375,9 @@ class App extends Component {
     let url = `${this.state.url}cgi-bin/11_failed.cgi`;
     axios.get(url)
       .then(function (response) {
-       console.log(response);
+      // console.log(response);
       }).catch(function (error) {
-        console.log('ERROR');
+       // console.log('ERROR');
       });
   }
 
