@@ -51,7 +51,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    let url = window.location.host +'/';
+    let url = window.location.origin +'/';
      // ova za local - komentiraj go 
    // url = '//192.168.12.22:81/';
     let urlwithParams = new URL(window.location);
