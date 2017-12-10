@@ -551,7 +551,6 @@ class App extends Component {
         break;
       case 1:
         // sersial
-        // console.log(self.state.serializationNumber)
         url = `${self.state.url}cgi-bin/02_serial.cgi?${self.state.serializationNumber}`;
         let DATATANATESTOT = new Date();
         //   self.ToastMessage("CHECKING SERIALIZATION INFO " , "info", 1000);

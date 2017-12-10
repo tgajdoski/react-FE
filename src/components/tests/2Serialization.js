@@ -53,8 +53,11 @@ class Serialization extends Component {
   }
 
   handleSerialziaton() {   
-    //this.props.handleSerializationClick(this.state.snvalue);
-    this.props.handleTestClick();
+    let self = this;
+   // this.props.handleSerializationClick(this.state.snvalue);
+    setTimeout(function() {
+      self.props.handleTestClick();
+    }, 300);
   }
 
 

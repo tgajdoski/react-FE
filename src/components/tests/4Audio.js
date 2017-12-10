@@ -7,8 +7,6 @@ class Audio extends Component {
   constructor(props) {
     super(props)
     let url =`${this.props.url}cgi-bin/04_audio_play.cgi`;
-    let interval = 0;
-    let secCount = 0;
     this.state = {
       isplaying: false,
       playSettings: {
