@@ -18,6 +18,7 @@ class Audio extends Component {
       position:0
     }
     this.handlePlaying = this.handlePlaying.bind(this);
+    this.handleFinishedPlaying = this.handleFinishedPlaying.bind(this);
   }
 
   // componentDidMount(){
@@ -57,15 +58,16 @@ class Audio extends Component {
             url : `${this.props.url}cgi-bin/04_audio_play.cgi`,
             playStatus : "PLAYING"
     }
-  
     this.setState({playSettings: playSet, isplaying: true});
-    // count seconds
-    // this.interval = setInterval(() => {
-    //   this.secCount = this.secCount +1;
-    // }, 1000); 
-    
-
     console.log(this.state.playSettings.playStatus);
+  }
+
+  handleFinishedPlaying() {
+    const playSet = {
+            url : `${this.props.url}cgi-bin/04_audio_play.cgi`,
+            playStatus : 'STOPPED'
+    }
+    this.setState({playSettings: playSet, isplaying: false});
   }
 
   handleStop() {
@@ -109,6 +111,7 @@ class Audio extends Component {
                   </li>
                   <Sound 
                       onPlaying={this.handlePlaying}
+                      onFinishedPlaying={this.handleFinishedPlaying}
                       {...this.state.playSettings}
                     //  url= {this.state.playSettings.url}
                     //  playStatus={this.state.playSettings.playStatus}
