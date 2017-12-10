@@ -36,7 +36,7 @@ class FirstBlock extends Component {
     
     // start first test
     // check hardware info
-    let url = `${this.props.url}cgi-bin/00_hwrev.cgi?client=${this.props.clientHost}`;
+    let url = `${this.props.url}cgi-bin/00_hwrev.cgi?${this.props.clientHost}`;
     let self=this;
     axios.get(url , {
     })
