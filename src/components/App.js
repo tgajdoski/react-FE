@@ -20,7 +20,7 @@ class App extends Component {
       testMessages: [],
       testList: ["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
         "Buzzer/Vibrator Test", "Battery Test"],
-      currentTestIndex: 3,
+      currentTestIndex: null,
       currentTestStart: false,
       currentTestPassed: false,
       audioSnapCreated: false,
@@ -46,6 +46,7 @@ class App extends Component {
       minDigits: 0,
       maxDigits: 10,
       refreshId: null,
+      fiveSecsofRecordStarted: false,
       testResponses: initState.initData
     }
   }
@@ -53,7 +54,7 @@ class App extends Component {
   componentDidMount() {
     let url = window.location.origin +'/';
      // ova za local - komentiraj go 
-    url = '//192.168.12.22:81/';
+    // url = '//192.168.12.22:81/';
     let urlwithParams = new URL(window.location);
     let client = urlwithParams.searchParams.get("client");
     this.setState({url: url, clientHost: client});
@@ -657,20 +658,22 @@ class App extends Component {
       case 3:
         // AUDIO
         //let dateAudio = new Date();
-        self.ToastMessage("RECORDING AUDIO... Please wait", "info", 6000);
+       // self.ToastMessage("RECORDING AUDIO... Please wait", "info", 2000);
         url = `${self.state.url}cgi-bin/04_audio_record.cgi`;
         let dateAudio = new Date();
         self.setState({ startAudioDate: dateAudio });
         axios.get(url)
           .then(function (response) {
             // zadrzi go 5 sekundi
-            setTimeout(function () {
-              console.log("zadrzan timer");  
-            }, 5000);
 
             if (response.data.audio_record.status === 'true') {
               //       self.ToastMessage("AUDIO FILE CREATED " , "success", 2000); 
               self.setState({ audioSnapCreated: true });
+              setTimeout(function () {
+                // console.log("zadrzan timer");  
+                 self.setState({ fiveSecsofRecordStarted: true });
+                // debugger;
+               }, 5000);
             }
           }).catch(function (error) {
             self.ToastMessage("Error AUDIO FINAL TETS !", "error", 5000);

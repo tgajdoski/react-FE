@@ -114,15 +114,15 @@ class Audio extends Component {
                     //  playStatus={this.state.playSettings.playStatus}
                   />
               <ul className="nobullets">
-                  { (!this.state.isplaying && !this.props.audioSnapCreated) ?
+                  { !this.props.fiveSecsofRecordStarted ? // (!this.state.isplaying && !this.props.audioSnapCreated) ?
                   <li className="linomargins">
-                      <ButtonNext onClick={this.handleTest.bind(this)}>
+                      <ButtonNext   onClick={this.handleTest.bind(this)}  >
                       <span className="glyphicon glyphicon-record"></span> Record 
                       </ButtonNext>
                   </li>
                   : null
                   }
-                  { (!this.state.isplaying && this.props.audioSnapCreated) ?
+                  { this.props.fiveSecsofRecordStarted ? // (!this.state.isplaying && this.props.audioSnapCreated) ?
                     <li>
                         <ButtonNext onClick={this.handlePlay.bind(this)}>
                         <span className="glyphicon glyphicon-play"></span> Play/Stop {Math.floor(this.state.position/1000)}
@@ -171,9 +171,9 @@ export default Audio;
 
 // const Button = (props) =>
 // <button type="button" {...props} className={"btnnn " + props.className } />
-
+// 
 const ButtonNext = (props) =>
-<button type="button"  {...props} className="btn btn-primary  btn-lg"/>
+<button type="button"  {...props}  disabled={props.audioSnapCreated} className="btn btn-primary  btn-lg"/>
 
  const ButtonDange = (props) =>
  <button type="button"  {...props} className="btn btn-danger btn-lg"/>
