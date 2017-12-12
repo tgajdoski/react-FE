@@ -48,6 +48,11 @@ class Audio extends Component {
   }
 
   handlePASSTest = () => {
+    const playSet = {
+            url : `${this.props.url}cgi-bin/04_audio_play.cgi`,
+            playStatus : 'STOPPED'
+    }
+    this.setState({playSettings: playSet, isplaying: false});
     this.props.handleAudioTest(true);
   }
 
@@ -101,35 +106,38 @@ class Audio extends Component {
                 </table>
               </td>
               <td className="thirdsize">
-              <ul className="nobullets">
-                  <li className="linomargins">
-                      <ButtonNext onClick={this.handleTest.bind(this)}>
-                      <span className="glyphicon glyphicon-record"></span> Record 
-                      </ButtonNext>
-                  </li>
-                  <Sound 
+              <Sound 
                       onPlaying={this.handlePlaying}
                       onFinishedPlaying={this.handleFinishedPlaying}
                       {...this.state.playSettings}
                     //  url= {this.state.playSettings.url}
                     //  playStatus={this.state.playSettings.playStatus}
                   />
+              <ul className="nobullets">
+                  { (!this.state.isplaying && !this.props.audioSnapCreated) ?
+                  <li className="linomargins">
+                      <ButtonNext onClick={this.handleTest.bind(this)}>
+                      <span className="glyphicon glyphicon-record"></span> Record 
+                      </ButtonNext>
+                  </li>
+                  : null
+                  }
                   { (!this.state.isplaying && this.props.audioSnapCreated) ?
                     <li>
                         <ButtonNext onClick={this.handlePlay.bind(this)}>
-                        <span className="glyphicon glyphicon-play"></span> Play 
+                        <span className="glyphicon glyphicon-play"></span> Play/Stop {Math.floor(this.state.position/1000)}
                         </ButtonNext>
                     </li>
                   : null
                   }
-                  { this.state.isplaying && this.props.audioSnapCreated ?
+                  {/* { this.state.isplaying && this.props.audioSnapCreated ?
                     <li>
                         <ButtonNext onClick={this.handleStop.bind(this)}>
                           <span className="glyphicon glyphicon-stop"></span> Stop  {Math.floor(this.state.position/1000)}
                         </ButtonNext>
                     </li>
                     : null
-                  }
+                  } */}
                 </ul>
               </td>
               <td className="thirdsize"> 

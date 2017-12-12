@@ -20,7 +20,7 @@ class App extends Component {
       testMessages: [],
       testList: ["SD card test", "Serialization", "Video Test", "Audio Test", "Switch Test", "LEDs Test",
         "Buzzer/Vibrator Test", "Battery Test"],
-      currentTestIndex: null,
+      currentTestIndex: 3,
       currentTestStart: false,
       currentTestPassed: false,
       audioSnapCreated: false,
@@ -53,7 +53,7 @@ class App extends Component {
   componentDidMount() {
     let url = window.location.origin +'/';
      // ova za local - komentiraj go 
-   // url = '//192.168.12.22:81/';
+    url = '//192.168.12.22:81/';
     let urlwithParams = new URL(window.location);
     let client = urlwithParams.searchParams.get("client");
     this.setState({url: url, clientHost: client});
@@ -663,6 +663,11 @@ class App extends Component {
         self.setState({ startAudioDate: dateAudio });
         axios.get(url)
           .then(function (response) {
+            // zadrzi go 5 sekundi
+            setTimeout(function () {
+              console.log("zadrzan timer");  
+            }, 5000);
+
             if (response.data.audio_record.status === 'true') {
               //       self.ToastMessage("AUDIO FILE CREATED " , "success", 2000); 
               self.setState({ audioSnapCreated: true });

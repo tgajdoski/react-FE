@@ -3,20 +3,53 @@ import React, { Component } from 'react';
 import '../../css/tests.css';
 
 class Video extends Component {
+ 
+  constructor(props) {
+    super(props)
+    this.state = {
+      intervalID: 0,
+     imageurl : `${this.props.url}cgi-bin/03_video_live.cgi`
+    }
+  }
+
 
 
   componentWillMount() {
-    this.setState({
-
-    })  
-  }
-
-  componentDidMount() {
     
   }
 
+  componentDidMount() {
+    // dali puka celo vreme
+    this.handleStream();
+  }
+
   handleTest() {
+    console.log(this.state.intervalID);
+    clearInterval(this.state.intervalID);
     this.props.handleTestClick();
+  }
+
+
+  handleStream = () => {
+    let self = this;
+    console.log("pukam celo vreme");
+    var intervalID = setInterval(function() {
+      console.log("pukam");
+      console.log(`${self.props.url}/cgi-bin/03_video_live.cgi`);
+      self.setState({imageurl: `${self.props.url}/cgi-bin/03_video_live.cgi`});
+    }, 3000);
+
+    self.setState({intervalID: intervalID});
+
+    setTimeout(function() {
+      clearInterval(intervalID);
+    }, 60000);
+
+    if (self.props.videoSnapCounter >0){
+      // vrti povik celo vreme kon scrpta na 3 sekundi
+       clearInterval(intervalID);
+    }
+    
   }
 
   handleNextTest() {
@@ -46,9 +79,14 @@ class Video extends Component {
                       </td>
                     </tr>
                     <tr>
-                    <td>
-                      
-                  </td>
+                    <td className="thirdsize">
+                    
+                     { 
+                       (this.props.videoSnapCounter === 0 ? 
+                      <img style={{width:'400px', height: '300px'}} alt='capture' src={this.state.imageurl} />
+                      : null)
+                     }
+                     </td>
                     </tr>
                   </tbody>
                 </table>
