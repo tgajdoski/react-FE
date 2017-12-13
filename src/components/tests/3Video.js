@@ -14,8 +14,8 @@ class Video extends Component {
 
 
 
-  componentWillMount() {
-    
+  componentWillUnmount() {
+    clearInterval(this.state.intervalID);
   }
 
   componentDidMount() {
@@ -24,26 +24,25 @@ class Video extends Component {
   }
 
   handleTest() {
-    console.log(this.state.intervalID);
-    clearInterval(this.state.intervalID);
+   // console.log(this.state.intervalID);
+  //  clearInterval(this.state.intervalID);
     this.props.handleTestClick();
   }
 
 
   handleStream = () => {
     let self = this;
-    console.log("pukam celo vreme");
     var intervalID = setInterval(function() {
       console.log("pukam");
       console.log(`${self.props.url}/cgi-bin/03_video_live.cgi`);
       self.setState({imageurl: `${self.props.url}/cgi-bin/03_video_live.cgi`});
-    }, 3000);
+    }, 333);
 
     self.setState({intervalID: intervalID});
 
     setTimeout(function() {
       clearInterval(intervalID);
-    }, 60000);
+    }, 90000);
 
     if (self.props.videoSnapCounter >0){
       // vrti povik celo vreme kon scrpta na 3 sekundi
@@ -73,17 +72,17 @@ class Video extends Component {
               <td className="thirdsize">
                 <table>
                   <tbody>
-                    <tr>
+                    {/* <tr>
                       <td>
                         <h2>{this.props.testList[this.props.currentTestIndex]}</h2>
                       </td>
-                    </tr>
+                    </tr> */}
                     <tr>
-                    <td className="thirdsize">
+                    <td>
                     
                      { 
-                       (this.props.videoSnapCounter === 0 ? 
-                      <img style={{width:'400px', height: '300px'}} alt='capture' src={this.state.imageurl} />
+                       (this.props.videoSnapCounter < 10 ? 
+                      <img style={{width:'350px', height: '250px'}} alt='capture' src={this.state.imageurl} />
                       : null)
                      }
                      </td>
