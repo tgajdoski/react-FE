@@ -49,6 +49,7 @@ class App extends Component {
       maxDigits: 10,
       refreshId: null,
       disabletest: null,
+      countofTests: 0,
       fiveSecsofRecordStarted: false,
       testResponses: initState.initData
     }
@@ -61,8 +62,6 @@ class App extends Component {
     let urlwithParams = new URL(window.location);
     let client = urlwithParams.searchParams.get("client");
     this.setState({url: url, clientHost: client});
-
-
 
     let urls = `${url}cgi-bin/00_host.cgi?${client}`;
 
@@ -392,8 +391,10 @@ class App extends Component {
     this.CallFinalFail()
     this.setState({ currentTestIndex: 10 }, null); 
   }
+  countOfTests = () =>{
+    this.setState({ countofTests: this.state.countofTests +1})
+  }
 
-  
   CallFinalPass = () => {
    let url = `${this.state.url}cgi-bin/10_passed.cgi`;
     axios.get(url)
@@ -840,6 +841,7 @@ class App extends Component {
             SetTypeModel={this.SetTypeModel}
             SetMinMaxDigits = {this.SetMinMaxDigits}
             setInitState = {this.setInitState}
+            countOfTests = {this.countOfTests}
             {...this.state}
           />
           

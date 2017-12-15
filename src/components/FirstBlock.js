@@ -61,7 +61,8 @@ class FirstBlock extends Component {
     }
     this.setState({
         secondsElapsed: 0,
-        laps: []
+        laps: [],
+        countofTests: 0,
     });
 
     this.incrementer = setInterval( () =>
@@ -90,11 +91,42 @@ class FirstBlock extends Component {
     this.props.StartTest(0);
     }
 
+  // TIMER FUNCTIONS
+  handleStartAgainClick() {
+   
+    this.setState({
+        secondsElapsed: 0,
+        laps: []
+    });
+    this.props.countOfTests();
+
+    this.incrementer = setInterval( () =>
+        this.setState({secondsElapsed: this.state.secondsElapsed + 1}), 1000);
+    
+    // start first test
+    // check hardware info
+    let url = `${this.props.url}cgi-bin/00_hwrev.cgi?${this.props.clientHost}`;
+    let self=this;
+    axios.get(url , {
+    })
+    .then(function (response) {
+      self.setState({hwrev: response.data.hwrev.revision});
+      let modelTypeStr = response.data.hwrev.model;
+      let minDigits = response.data.hwrev.min_serial;
+      let maxDigits = response.data.hwrev.max_serial;
+      self.props.SetTypeModel(modelTypeStr);
+      self.props.SetMinMaxDigits(minDigits, maxDigits);
+    })
+    .catch(function (error) {
+      self.state.errorOccured = true;
+    });
+    this.props.setInitState();
+    this.props.StartTest(0);
+    }
+
     handleDownloadClick() {
       this.props.DownloadReport();
     }
-
-    
 
     componentWillReceiveProps(nextProps){
       if ((!this.props.errorOccured && nextProps.errorOccured) || nextProps.currentTestIndex === 8 )
@@ -177,7 +209,7 @@ class FirstBlock extends Component {
                         )}
                         {((this.props.errorOccured  && this.props.currentTestIndex === 10) || this.props.currentTestIndex === 8 ?
                           <li>
-                             <Button className="btnnagain start-btn" onClick={this.handleStartClick.bind(this)}>START AGAIN</Button>
+                             <Button className="btnnagain start-btn" onClick={this.handleStartAgainClick.bind(this)}>START AGAIN</Button>
                            </li>
                          :  null
                          )}
