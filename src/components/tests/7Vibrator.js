@@ -31,7 +31,14 @@ class Vibrator extends Component {
                   <tbody>
                     <tr>
                       <td>
-                        <h2>{this.props.testList[this.props.currentTestIndex]}</h2>
+                      {this.props.modelType.toUpperCase() === 'VT50' ?
+                        <h2>Buzzer Test</h2>
+                        : null 
+                        }
+                         {this.props.modelType.toUpperCase() === 'VT100' ?
+                        <h2>Vibrator Test</h2>
+                        : null 
+                        }
                       </td>
                     </tr>
                     <tr>
@@ -55,7 +62,10 @@ class Vibrator extends Component {
               
                 <ul className="nobullets">
                     <li>
+                      { this.props.currentTestStart ?
                         <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
+                        : null
+                      }
                         { this.props.currentTestStart ?
                         <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
                         : null

@@ -33,9 +33,8 @@ class Video extends Component {
   handleStream = () => {
     let self = this;
     var intervalID = setInterval(function() {
-      console.log("pukam");
-      console.log(`${self.props.url}/cgi-bin/03_video_live.cgi`);
-      self.setState({imageurl: `${self.props.url}/cgi-bin/03_video_live.cgi`});
+      console.log(`fire script ${self.props.url}cgi-bin/03_video_live.cgi`);
+      self.setState({imageurl: `${self.props.url}cgi-bin/03_video_live.cgi`});
     }, 333);
 
     self.setState({intervalID: intervalID});
@@ -69,7 +68,7 @@ class Video extends Component {
         <table className="tablecss">
           <tbody>
             <tr className="liRectStyle">
-              <td className="thirdsize">
+              <td className="halfsize">
                 <table>
                   <tbody>
                     {/* <tr>
@@ -82,7 +81,7 @@ class Video extends Component {
                     
                      { 
                        (this.props.videoSnapCounter < 10 ? 
-                      <img style={{width:'350px', height: '250px'}} alt='capture' src={this.state.imageurl} />
+                      <img style={{width:'600px', height: '400px'}} alt='capture' src={this.state.imageurl} />
                       : null)
                      }
                      </td>
@@ -90,14 +89,14 @@ class Video extends Component {
                   </tbody>
                 </table>
               </td>
-              <td className="thirdsize">
+              <td className="thirtyfive">
              
               { (this.props.imagedata !=="" ? 
-               <img style={{width:'400px', height: '300px'}} alt='capture' src={this.props.imagedata} />
+               <img style={{width:'335px', height: '230px'}} alt='capture' src={this.props.imagedata} />
                : null)
               }
               </td>
-              <td className="thirdsize"> 
+              <td className="fiftensize"> 
               <ul className="nobullets">
                 <li>
                   <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>

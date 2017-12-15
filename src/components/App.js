@@ -8,6 +8,8 @@ import axios from 'axios';
 import initState from './initState';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { confirm } from '../util/confirm';
+
 
 
 class App extends Component {
@@ -46,6 +48,7 @@ class App extends Component {
       minDigits: 0,
       maxDigits: 10,
       refreshId: null,
+      disabletest: null,
       fiveSecsofRecordStarted: false,
       testResponses: initState.initData
     }
@@ -54,17 +57,34 @@ class App extends Component {
   componentDidMount() {
     let url = window.location.origin +'/';
      // ova za local - komentiraj go 
-    // url = '//192.168.12.22:81/';
+     url = '//192.168.12.22:81/';
     let urlwithParams = new URL(window.location);
     let client = urlwithParams.searchParams.get("client");
     this.setState({url: url, clientHost: client});
 
-    setTimeout(() => {
-      this.callDateFunc() ;
-    }, 300);
-     
-  }
 
+
+    let urls = `${url}cgi-bin/00_host.cgi?${client}`;
+
+    axios.get(urls , {
+    })
+    .then(function (response) {
+  
+    })
+    .catch(function (error) {
+    
+    });
+
+    confirm(`Are you on working station ${client}?`).then(() => {
+      console.log('PROCEED!') ;
+      this.setState({disabletest: false}); 
+    }, () => {
+      console.log('CANCEL!');
+      this.setState({disabletest: true});
+      //setTimeout(function () {}, 300);
+    });
+
+  }
 
   callDateFunc = () => {
     let self = this;
@@ -190,7 +210,8 @@ class App extends Component {
     let self = this;
     this.setState({ currentBateryCounter: this.state.currentBateryCounter + 1 },
       function () {
-        let BATsteps = ["Is USB cable disconnected from Camera?", "Please connect USB cable", "Please disconnected USB cable"];
+        console.log('currentBateryCounter' , this.state.currentBateryCounter )
+        let BATsteps = ["Is USB cable disconnected?", "Please connect USB cable", "Please disconnect USB cable"];
         if (this.state.currentBateryCounter === 2) {
           // da se testira uklucuvanje 
           // ako e ukluceno da se kaze deka e OK
@@ -222,8 +243,13 @@ class App extends Component {
               if (response.data.charger_disconnected.charger === 'discharging') {
                 //     self.ToastMessage("CHARGE OFF  battery_mv :" + response.data.charger_disconnected.battery_mv , "success", 3000);  
                 //  self.CatchTestMessage(self.state.currentBateryCounter, BATsteps[self.state.currentBateryCounter], true); 
+
                 self.setState({ currentTestStart: true });
                 self.CatchTestMessage(self.state.currentBateryCounter, 'CHARGE OFF CHECKED ', true);
+
+                self.SetBateryTestPass(true);
+                self.NextTest();
+
               }
             }).catch(function (error) {
               self.ToastMessage("Error CHARGER DISCONNECTION TEST !", "error", 5000);
@@ -234,6 +260,12 @@ class App extends Component {
         if (this.state.counter >= 2) {
           this.setState({ counterLimit: true });
           self.CatchTestMessage(self.state.currentBateryCounter, BATsteps[self.state.currentBateryCounter], true);
+       //   self.SetBateryTestPass(true);
+        //  self.NextTest();
+          //   this.props.handleBateryTest(true);
+          //  this.props.handleNextTest();
+          //
+
         }
       }
     );
@@ -448,6 +480,7 @@ class App extends Component {
       errorOccured: false,
       serializationNumber: '',
       counter: 0,
+      disabletest: false,
       refreshId: null,
       testResponses: initState.initData
      }, this.cLog);

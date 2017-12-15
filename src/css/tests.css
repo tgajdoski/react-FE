@@ -31,6 +31,30 @@
    /* border: 1px solid; */
    align: left;
 }
+
+.twentyfive {
+  width: 25%; 
+   /* border: 1px solid; */
+   align: center;
+}
+
+
+.thirtyfive {
+  width: 35%; 
+   /* border: 1px solid; */
+   align: right;
+}
+.fiftensize {
+  width: 15%; 
+   /* border: 1px solid; */
+   align: right;
+}
+
+.twentyfiver {
+  width: 25%; 
+   /* border: 1px solid; */
+   align: right;
+}
 /* 
 li {
 	display: inline-block;

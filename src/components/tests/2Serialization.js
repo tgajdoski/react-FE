@@ -31,6 +31,11 @@ class Serialization extends Component {
       if(!isNaN(self.firstInput.value) && self.firstInput.value.toString().length <=this.props.minDigits &&  self.firstInput.value.toString().length >= this.props.maxDigits){
         this.secondInput.focus();  
       }
+      else
+      {
+        self.firstInput.value = '';
+      }
+
     }
   }
 

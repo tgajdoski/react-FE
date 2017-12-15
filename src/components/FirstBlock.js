@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 //import PropTypes from 'prop-types';
 import '../css/FirstBlock.css';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 const formattedSeconds = (sec) =>
@@ -23,9 +24,41 @@ class FirstBlock extends Component {
     this.incrementer = null;
    }
 
+   ToastMessage = (message, type, times) => {
+    switch (type) {
+      case "success":
+        toast.success(message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: times
+        });
+        break;
+      case "error":
+        toast.error(message, {
+          position: toast.POSITION.BOTTOM_LEFT,
+          autoClose: false
+        });
+        break;
+      case "info":
+        toast.info(message, {
+          position: toast.POSITION.BOTTOM_CENTER,
+          autoClose: times
+        });
+        break;
+      default:
+        toast.info(message, {
+          position: toast.POSITION.BOTTOM_CENTER,
+          autoClose: 1000
+        });
+    }
+  };
 
   // TIMER FUNCTIONS
     handleStartClick() {
+    if (this.props.disabletest)
+    {
+      this.ToastMessage("not connected to right client !", "error", 5000);
+      return;
+    }
     this.setState({
         secondsElapsed: 0,
         laps: []
@@ -82,6 +115,12 @@ class FirstBlock extends Component {
     });
     }
 
+    handleDisable(){
+      setTimeout(function () {
+        return this.props.disabletest;
+      }, 300);
+    }
+
     handleLabClick() {
     this.setState({
         laps: this.state.laps.concat([this.state.secondsElapsed])
@@ -130,7 +169,7 @@ class FirstBlock extends Component {
 
                     <ul className="nobullets">
                      
-                        {((this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer) && !this.props.errorOccured  && this.props.currentTestIndex !== 10 && this.props.currentTestIndex !== 8 ?
+                        {( (this.state.secondsElapsed === 0 || this.incrementer === this.state.lastClearedIncrementer) && !this.props.errorOccured  && this.props.currentTestIndex !== 10 && this.props.currentTestIndex !== 8 ?
                          <li>
                             <Button className="btnn start-btn" onClick={this.handleStartClick.bind(this)}>START TEST</Button>
                           </li>
@@ -168,8 +207,8 @@ class FirstBlock extends Component {
 
 
 const Button = (props) =>
-<button type="button" {...props} className={"btnn " + props.className } />;
-
+<button type="button" {...props}   className={"btnn " + props.className } />;
+// disabled={!this.handleDisable}
 
 export default FirstBlock;
 

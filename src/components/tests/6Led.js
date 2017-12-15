@@ -26,8 +26,10 @@ class Led extends Component {
    this.setState({counter: this.state.counter+1});
    if (this.props.modelType.toUpperCase()==='VT50')
    {
-    if (this.state.counter >=3)
-      this.setState({counterLimit: true});
+    if (this.state.counter >=3){  
+      //this.setState({counterLimit: true});
+      this.props.handleLEDTest(true);
+    }
     this.props.handleTestMessages(this.state.counter, this.VT50enum[this.state.counter], true)
    }
    if (this.props.modelType.toUpperCase()==='VT100')

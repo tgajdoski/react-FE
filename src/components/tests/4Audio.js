@@ -144,7 +144,9 @@ class Audio extends Component {
               { this.props.audioSnapCreated ?
                 <ul className="nobullets">
                     <li>
+                        { this.state.position >= 5000 ?
                         <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange>
+                        : null }
                          { this.state.position >= 5000 ?
                         <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
                         : null }

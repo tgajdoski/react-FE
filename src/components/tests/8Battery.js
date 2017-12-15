@@ -6,7 +6,7 @@ import ListMessage from './ListMessage';
 class Batery extends Component {
 
 
-  BATsteps = ["Is USB cable disconnected from Camera?", "Please connect USB cable", "Please disconnected USB cable"];
+  BATsteps = ["Is USB cable disconnected?", "Please connect USB cable", "Please disconnect USB cable"];
 
 
 
@@ -106,7 +106,7 @@ class Batery extends Component {
                 <ul className="nobullets">
                   <li>
                     {/* <ButtonDange onClick={this.handleFAILTest.bind(this)}>FAIL</ButtonDange> */}
-                    {this.props.currentBateryCounter >= 3 ?
+                    {this.props.currentBateryCounter > 3 ?
                       <ButtonSuccess onClick={this.handlePASSTest.bind(this)}>PASS</ButtonSuccess>
                       : null
                     }
