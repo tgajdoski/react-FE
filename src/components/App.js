@@ -150,6 +150,11 @@ class App extends Component {
     }
   }
 
+  Reserialize = (sn) =>{
+    this.setState({serializationNumber : sn});
+  }
+
+
 
   CatchTestResponse = (index, response, passed, d1) => {
     let a = this.state.testResponses.slice(); //creates the clone of the state
@@ -182,6 +187,17 @@ class App extends Component {
     a[index] = tempRecord;
     // this.setState({testMessages: a}, null);
   }
+
+
+  CompletedTryTest = (index) => {
+    // treba novo nekoe pole da se popolni samo so rezultatite od testogvite
+    // i posle treba nov ispis vo 3tiot block za samo ovie rezultati
+
+    // od sekoj try test poedinecno
+
+    // download otpagja 
+  }
+
 
   CompleteTest = (index) => {
     let a = this.state.testsCompleted.slice(); //creates the clone of the state
@@ -448,7 +464,6 @@ class App extends Component {
    // console.log("TO DOWNLOAD ");
     let url = `${self.state.url}cgi-bin/09_download.cgi`;
     window.location.assign(url);
-
   }
 
   NextTest = () => {
@@ -857,6 +872,7 @@ class App extends Component {
               SetVibTestPass={this.SetVibTestPass}
               SetBateryTestPass={this.SetBateryTestPass}
               SetBateryCounter={this.SetBateryCounter}
+              Reserialize={this.Reserialize}
               {...this.state}
             />
   

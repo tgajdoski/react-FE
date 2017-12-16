@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 //import PropTypes from 'prop-types';
 import '../../css/tests.css';
+import axios from 'axios';
 import ListMessage from './ListMessage';
+import { confirm } from '../../util/confirm';
 
 class Serialization extends Component {
 
@@ -14,6 +16,34 @@ class Serialization extends Component {
 
   componentDidMount(){
     this.firstInput.focus();
+
+    let url = `${this.props.url}cgi-bin/02_serial_check.cgi`;
+    let self = this;
+    let sn = this.props.serializationNumber;
+    axios.get(url , {
+    })
+    .then(function (response) {
+      console.log('RESPONSE' , response.data);
+      console.log('RESPONSE status' , response.data.check_serial.status);
+      console.log('is ok ' , response.data.check_serial.status === "true");
+      if (response.data.check_serial.status === "true"){
+        // pokazi modal 
+          sn = response.data.check_serial.serial;
+          console.log('confirm vikam');
+          confirm(`The device is serialized with ${sn}. Do you want to reseriliaze it?`).then(() => {
+            console.log("YES");
+            // pusti go kako sto e sega
+          }, () => {
+            console.log('CANCEL!');
+            // tuka treba da go skokneme ovoj test
+            self.props.Reserialize(sn);
+            self.props.handleNextTest();
+          });
+      }
+    })
+    .catch(function (error) {
+  
+    });
  }
  
 
