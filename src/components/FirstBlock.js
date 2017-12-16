@@ -207,7 +207,7 @@ class FirstBlock extends Component {
                           </li>
                         :  null
                         )}
-                        {((this.props.errorOccured  && this.props.currentTestIndex === 10) || this.props.currentTestIndex === 8 ?
+                        {((this.props.errorOccured  && this.props.currentTestIndex >= 10) || this.props.currentTestIndex === 8 ?
                           <li>
                              <Button className="btnnagain start-btn" onClick={this.handleStartAgainClick.bind(this)}>START AGAIN</Button>
                            </li>
